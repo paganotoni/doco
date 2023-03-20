@@ -1,5 +1,4 @@
 ----
-Name: Doco 
 Title: Home
 ----
 # Doco
@@ -9,3 +8,6 @@ Welcome to the Doco documentation. Doco is a documentation generator for the D p
 - Simple to use
 - Beautiful documentation
 - Markdown Based
+- Supports folders [TODO]
+- Syntax highlighting [Comming soon]
+
