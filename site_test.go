@@ -19,7 +19,7 @@ func TestSiteName(t *testing.T) {
 
 	t.Run("Name lowercase", func(t *testing.T) {
 		s := doco.NewSite([]doco.Document{
-			testdocument{"docs/_index.md", "---\nname: Site\n---\n"},
+			testdocument{"docs/_meta.md", "---\nname: Site\n---\n"},
 		})
 
 		if s.Name() != "" {

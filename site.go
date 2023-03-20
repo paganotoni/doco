@@ -10,7 +10,7 @@ import (
 // Site being parsed and built from the
 // docs markdown files.
 type Site struct {
-	// Meta data from the _index.md file
+	// Meta data from the _meta.md file
 	meta map[string]interface{}
 
 	// List of documents parsed from the docs folder
@@ -18,7 +18,7 @@ type Site struct {
 	documents Documents
 }
 
-// Takes reads the name of the site from the _index.md
+// Takes reads the name of the site from the _meta.md
 func (s *Site) Name() string {
 	name, ok := s.meta["Name"].(string)
 	if !ok {

@@ -1,6 +1,5 @@
 ---
 Title: Getting Started
-Index: 1
 ---
 # Welcome to Doco
 

@@ -58,12 +58,8 @@ func (p Page) HTML() (template.HTML, error) {
 }
 
 func (p Page) Navigation() template.HTML {
-	items := `<li class="p-3 px-2"><a href="index.html">Home</a></li>`
+	items := ``
 	for _, d := range p.Site.Documents() {
-		if d.Path() == "docs/index.md" {
-			continue
-		}
-
 		path := strings.Replace(d.Path(), "docs/", "", 1)
 		path = strings.Replace(path, ".md", ".html", 1)
 

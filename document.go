@@ -15,7 +15,7 @@ type Documents []Document
 // This document is useful to get the meta data for the site.
 func (d Documents) Index() Document {
 	for _, doc := range d {
-		if doc.Path() != "docs/index.md" {
+		if doc.Path() != "docs/_meta.md" {
 			continue
 		}
 
