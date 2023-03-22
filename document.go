@@ -11,15 +11,13 @@ type Document interface {
 
 type Documents []Document
 
-// Index returns the index document from the list of documents
-// This document is useful to get the meta data for the site.
-func (d Documents) Index() Document {
-	for _, doc := range d {
-		if doc.Path() != "docs/_meta.md" {
+func (d Documents) Meta() Document {
+	for _, v := range d {
+		if v.Path() != "docs/_meta.md" {
 			continue
 		}
 
-		return doc
+		return v
 	}
 
 	return nil

@@ -1,97 +1,85 @@
 package web
 
 import (
-	"bytes"
 	"fmt"
 	"html/template"
-	"io"
+	"path/filepath"
 	"strings"
 
 	"github.com/paganotoni/doco"
-
-	"github.com/yuin/goldmark"
-	meta "github.com/yuin/goldmark-meta"
-	"github.com/yuin/goldmark/parser"
+	"github.com/paganotoni/doco/markdown"
 )
 
-var markdown = goldmark.New(goldmark.WithExtensions(meta.Meta))
-
 type Page struct {
-	// Meta data from the markdown file.
-	meta map[string]interface{}
+	// SourcePath is the path to the original markdown file.
+	// its used to generate the resulting HTML file.
+	SourcePath string
 
-	// Site being built
-	Site *doco.Site
+	// Metadata from the markdown file.
+	Metadata map[string]interface{}
 
-	// Document being rendered
-	Document doco.Document
-
-	// The content of the document
-	Content template.HTML
+	// HTML generated from the markdown file.
+	HTML template.HTML
 }
 
-func (p Page) SiteTitle() string {
-	return p.Site.Name()
+func (p Page) title() string {
+	t, ok := p.Metadata["Title"].(string)
+	if ok {
+		return t
+	}
+
+	return p.SourcePath
 }
 
-func (p Page) Title() string {
-	title, ok := p.meta["Title"].(string)
-	if !ok {
-		return ""
+func (p Page) weight() int {
+	t, ok := p.Metadata["Weight"].(int)
+	if ok {
+		return t
 	}
 
-	return title
+	return 0
 }
 
-func (p Page) HTML() (template.HTML, error) {
-	content, err := p.Document.ReadContent()
-	if err != nil {
-		return "", err
-	}
+func (p Page) resultPath() (path string) {
+	path = strings.Replace(p.SourcePath, "docs/", "", 1)
+	path = strings.Replace(path, ".md", ".html", 1)
+	path = filepath.Join("public", path)
 
-	var buf bytes.Buffer
-	if err := markdown.Convert(content, &buf); err != nil {
-		return "", err
-	}
-
-	return template.HTML(buf.String()), nil
+	return path
 }
 
-func (p Page) Navigation() template.HTML {
-	items := ``
-	for _, d := range p.Site.Documents() {
-		path := strings.Replace(d.Path(), "docs/", "", 1)
-		path = strings.Replace(path, ".md", ".html", 1)
+func (p Page) resultLink() (path string) {
+	path = strings.Replace(p.SourcePath, "docs/", "", 1)
+	path = strings.Replace(path, ".md", ".html", 1)
+	path = filepath.Join(path)
 
-		p, err := NewPage(p.Site, d)
-		if err != nil {
-			continue
-		}
-
-		items += fmt.Sprintf(`<li class="nav-item"><a href="%s">%s</a></li>`, path, p.Title())
-	}
-
-	return template.HTML(items)
+	return path
 }
 
-func NewPage(site *doco.Site, document doco.Document) (Page, error) {
-	p := Page{
-		Site:     site,
-		Document: document,
-	}
+type Pages []Page
 
+// NewPage creates a new Page from the passed document, it
+// parses the document content to extract the metadata and generate
+// the HTML content.
+func NewPage(document doco.Document) (page Page, err error) {
 	content, err := document.ReadContent()
 	if err != nil {
-		return p, err
+		return page, fmt.Errorf("error reading document content:%w", err)
 	}
 
-	context := parser.NewContext()
-	err = markdown.Convert(content, io.Discard, parser.WithContext(context))
+	meta, err := markdown.MetadataFrom(content)
 	if err != nil {
-		return p, err
+		return page, fmt.Errorf("error reading document metadata:%w", err)
 	}
 
-	p.meta = meta.Get(context)
+	htmlc, err := markdown.HTMLFrom(content)
+	if err != nil {
+		return page, fmt.Errorf("error generating document HTML:%w", err)
+	}
 
-	return p, nil
+	return Page{
+		SourcePath: document.Path(),
+		Metadata:   meta,
+		HTML:       htmlc,
+	}, nil
 }

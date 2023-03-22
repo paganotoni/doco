@@ -1,5 +1,6 @@
 ---
 Title: Getting Started
+Weight: 1
 ---
 # Welcome to Doco
 

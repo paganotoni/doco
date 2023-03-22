@@ -1,3 +1,7 @@
+---
+Title: "Home"
+Weight: 0
+---
 # Welcome to Doco
 
 Doco is a documentation website generator for your projects written in Go. It takes a folder with markdown files and generates a deployable static website.
@@ -20,20 +24,21 @@ This will create the `docs` folder with a few basic files:
 - `index.md`: This is the home page of your documentation.
 - `getting-started.md`: This is the getting started page of your documentation.
 
-### _meta.md
+### Metadata
+Beyond the mardown content Doco allows to specify some metadata for each page. The metadata is used to generate the navigation and the title of the pages.
+#### Meta fields
 
-The meta file contains the metadata of your documentation. The metadata is used to generate the navigation and the title of the pages.
+Within each markdown file you can add metadata fields. The metadata fields are used to generate the navigation and the title of the pages.
 
 ```md
 ---
-Name: Doco
-Logo: https://raw.githubusercontent.com/paganotoni/doco/main/docs/assets/logo.png
+Title: Getting Started
+Weight: 1
 ---
 ```
 
-This is useful to have a single source of truth for the metadata of your documentation.
-### Build
-The build command will generate the static website from the markdown files in the `docs` folder. It will create a `public` folder with the static website.
+##### Title
+Title allows to define the title of the page. It is used in the title tag of the page and the navigation.
 
-### Metadata
-
+##### Weight
+Weight allows to define the order of the page in the navigation. The pages are sorted by weight in the navigation.
