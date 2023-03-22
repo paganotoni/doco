@@ -27,9 +27,9 @@ p {
 }
 
 pre {
-    @apply bg-gray-100 p-4 text-sm text-gray-700 rounded;
+    @apply bg-gray-100 p-4 text-sm text-gray-700 rounded mb-2;
 }
 
 ul {
-    @apply list-disc list-inside py-3;
+    @apply list-disc list-inside pb-3 ml-4;
 }

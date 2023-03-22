@@ -678,6 +678,7 @@ p {
 }
 
 pre {
+  margin-bottom: 0.5rem;
   border-radius: 0.25rem;
   --tw-bg-opacity: 1;
   background-color: rgb(243 244 246 / var(--tw-bg-opacity));
@@ -689,9 +690,9 @@ pre {
 }
 
 ul {
+  margin-left: 1rem;
   list-style-position: inside;
   list-style-type: disc;
-  padding-top: 0.75rem;
   padding-bottom: 0.75rem;
 }
 
