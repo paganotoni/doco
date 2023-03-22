@@ -1,6 +1,6 @@
 ---
 Title: Commands
-Index: 2
+Weight: 2
 ---
 # CLI
 

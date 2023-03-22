@@ -1,3 +1,7 @@
+---
+Title: "Home"
+Weight: 0
+---
 # Welcome to Doco
 
 Doco is a documentation website generator for your projects written in Go. It takes a folder with markdown files and generates a deployable static website.
