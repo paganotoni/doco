@@ -7,6 +7,7 @@ import (
 func TestNavigation(t *testing.T) {
 	t.Run("Basic Case", func(t *testing.T) {
 		pages := Pages{
+			{SourcePath: "docs/_meta.md", Metadata: map[string]interface{}{}},
 			{SourcePath: "docs/index.md", Metadata: map[string]interface{}{"Title": "Home"}},
 			{SourcePath: "docs/getting-started.md", Metadata: map[string]interface{}{"Title": "Getting Started"}},
 		}

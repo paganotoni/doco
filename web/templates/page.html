@@ -7,18 +7,29 @@
     <title> {{ .SiteTitle }} Documentation </title>
 
     <link rel="stylesheet" href="style.css">
+    <script src="https://unpkg.com/alpinejs" defer></script>
 </head>
-<body class="flex flex-col min-h-screen bg-red">
+<body class="flex flex-col min-h-screen bg-red" x-data="{ menuOpen: false }">
   <header class="flex flex-row items-center">
     <div class="bg-gray-100 lg:w-[300px] p-4 justify-center">
       <a href="/">{{ .SiteTitle }}</a>
     </div>
-    <div class="bg-gray-50 p-4 px-8 flex-grow text-gray-400"> {{.SiteTitle}} Documentation </div>
+    <div class="bg-gray-50 p-4 px-8 flex-grow text-gray-400 flex flex-row"> 
+      <span class="flex-grow">{{.SiteTitle}} Documentation</span>
+      
+      <button @click="menuOpen = true" class="lg:hidden">
+        <svg width="24" height="24" fill="none" viewBox="0 0 24 24">
+          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4.75 5.75H19.25"></path>
+          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4.75 18.25H19.25"></path>
+          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4.75 12H19.25"></path>
+        </svg>
+      </button>
+    </div>
   </header>
 
   <div class="flex flex-row flex-grow">
     <nav class="bg-gray-100 w-[300px] p-4 hidden lg:block">
-      <ul class="list-none flex flex-col gap-2">
+      <ul class="navigation list-none flex flex-col gap-2">
         {{ .Navigation }}
       </ul>
     </nav>
@@ -27,6 +38,21 @@
       {{ .HTML }}
     </main>
   </div> 
+
+  <div id="mobileMenu" x-show="menuOpen" class="absolute top-0 bottom-0 left-0 right-0 bg-gray-300/95 p-10">
+    <div class="text-right mb-3">
+      <button @click="menuOpen = false" class="text-4xl p-3 rounded-full bg-gray-400">
+        <svg width="24" height="24" fill="none" viewBox="0 0 24 24">
+          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17.25 6.75L6.75 17.25"></path>
+          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6.75 6.75L17.25 17.25"></path>
+        </svg>  
+      </button>
+    </div>
+    <div class="max-w-md mx-auto">
+      {{ .Navigation }}
+    </div>
+    
+  </div>
 </body>
 
 </html>

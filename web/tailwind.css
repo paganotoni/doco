@@ -30,6 +30,10 @@ pre {
     @apply bg-gray-100 p-4 text-sm text-gray-700 rounded mb-2;
 }
 
-ul {
+main ul {
     @apply list-disc list-inside pb-3 ml-4;
+}
+
+#mobileMenu ul{
+    @apply text-center text-2xl flex flex-col gap-4;
 }
