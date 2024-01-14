@@ -5,8 +5,7 @@ Usage
     doco command [arguments]
 
 Commands
-    build     Generates the documentation site into /public/docs
+    build     Generates the documentation site into the /site directory
     help      Prints the CLI help
     init      Creates a /docs directory with base files
-    serve     Generates and serves the documentation site on localhost:8080
-    version   Prints the CLI version
+    serve     Starts a local server to view the documentation site

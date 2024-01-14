@@ -1,0 +1,98 @@
+ /* for line numbers */
+ #htmlcontainer [class*="language-"] {
+    counter-reset: linenumber;
+}
+
+#htmlcontainer pre {
+    overflow: auto;
+    white-space: nowrap; /* Allows textarea to scroll horizontally */
+}
+
+#htmlcontainer h1, 
+#htmlcontainer h2, 
+#htmlcontainer h3, 
+#htmlcontainer h4, 
+#htmlcontainer h5, 
+#htmlcontainer h6 {
+    @apply font-bold mb-1;
+}
+
+#htmlcontainer {
+    @apply text-lg;
+}
+
+#htmlcontainer h1{
+    @apply text-4xl font-bold;
+}
+
+#htmlcontainer h2{
+    @apply text-2xl;
+}
+
+#htmlcontainer h3{
+    @apply text-xl;
+}
+
+#htmlcontainer h4{
+    @apply text-lg;
+}
+
+#htmlcontainer p{
+    @apply text-base mb-3;
+}
+
+#htmlcontainer a{
+    @apply text-base underline text-blue-500;
+}
+
+#htmlcontainer ul {
+    @apply list-disc list-inside ml-5 mb-4;
+}
+
+#htmlcontainer ul li{
+    @apply list-disc list-inside;
+}
+
+#htmlcontainer ol {
+    @apply list-decimal list-inside ml-5 mb-4;
+}
+
+#htmlcontainer ol li{
+    @apply list-decimal list-inside;
+}
+
+#htmlcontainer hr {
+    @apply my-4 block border border-gray-400;
+}
+
+#htmlcontainer sup a {
+    @apply text-xs italic text-blue-500;
+}
+
+#htmlcontainer code {
+    @apply p-1 bg-gray-200 rounded;
+}
+
+#htmlcontainer pre {
+    @apply block p-3 bg-gray-200 rounded mb-3;
+}
+
+#htmlcontainer blockquote {
+    @apply block px-3 p-2 bg-gray-300 border border-l-[4px] border-l-gray-400 pl-3 mb-2;
+}
+
+#htmlcontainer blockquote p {
+    @apply mb-0 text-lg;
+}
+
+#desktop-navigation ul {
+    @apply flex flex-col mb-5 gap-1 border-collapse border-l-[2px];
+}
+
+#desktop-navigation ul li a{
+    @apply -ml-px flex flex-row hover:underline py-1 px-4 border-l-[2px];
+}
+
+#desktop-navigation ul li.active a{
+    @apply border-gray-600;
+}

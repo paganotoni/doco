@@ -1,40 +1,22 @@
 package build
 
-import (
-	"os"
+import "github.com/paganotoni/doco/internal"
 
-	"github.com/paganotoni/doco"
-	"github.com/paganotoni/doco/web"
-)
-
-// buildFolder is the folder where the resulting files
+// dstFolder is the folder where the resulting files
 // will be written to
-const buildFolder = "public"
+var dstFolder = "public"
 
+// srcFolder is the folder where the source files
+// are located
+var srcFolder = "docs"
+
+// Run generates the static html files for the site
+// and writes them to the destination folder.
 func Run() error {
-	// Cleaning the build folder
-	if err := os.RemoveAll(buildFolder); err != nil {
-		return err
-	}
-
-	if err := os.MkdirAll(buildFolder, 0777); err != nil {
-		return err
-	}
-
-	site, err := doco.Parse()
+	site, err := internal.NewSite(srcFolder)
 	if err != nil {
 		return err
 	}
 
-	err = web.Generate(site)
-	if err != nil {
-		return err
-	}
-
-	// docs, err := doco.Parse()
-	// if err != nil {
-	// 	return err
-	// }
-
-	return nil
+	return internal.Generate(srcFolder, dstFolder, site)
 }
