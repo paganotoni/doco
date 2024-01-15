@@ -10,7 +10,7 @@ func Run() error {
 	fs := http.FileServer(http.Dir("./public"))
 	http.Handle("/", fs)
 
-	log.Print("Listening on :3000...")
+	log.Println("> Serving documentation on http://localhost:3000/")
 	err := http.ListenAndServe(":3000", nil)
 	if err != nil {
 		return err

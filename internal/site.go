@@ -5,6 +5,7 @@ import (
 	"io"
 	"os"
 	"path/filepath"
+	"sort"
 	"strings"
 )
 
@@ -111,6 +112,14 @@ func NewSite(folder string) (*site, error) {
 				}
 			}
 		}
+	}
+
+	// Sort site secitons by index
+	sort.Sort(site.sections)
+
+	// Sort documents
+	for i := range site.sections {
+		sort.Sort(site.sections[i].documents)
 	}
 
 	return site, err

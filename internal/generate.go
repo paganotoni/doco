@@ -6,7 +6,6 @@ import (
 	"html/template"
 	"os"
 	"path/filepath"
-	"sort"
 	"strings"
 )
 
@@ -58,7 +57,6 @@ func Generate(srcFolder, dstFolder string, site *site) error {
 		return fmt.Errorf("error copying assets: %w", err)
 	}
 
-	sort.Sort(site.sections)
 	// Generate pages for each of the sections and documents inside them
 	// and write them to the destination folder.
 	for _, v := range site.sections {
@@ -67,7 +65,6 @@ func Generate(srcFolder, dstFolder string, site *site) error {
 			return err
 		}
 
-		sort.Sort(v.documents)
 		for _, doc := range v.documents {
 			// normalize the filename
 			name := strings.Replace(doc.filename, filepath.Ext(doc.filename), ".html", 1)
