@@ -28,10 +28,17 @@ func (s *site) String() string {
 
 func (s *site) Add(path string, doc document) error {
 	secName := humanize(filepath.Base(filepath.Dir(path)))
+	// Cover the root case by setting the section name to
+	// an empty string
+	if secName == "." {
+		secName = ""
+	}
+
 	for i, v := range s.sections {
 		if v.name == secName {
 			v.documents = append(v.documents, doc)
 			s.sections[i] = v
+
 			return nil
 		}
 	}
@@ -52,8 +59,6 @@ func NewSite(folder string) (*site, error) {
 	site := &site{
 		sections: sections{},
 	}
-
-	// Parse metadata
 
 	err := filepath.Walk(folder, func(path string, d os.FileInfo, err error) error {
 		if err != nil {
@@ -84,6 +89,29 @@ func NewSite(folder string) (*site, error) {
 
 		return site.Add(path, doc)
 	})
+
+	// Adding indexes to the sections
+	for i, v := range site.sections {
+		metaFile := filepath.Join(folder, v.path, "_meta.md")
+
+		f, err := os.Open(metaFile)
+		if err == nil {
+			bb, err := io.ReadAll(f)
+			if err != nil {
+				continue
+			}
+
+			meta, err := metadataFrom(bb)
+			if err == nil {
+				var ok bool
+				site.sections[i].index, ok = meta["index"].(int)
+				if !ok {
+					// 10 million to make sure it is the last one by default
+					v.index = 10_000_000
+				}
+			}
+		}
+	}
 
 	return site, err
 }

@@ -4,7 +4,8 @@
 }
 
 #htmlcontainer pre {
-    overflow: auto;
+    @apply inline overflow-auto;
+
     white-space: nowrap; /* Allows textarea to scroll horizontally */
 }
 
@@ -38,7 +39,7 @@
 }
 
 #htmlcontainer p{
-    @apply text-base mb-3;
+    @apply text-lg mb-3;
 }
 
 #htmlcontainer a{
@@ -70,11 +71,11 @@
 }
 
 #htmlcontainer code {
-    @apply p-1 bg-gray-200 rounded;
+    @apply p-1 bg-gray-200 rounded max-w-5xl;
 }
 
 #htmlcontainer pre {
-    @apply block p-3 bg-gray-200 rounded mb-3;
+    @apply block p-3 bg-gray-200 rounded mb-3 max-w-5xl;
 }
 
 #htmlcontainer blockquote {

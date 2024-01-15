@@ -6,6 +6,7 @@ import (
 	"html/template"
 	"os"
 	"path/filepath"
+	"sort"
 	"strings"
 )
 
@@ -17,6 +18,19 @@ var (
 	tmplHTML []byte
 	tmpl     = template.Must(template.New("doco").Parse(string(tmplHTML)))
 )
+
+// generatedPage is the data passed to the template
+// to generate the static html files.
+type generatedPage struct {
+	SiteConfig config
+
+	Title       string
+	SectionName string
+	Content     template.HTML
+	Style       template.CSS
+
+	DesktopNavigation template.HTML
+}
 
 // Generates the static html files for the site
 // and writes them to the destination folder.
@@ -44,6 +58,9 @@ func Generate(srcFolder, dstFolder string, site *site) error {
 		return fmt.Errorf("error copying assets: %w", err)
 	}
 
+	sort.Sort(site.sections)
+	// Generate pages for each of the sections and documents inside them
+	// and write them to the destination folder.
 	for _, v := range site.sections {
 		err := os.MkdirAll(filepath.Join(dstFolder, v.path), os.ModePerm)
 		if err != nil {
@@ -61,16 +78,9 @@ func Generate(srcFolder, dstFolder string, site *site) error {
 				return err
 			}
 
-			data := struct {
-				SiteConfig config
+			deskNav := desktopNavigation(site, doc)
 
-				Title       string
-				SectionName string
-				Content     template.HTML
-				Style       template.CSS
-
-				DesktopNavigation template.HTML
-			}{
+			data := generatedPage{
 				SiteConfig: siteConfig,
 
 				Title:       doc.title,
@@ -78,7 +88,7 @@ func Generate(srcFolder, dstFolder string, site *site) error {
 
 				Content:           doc.html,
 				Style:             template.CSS(style),
-				DesktopNavigation: desktopNavigation(site, doc),
+				DesktopNavigation: deskNav,
 			}
 
 			err = tmpl.Execute(file, data)
@@ -86,7 +96,6 @@ func Generate(srcFolder, dstFolder string, site *site) error {
 				return err
 			}
 		}
-
 	}
 
 	return nil

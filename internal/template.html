@@ -105,12 +105,15 @@
 
         <section class="flex-grow flex flex-col lg:ml-[19rem]">
             <main class="flex-grow lg:px-5 py-5 text-md lg:text-lg pb-10">
-                <span class="text-sm">{{ .SectionName }}</span>
+                {{ if not (eq .SectionName "") }}
+                    <span class="text-sm">{{ .SectionName }}</span>    
+                {{ end }}
+                
                 <h1 id="welcome" class="font-bold text-4xl mb-1">
                     {{ .Title }}
                 </h1>
                 
-                <div id="htmlcontainer">
+                <div id="htmlcontainer" class="max-w-5xl">
                     {{ .Content }}
                 </div>
             </main>
