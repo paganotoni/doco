@@ -67,6 +67,7 @@ func Generate(srcFolder, dstFolder string, site *site) error {
 			return err
 		}
 
+		sort.Sort(v.documents)
 		for _, doc := range v.documents {
 			// normalize the filename
 			name := strings.Replace(doc.filename, filepath.Ext(doc.filename), ".html", 1)

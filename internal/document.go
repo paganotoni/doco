@@ -11,6 +11,7 @@ import (
 type document struct {
 	filename string
 	title    string
+	index    int
 
 	// content
 	markdown []byte
@@ -41,9 +42,15 @@ func NewDocument(path string, content []byte) (document, error) {
 		title = humanizeFilename(path)
 	}
 
+	index, ok := meta["index"].(int)
+	if !ok {
+		index = 10_000_000
+	}
+
 	doc := document{
 		title:    title,
 		filename: filepath.Base(path),
+		index:    index,
 
 		html:     html,
 		markdown: content,
@@ -51,3 +58,9 @@ func NewDocument(path string, content []byte) (document, error) {
 
 	return doc, nil
 }
+
+type documents []document
+
+func (d documents) Len() int           { return len(d) }
+func (d documents) Less(i, j int) bool { return d[i].index < d[j].index }
+func (d documents) Swap(i, j int)      { d[i], d[j] = d[j], d[i] }

@@ -1,6 +1,6 @@
 ---
 Title: Serve
-Weight: 2
+index: 2
 ---
 
 Serve builds the static website and starts a local server to serve the static website on port 3004. It will also watch for changes in the markdown files and rebuild the website.

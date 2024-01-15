@@ -1,6 +1,6 @@
 ---
 title: Help
-weight: 2
+index: 2
 ---
 
 The help command prints usage information about the CLI.

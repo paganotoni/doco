@@ -7,7 +7,7 @@ type section struct {
 	path  string
 	index int
 
-	documents []document
+	documents documents
 }
 
 func (s *section) String() string {

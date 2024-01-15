@@ -1,6 +1,6 @@
 ---
-Title: The CLI
-Weight: 2
+title: The CLI
+index: 0
 ---
 
 The Doco CLI is the one in charge of generating the static website from the markdown files. It can come very handy when writing the documentation for your project since it will allow you to see the changes in real time.
