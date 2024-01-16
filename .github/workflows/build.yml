@@ -1,0 +1,23 @@
+name: Linters
+on: 
+  push:
+    branches:
+      - master
+  pull_request:
+    
+jobs:
+  Build:
+    name: build docs
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup Go ${{ matrix.go-version }}
+        uses: actions/setup-go@v4
+      - name: build doco
+        run: go build -o bin/doco ./cmd/doco 
+      - run: bin/doco build
+      - run: ls -lR docs
+    
+
+          
+      
