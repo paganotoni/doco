@@ -10,11 +10,9 @@
     <link rel="icon" type="image/png" href="{{.SiteConfig.Favicon}}" />
 
     <script src="https://cdn.tailwindcss.com"></script>
-    
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100" rel="stylesheet" />
-
     
-    <!-- Style for the content -->
+    <!-- Style for the content of the page -->
     <style type="text/tailwindcss">
        {{.Style}}
     </style>
@@ -78,8 +76,8 @@
     <section class="flex-grow flex flex-row px-3">
         
         <aside class="hidden lg:block lg:fixed min-w-[19rem] pr-5 flex flex-col gap-1 pt-6">
-            <!-- TODO: [Feature] Search -->
-            <button class="border min-w-[17rem] rounded-lg p-2 px-3 mb-3 bg-gray-100 text-left flex flex-row hover:border-gray-400 hover:bg-white items-center">
+            
+            <button class="search-button border min-w-[17rem] rounded-lg p-2 px-3 mb-3 bg-gray-100 text-left flex flex-row hover:border-gray-400 hover:bg-white items-center">
                 <svg width="24" height="24" fill="none" aria-hidden="true" class="mr-3 flex-none"><path d="m19 19-3.5-3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path><circle cx="11" cy="11" r="6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></circle></svg>
                 Quick Search
                 <span class="ml-auto pl-3 flex-none text-sm font-semibold">⌘K</span>

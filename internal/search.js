@@ -1,9 +1,6 @@
-
-
-
-// TODO: Keyboard up and down
-// TODO: Keyboard enter to navigate to article
 document.addEventListener('DOMContentLoaded', () => {
+    // TODO: Keyboard up and down
+    // TODO: Keyboard enter to navigate to article
     document.querySelectorAll(".search-button").forEach(element => {
         element.addEventListener('click', showSearch);
     })
@@ -29,13 +26,23 @@ document.addEventListener('DOMContentLoaded', () => {
     fetch('/index.json')
     .then(response => response.json())
     .then(data => {
-        window.searchIndex = new Fuse(data, {keys: ["title", "section_name", "content"]});
+        window.searchIndex = new Fuse(data, {
+            shouldSort: true,
+            includeMatches: true,
+            threshold: 0.0,
+            tokenize: true,
+            location: 0,
+            distance: 100,
+            maxPatternLength: 32,
+            minMatchCharLength: 2,
+            keys: ["title", "section_name", "content"],
+        });
+
     }).catch(error => console.error('Error:', error));
 });
 
 
 function showSearch() {
-    console.log("show search")
     document.getElementById("search-palette").classList.toggle("hidden");
     document.getElementById("search-input").focus();
 }
@@ -53,22 +60,6 @@ function search(searchQuery) {
 
         return
     }
-
-    let fuseOptions = {
-        shouldSort: true,
-        includeMatches: true,
-        threshold: 0.0,
-        tokenize: true,
-        location: 0,
-        distance: 100,
-        maxPatternLength: 32,
-        minMatchCharLength: 2,
-        keys: [
-            { name: "title", weight: 0.8 },
-            { name: "content", weight: 0.5 },
-            { name: "section_name", weight: 0.5 },
-        ],
-    };
 
     if (tm != null) {
         clearTimeout(tm)
@@ -107,7 +98,6 @@ function populateResults(result) {
             key: index,
             title: value.item.title,
             link: value.item.link,
-            snippet: value.item.contents
         });
 
         document.getElementById('search-results').innerHTML += output;
@@ -128,6 +118,7 @@ function render(templateString, data) {
             copy = copy.replace(conditionalMatches[0], '');
         }
     }
+
     templateString = copy;
     //now any conditionals removed we can do simple substitution
     var key, find, re;
