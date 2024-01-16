@@ -23,9 +23,7 @@ github: "https://github.com/paganotoni/doco"
 # External links go in the top navigation bar.
 external_links:
   - text: "Documentation"
-    link: "#"
-  - text: "Shop"
-    link: "https://shop.doco.com"
+    link: "/"
 
 # QuickLinks go on top of the left navigation bar and
 # show on the quick search modal by default.
