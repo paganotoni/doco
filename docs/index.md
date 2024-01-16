@@ -11,7 +11,8 @@ Doco is a documentation It takes a folder with markdown files and generates a de
 - Allows to add external links to the sidebar navigation
 - Allows adding quick links to the sidebar navigation
 - Allows to organize the sidebar navigation in sections from folders
-- [Soon] Generates a search index for the website
+- Generates a search index for the website
+- Search component to search the website
 - [Soon] Generates a sitemap for the website
 
 To get started go to the [getting started](/getting_started/getting_started.html) section.

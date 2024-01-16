@@ -2,6 +2,7 @@ package internal
 
 import (
 	_ "embed"
+	"encoding/json"
 	"fmt"
 	"html/template"
 	"os"
@@ -13,6 +14,9 @@ var (
 	//go:embed style.css
 	style []byte
 
+	//go:embed search.js
+	searchJSON []byte
+
 	//go:embed template.html
 	tmplHTML []byte
 	tmpl     = template.Must(template.New("doco").Parse(string(tmplHTML)))
@@ -21,14 +25,15 @@ var (
 // generatedPage is the data passed to the template
 // to generate the static html files.
 type generatedPage struct {
-	SiteConfig config
+	SiteConfig config `json:"-"`
 
-	Title       string
-	SectionName string
-	Content     template.HTML
-	Style       template.CSS
+	Title       string        `json:"title"`
+	SectionName string        `json:"section_name"`
+	Content     template.HTML `json:"content"`
+	Link        string        `json:"link"`
 
-	DesktopNavigation template.HTML
+	Style             template.CSS  `json:"-"`
+	DesktopNavigation template.HTML `json:"-"`
 }
 
 // Generates the static html files for the site
@@ -54,8 +59,10 @@ func Generate(srcFolder, dstFolder string, site *site) error {
 	// Copy all assets
 	err = copyDir(filepath.Join(srcFolder, "assets"), filepath.Join(dstFolder, "assets"))
 	if err != nil {
-		return fmt.Errorf("error copying assets: %w", err)
+		return fmt.Errorf("error copyiing assets: %w", err)
 	}
+
+	var pages []generatedPage
 
 	// Generate pages for each of the sections and documents inside them
 	// and write them to the destination folder.
@@ -83,6 +90,7 @@ func Generate(srcFolder, dstFolder string, site *site) error {
 
 				Title:       doc.title,
 				SectionName: v.name,
+				Link:        filepath.Join(v.path, name),
 
 				Content:           doc.html,
 				Style:             template.CSS(style),
@@ -93,7 +101,25 @@ func Generate(srcFolder, dstFolder string, site *site) error {
 			if err != nil {
 				return err
 			}
+
+			pages = append(pages, data)
 		}
+	}
+
+	f, err := os.Create(filepath.Join(dstFolder, "index.json"))
+	if err != nil {
+		return fmt.Errorf("error generating search index: %w", err)
+	}
+
+	encoder := json.NewEncoder(f)
+	err = encoder.Encode(pages)
+	if err != nil {
+		return fmt.Errorf("error generating search index: %w", err)
+	}
+
+	err = os.WriteFile(filepath.Join(dstFolder, "search.js"), searchJSON, os.ModePerm)
+	if err != nil {
+		return fmt.Errorf("error writing search js: %w", err)
 	}
 
 	return nil
