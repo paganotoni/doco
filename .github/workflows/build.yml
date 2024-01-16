@@ -16,7 +16,7 @@ jobs:
       - name: build doco
         run: go build -o bin/doco ./cmd/doco 
       - run: bin/doco build
-      - run: ls -lR docs
+      - run: ls -lR public
     
 
           
