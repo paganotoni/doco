@@ -1,4 +1,4 @@
-name: Builder
+name: Build and Deploy
 on: 
   push:
     branches:
@@ -11,12 +11,22 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
       - name: Setup Go ${{ matrix.go-version }}
         uses: actions/setup-go@v4
       - name: build doco
         run: go build -o bin/doco ./cmd/doco 
       - run: bin/doco build
       - run: ls -lR public
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: 'public'
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+
     
 
           
