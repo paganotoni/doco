@@ -4,6 +4,8 @@
 name: Doco
 description: "Doco is a CLI tool to generate static documentation websites from markdown files."
 keywords: "keywords,for,seo"
+
+# Index defines where the pages in the root will be positioned.
 index: -1
 
 logo: "/assets/logo.png"
