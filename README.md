@@ -12,6 +12,6 @@ go install github.com/paganotoni/doco@latest
 The Doco CLI has a few commands that will help you generate the static website from your markdown files. To get started you can run the following command:
 
 ```sh
-doco init
+doco init [name]
 ```
 This will create the `docs` folder with a few basic files.

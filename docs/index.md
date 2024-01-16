@@ -4,6 +4,8 @@ title: "Welcome"
 
 Doco is a documentation It takes a folder with markdown files and generates a deployable static website ready for your users to consume. The idea behind Doco is that you focus on your documentation and not on the tooling, you can focus on writing your documentation in markdown and Doco will take care of the rest.
 
+![Doco Preview](assets/preview.png "Preview of Doco")
+
 ### Features
 
 - Generates a static website from markdown files

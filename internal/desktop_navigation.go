@@ -12,7 +12,7 @@ func desktopNavigation(s *site, doc document) template.HTML {
 	var html string
 	for _, v := range s.sections {
 		if v.name != "" {
-			html += `<h3 class="font-bold mb-2">` + v.name + `</h3>`
+			html += `<h3 class="text-sm font-medium mb-3 tracking-wide">` + v.name + `</h3>`
 		}
 
 		html += `<ul>`

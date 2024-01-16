@@ -86,6 +86,10 @@
     @apply mb-0 text-lg;
 }
 
+#htmlcontainer  p img {
+    @apply m-8 border border-gray-200 rounded-xl max-w-[90%];
+}
+
 #desktop-navigation ul {
     @apply flex flex-col mb-5 gap-1 border-collapse border-l-[2px];
 }

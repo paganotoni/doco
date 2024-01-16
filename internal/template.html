@@ -19,7 +19,7 @@
 
 </head>
 <body class="bg-gray-50 max-w-[1400px] mx-auto flex flex-col min-h-full">
-    <header class="sticky top-0 z-40 w-full px-3 border-gray-200 bg-gray-50 border-b flex flex-row gap-5 py-4 items-center">
+    <header class="sticky top-0 z-40 w-full px-3 border-gray-200 bg-gray-50 border-b flex flex-row gap-8 py-4 items-center">
         <a href="/" class="font-bold text-xl flex flex-row gap-1 items-center">
             {{ if not (eq .SiteConfig.Logo "") }}
                 <img src="{{.SiteConfig.Logo}}" class="h-8" />
@@ -31,7 +31,7 @@
             {{end}}
         </a>
         
-        <div class="flex flex-grow items-center gap-8">
+        <div class="flex items-center gap-8">
             {{ if not (eq .SiteConfig.Announcement.Text "") }}
                 <a href="" class="rounded-full p-3 py-1.5 bg-white border text-sm flex flex-row items-center gap-2 hover:border-gray-300">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.2" stroke="currentColor" class="w-5 h-5">
@@ -43,22 +43,20 @@
                         <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
                     </svg>
                 </a>
-            {{ end }}
-            
-            <ul class="flex flex-row gap-7 font-medium hidden lg:flex">
+            {{ end }}            
+        </div>
+        <nav class="flex-grow flex justify-end">
+            <ul class="flex flex-row gap-7 font-medium hidden lg:flex border-r ">
                 {{ range .SiteConfig.ExternalLinks }}
                     <li>
-                        <a href="{{.Link}}" class="hover:underline flex flex-row gap-1 items-center" target="_blank">
+                        <a href="{{.Link}}" class="hover:underline flex flex-row gap-1 items-center mr-8">
                             {{.Text}}
-                            
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
-                            </svg>
+
                         </a>
                     </li>
                 {{ end }}
             </ul>
-        </div>
+        </nav>
 
         {{ if not (eq .SiteConfig.Announcement.Text "") }}
             <div class="flex-row gap-10 hidden md:flex">
@@ -77,13 +75,13 @@
         
         <aside class="hidden lg:block lg:fixed min-w-[19rem] pr-5 flex flex-col gap-1 pt-6">
             
-            <button class="search-button border min-w-[17rem] rounded-lg p-2 px-3 mb-3 bg-gray-100 text-left flex flex-row hover:border-gray-400 hover:bg-white items-center">
+            <button class="search-button border min-w-[17rem] rounded-lg p-2 px-3 mb-6 bg-gray-50 text-left flex flex-row hover:border-gray-400 hover:bg-white items-center">
                 <svg width="24" height="24" fill="none" aria-hidden="true" class="mr-3 flex-none"><path d="m19 19-3.5-3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path><circle cx="11" cy="11" r="6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></circle></svg>
                 Quick Search
                 <span class="ml-auto pl-3 flex-none text-sm font-semibold">⌘K</span>
             </button>
             
-            <ul class="flex flex-col mb-5">
+            <ul class="flex flex-col mb-8">
                 {{range .SiteConfig.QuickLinks}}
                     <li>
                         <a href="{{.Link}}" class="flex flex-row gap-2 p-1.5 rounded-lg hover:bg-gray-200/80">
