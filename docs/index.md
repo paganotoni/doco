@@ -1,10 +1,12 @@
 ---
-title: "Welcome"
+title: "Doco"
 ---
 
-Doco is a documentation generator written in Go. It takes a folder with markdown files and generates a deployable static website ready for your users to consume. The purpose of Doco is to allow you to focus on your documentation and not on the tooling to publish it. 
+Introducing Doco: a practical and adaptable documentation generator for entrepreneurs and software developers. Doco streamlines the conversion of markdown files into a clean, static website, focusing on efficiency and ease of use. It's designed to let you concentrate on creating high-quality documentation, removing the hassle of complex publishing processes.
 
-With Doco you can write your documentation in markdown and generate beautiful websites with a sidebar navigation and a search component.Just like the one you're reading now.
+What sets Doco apart is its delivery as a single binary, seamlessly integrating into any continuous integration workflow. This feature ensures that Doco fits effortlessly into your existing development process, enhancing productivity without disrupting your workflow.
+
+With user-friendly features like sidebar navigation and a search component, Doco makes your documentation accessible and easy to navigate. It's a straightforward, effective tool for quickly generating and deploying organized documentation websites. Opt for Doco for a hassle-free, adaptable documentation solution that aligns with your continuous integration needs.
 
 ![Doco Preview](assets/preview.png "Preview of Doco")
 
