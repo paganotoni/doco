@@ -15,7 +15,7 @@
 #htmlcontainer h4, 
 #htmlcontainer h5, 
 #htmlcontainer h6 {
-    @apply font-bold mb-1;
+    @apply font-bold mb-2;
 }
 
 #htmlcontainer {
@@ -39,7 +39,7 @@
 }
 
 #htmlcontainer p{
-    @apply text-lg mb-3;
+    @apply text-lg mb-4;
 }
 
 #htmlcontainer a{
