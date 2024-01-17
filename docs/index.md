@@ -10,4 +10,5 @@ With user-friendly features like sidebar navigation and a search component, Doco
 
 ![Doco Preview](assets/preview.png "Preview of Doco")
 
-To get started go to the [getting started](/getting_started/getting_started.html) section.
+**Next**:
+[Getting Started](/getting_started/getting_started.html)
