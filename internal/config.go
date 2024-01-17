@@ -7,10 +7,12 @@ import (
 )
 
 const (
+	// metafile is the name of the file that contains the
+	// configuration of the site.
 	metafile = "_meta.md"
 )
 
-// config of the site.
+// config of the general elements of the site.
 type config struct {
 	Name        string
 	Logo        string
