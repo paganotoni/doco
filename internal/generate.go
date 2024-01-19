@@ -22,6 +22,11 @@ var (
 	tmpl     = template.Must(template.New("doco").Parse(string(tmplHTML)))
 )
 
+type navlink struct {
+	Title string `json:"-"`
+	Link  string `json:"-"`
+}
+
 // generatedPage is the data passed to the template
 // to generate the static html files.
 type generatedPage struct {
@@ -31,7 +36,10 @@ type generatedPage struct {
 	SectionName string        `json:"section_name"`
 	Content     template.HTML `json:"content"`
 	Link        string        `json:"link"`
+	filePath    string        `json:"-"`
 
+	Prev              navlink       `json:"-"`
+	Next              navlink       `json:"-"`
 	Style             template.CSS  `json:"-"`
 	DesktopNavigation template.HTML `json:"-"`
 }
@@ -59,11 +67,10 @@ func Generate(srcFolder, dstFolder string, site *site) error {
 	// Copy all assets
 	err = copyDir(filepath.Join(srcFolder, "assets"), filepath.Join(dstFolder, "assets"))
 	if err != nil {
-		return fmt.Errorf("error copyiing assets: %w", err)
+		return fmt.Errorf("error copying assets: %w", err)
 	}
 
 	var pages []generatedPage
-
 	// Generate pages for each of the sections and documents inside them
 	// and write them to the destination folder.
 	for _, v := range site.sections {
@@ -77,32 +84,46 @@ func Generate(srcFolder, dstFolder string, site *site) error {
 			name := strings.Replace(doc.filename, filepath.Ext(doc.filename), ".html", 1)
 			name = underscore(name)
 
-			// write the file
-			file, err := os.Create(filepath.Join(dstFolder, v.path, name))
-			if err != nil {
-				return err
-			}
-
-			deskNav := desktopNavigation(site, doc)
-
 			data := generatedPage{
+				filePath:   filepath.Join(dstFolder, v.path, name),
 				SiteConfig: siteConfig,
 
 				Title:       doc.title,
 				SectionName: v.name,
 				Link:        filepath.Join(v.path, name),
 
-				Content:           doc.html,
-				Style:             template.CSS(style),
-				DesktopNavigation: deskNav,
-			}
+				Content: doc.html,
+				Style:   template.CSS(style),
 
-			err = tmpl.Execute(file, data)
-			if err != nil {
-				return err
+				DesktopNavigation: desktopNavigation(site, doc),
 			}
 
 			pages = append(pages, data)
+		}
+	}
+
+	// Generate all of the files
+
+	for index, v := range pages {
+		if index < len(pages)-1 {
+			v.Next.Link = pages[index+1].Link
+			v.Next.Title = pages[index+1].Title
+		}
+
+		if index > 0 {
+			v.Prev.Link = pages[index-1].Link
+			v.Prev.Title = pages[index-1].Title
+		}
+
+		// write the file
+		file, err := os.Create(v.filePath)
+		if err != nil {
+			return err
+		}
+
+		err = tmpl.Execute(file, v)
+		if err != nil {
+			return err
 		}
 	}
 
