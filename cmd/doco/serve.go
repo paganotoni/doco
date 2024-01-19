@@ -1,4 +1,4 @@
-package serve
+package main
 
 import (
 	"log"
@@ -6,7 +6,7 @@ import (
 )
 
 // Serve the public folder
-func Run() error {
+func serve() error {
 	fs := http.FileServer(http.Dir("./public"))
 	http.Handle("/", fs)
 

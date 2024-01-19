@@ -27,6 +27,8 @@ The quick links are a list of links that are displayed on the sidebar. They are 
 - Link to the getting started page (`/getting_started.html`)
 - Link to the installation page (`/installation.html`)
 
+Quicklinks show on the sidebar and on the search modal. They are a great way to link to important pages in your documentation.
+
 ##### Navigation
 
 The navigation is a list of links to the pages in your site. It is generated automatically from the pages in your site. It  creates **one level** of navigation based on folders and pages inside. Files starting with underscore (p.e. _meta.md) are ignored by the navigation builder.

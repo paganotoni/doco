@@ -1,11 +1,9 @@
-package help_test
+package main
 
 import (
 	"bytes"
 	_ "embed"
 	"testing"
-
-	"github.com/paganotoni/doco/cmd/doco/help"
 )
 
 //go:embed help.txt
@@ -13,7 +11,7 @@ var content string
 
 func TestRun(t *testing.T) {
 	bb := bytes.NewBuffer([]byte{})
-	if err := help.Run(bb); err != nil {
+	if err := printHelp(bb); err != nil {
 		t.Fatal(err)
 	}
 
