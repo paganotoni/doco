@@ -1,5 +1,6 @@
 ---
 title: "Doco"
+index: 1
 ---
 
 Introducing Doco: a practical and adaptable documentation generator for entrepreneurs and software developers. Doco streamlines the conversion of markdown files into a clean, static website, focusing on efficiency and ease of use. It's designed to let you concentrate on creating high-quality documentation, removing the hassle of complex publishing processes.
@@ -11,4 +12,4 @@ With user-friendly features like sidebar navigation and a search component, Doco
 ![Doco Preview](assets/preview.png "Preview of Doco")
 
 **Next**:
-[Getting Started](/getting_started/getting_started.html)
+[Getting Started](/getting_started.html)

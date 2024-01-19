@@ -1,15 +1,7 @@
 ---
-title: Anatomy of Doco
+title: Top navigation bar
+index: 1
 ---
-
-Before going into the details of how to use Doco, let's take a look at the anatomy of a Doco document.
-A regular doco site looks like this:
-
-![Doco Preview](../assets/preview.png "Preview of Doco")
-
-Lets break down the anatomy of a Doco document:
-
-### Top navigation bar
 
 The top navigation bar is a list of links to the pages in your site. It is generated automatically from the pages in your site.
 
@@ -17,7 +9,7 @@ The top navigation bar is a list of links to the pages in your site. It is gener
 
 It contains (left to right):
 - The logo of the site
-- The anouncement bar
+- The announcement bar
 - The external links 
 - The project github link
 
@@ -48,15 +40,3 @@ Consider that links are added right to left. So the first link will be the right
 
 ##### Project github link
 As the name indicates, this is a link to the github page of the project. It is generated from the `github` field in the root `_meta.md` file. It can be customized there. It links to the root of the documentation site.
-
-### Sidebar
-
-The sidebar contains three elements:
-
-- The search component
-- The quick links
-- The table of contents
-
-Let's go over each of these:
-
-##### Search component

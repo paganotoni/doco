@@ -1,6 +1,6 @@
 ---
 title: Getting Started
-index: 1
+index: 2
 ---
 Doco is delivered as a self-contained binary, making its usage and integration straightforward. The first step in utilizing Doco's full potential is to install this binary, which enables access to all its features, from converting markdown files to integrating with continuous integration workflows. This binary-focused approach ensures a streamlined and efficient user experience.
 
