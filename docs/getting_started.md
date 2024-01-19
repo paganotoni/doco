@@ -25,12 +25,14 @@ This, will create the `docs` folder with a few files:
 - getting_started/getting_started.md
 
 
-## Build the website
+## Browse the documentation
 
 Once the folder is initialized you can run the following command to generate the static website:
 
 ```sh
-doco build
+doco serve
 ```
 
-This will generate the static website in the `site` folder. You can then deploy the static website to your favorite hosting provider.
+This will generate the static website in the `public` folder. and serve it. You can see your docs site at http://localhost:3000. Once you're done you can stop the server with `ctrl+c`. 
+
+
