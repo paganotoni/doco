@@ -6,6 +6,8 @@ index: 1
 Init creates the `docs` folder with some basic files.
 
 ```sh
+$ doco init 
+# or a different folder name
 $ doco --folder [folder] init 
 ```
 
