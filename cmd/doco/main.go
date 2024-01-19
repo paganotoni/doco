@@ -45,7 +45,7 @@ func main() {
 	case "build":
 		err := build(docsFolder, dstFolder)
 		if err != nil {
-			fmt.Println(err)
+			fmt.Println("ERROR:", err)
 		}
 
 	case "init":
@@ -58,6 +58,9 @@ func main() {
 	case "help":
 		printHelp(os.Stdout)
 	case "serve":
+		build(docsFolder, dstFolder)
+
+		go watch(docsFolder, dstFolder)
 		serve()
 	default:
 		fmt.Printf("Unknown command %s\n", args[1])
