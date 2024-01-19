@@ -80,22 +80,25 @@
                 Quick Search
                 <span class="ml-auto pl-3 flex-none text-sm font-semibold">⌘K</span>
             </button>
-            
-            <ul class="flex flex-col mb-8">
-                {{range .SiteConfig.QuickLinks}}
-                    <li>
-                        <a href="{{.Link}}" class="flex flex-row gap-2 p-1.5 rounded-lg hover:bg-gray-200/80">
-                            <span class="material-symbols-outlined">{{.Icon}}</span>
-                            {{.Text}}
-                        </a>
-                    </li>
-                {{end}}                
-                
-            </ul>
 
-            <nav id="desktop-navigation">
-                {{.DesktopNavigation}}
-            </nav>            
+            <div class="max-h-[calc(100vh-180px)] overflow-y-scroll pb-10">
+            
+                <ul class="flex flex-col mb-8">
+                    {{range .SiteConfig.QuickLinks}}
+                        <li>
+                            <a href="{{.Link}}" class="flex flex-row gap-2 p-1.5 rounded-lg hover:bg-gray-200/80">
+                                <span class="material-symbols-outlined">{{.Icon}}</span>
+                                {{.Text}}
+                            </a>
+                        </li>
+                    {{end}}                
+                    
+                </ul>
+
+                <nav id="desktop-navigation">
+                    {{.DesktopNavigation}}
+                </nav>            
+            </div>
         </aside>
 
         <section class="flex-grow flex flex-col lg:ml-[19rem]">
