@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
         window.searchIndex = new Fuse(data, {
             shouldSort: true,
             includeMatches: true,
-            threshold: 0.0,
+            threshold: 0.5,
             tokenize: true,
             location: 0,
             distance: 100,
