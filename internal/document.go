@@ -4,6 +4,9 @@ import (
 	"fmt"
 	"html/template"
 	"path/filepath"
+	"strings"
+
+	"golang.org/x/net/html"
 )
 
 // document represents a single markdown document in the site
@@ -20,6 +23,33 @@ type document struct {
 
 func (doc document) String() string {
 	return fmt.Sprintf("Document: %v", doc.title)
+}
+
+func (doc document) Tokens() string {
+	var s string
+
+	domDocTest := html.NewTokenizer(strings.NewReader(string(doc.html)))
+	previousStartTokenTest := domDocTest.Token()
+loopDomTest:
+	for {
+		tt := domDocTest.Next()
+		switch {
+		case tt == html.ErrorToken:
+			break loopDomTest // End of the document,  done
+		case tt == html.StartTagToken:
+			previousStartTokenTest = domDocTest.Token()
+		case tt == html.TextToken:
+			if previousStartTokenTest.Data == "script" {
+				continue
+			}
+			TxtContent := strings.TrimSpace(html.UnescapeString(string(domDocTest.Text())))
+			if len(TxtContent) > 0 {
+				s += TxtContent + " "
+			}
+		}
+	}
+
+	return s
 }
 
 // NewDocument takes the path of a document and its content

@@ -27,15 +27,13 @@ document.addEventListener('DOMContentLoaded', () => {
     .then(response => response.json())
     .then(data => {
         window.searchIndex = new Fuse(data, {
-            shouldSort: true,
+            threshold: 0.8,
+            tokenize: false,
             includeMatches: true,
-            threshold: 0.5,
-            tokenize: true,
-            location: 0,
-            distance: 100,
             maxPatternLength: 32,
-            minMatchCharLength: 2,
-            keys: ["title", "section_name", "content"],
+            minMatchCharLength: 1,
+            location: 80_000,
+            keys: ["content","title", "section_name"],
         });
 
     }).catch(error => console.error('Error:', error));
@@ -82,7 +80,7 @@ function search(searchQuery) {
 
 
         populateResults(result);
-    }, 200);
+    }, 400);
 }
 
 function populateResults(result) {
@@ -107,7 +105,7 @@ function populateResults(result) {
 function render(templateString, data) {
     var conditionalMatches, conditionalPattern, copy;
     conditionalPattern = /\$\{\s*isset ([a-zA-Z]*) \s*\}(.*)\$\{\s*end\s*}/g;
-    //since loop below depends on re.lastInxdex, we use a copy to capture any manipulations whilst inside the loop
+    //since loop below depends on re.lastIndex, we use a copy to capture any manipulations whilst inside the loop
     copy = templateString;
     while ((conditionalMatches = conditionalPattern.exec(templateString)) !== null) {
         if (data[conditionalMatches[1]]) {

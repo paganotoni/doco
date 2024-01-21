@@ -34,9 +34,10 @@ type generatedPage struct {
 
 	Title       string        `json:"title"`
 	SectionName string        `json:"section_name"`
-	Content     template.HTML `json:"content"`
+	Content     template.HTML `json:"-"`
 	Link        string        `json:"link"`
 	filePath    string        `json:"-"`
+	Tokens      string        `json:"content"`
 
 	Prev       navlink       `json:"-"`
 	Next       navlink       `json:"-"`
@@ -94,6 +95,7 @@ func Generate(srcFolder, dstFolder string, site *site) error {
 
 				Content: doc.html,
 				Style:   template.CSS(style),
+				Tokens:  doc.Tokens(),
 
 				Navigation: desktopNavigation(site, doc),
 			}
