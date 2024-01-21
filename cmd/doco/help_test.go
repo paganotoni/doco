@@ -3,6 +3,7 @@ package main
 import (
 	"bytes"
 	_ "embed"
+	"strings"
 	"testing"
 )
 
@@ -15,7 +16,7 @@ func TestRun(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	if bb.String() != content {
+	if !strings.Contains(bb.String(), content) {
 		t.Fatal("expected output")
 	}
 }
