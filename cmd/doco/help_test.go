@@ -19,4 +19,12 @@ func TestRun(t *testing.T) {
 	if !strings.Contains(bb.String(), content) {
 		t.Fatal("expected output")
 	}
+
+	if !strings.Contains(bb.String(), "--folder") {
+		t.Fatal("expected flags")
+	}
+
+	if !strings.Contains(bb.String(), "--output") {
+		t.Fatal("expected flags")
+	}
 }
