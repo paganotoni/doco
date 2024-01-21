@@ -17,7 +17,7 @@ logo:
 # Announcement is shown on the top of the site
 # next to the site logo
 announcement: 
-  text: "Check our Github repository"
+  text: "Check our Github repository."
   link: "https://github.com/paganotoni/doco"
 
 # Social links are shown on the top right of the site
