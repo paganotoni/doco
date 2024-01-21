@@ -15,17 +15,21 @@ const (
 // config of the general elements of the site.
 type config struct {
 	Name        string
-	Logo        string
 	Favicon     string
 	Description string
 	Keywords    string
+	Github      string // Github link to display, empty means no link
 
 	Announcement struct {
 		Text string // Text to display, empty means no announcement
 		Link string
 	}
 
-	Github     string // Github link to display, empty means no link
+	Logo struct {
+		Link string
+		Src  string
+	}
+
 	QuickLinks []struct {
 		Text string
 		Link string
@@ -62,12 +66,18 @@ func parseMeta(folder string) (config, error) {
 
 	config := config{}
 	config.Name = data["name"].(string)
-	config.Logo = data["logo"].(string)
+
 	config.Description = data["description"].(string)
 	config.Keywords = data["keywords"].(string)
 	config.Copy = data["copy"].(string)
 	config.Github = data["github"].(string)
 	config.Favicon = data["favicon"].(string)
+
+	logo, ok := data["logo"].(map[any]any)
+	if ok {
+		config.Logo.Src = logo["src"].(string)
+		config.Logo.Link = logo["link"].(string)
+	}
 
 	announcement := data["announcement"].(map[any]any)
 	config.Announcement.Text = announcement["text"].(string)

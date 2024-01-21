@@ -16,8 +16,8 @@ copy: "© $YEAR Doco"
 github: "https://github.com/paganotoni/doco" 
 
 logo: 
-  - "/assets/logo.png"
-  - "https://doco.paganotoni.com"
+  src: "/assets/logo.png"
+  link: "https://doco.paganotoni.com"
 
 announcement: 
   text: "Check our Github repository"

@@ -10,9 +10,10 @@ import (
 // it is used in the template.html file.
 func desktopNavigation(s *site, doc document) template.HTML {
 	var html string
+	html += `<nav class="documents">`
 	for _, v := range s.sections {
 		if v.name != "" {
-			html += `<h3 class="text-sm font-medium mb-3 tracking-wide">` + v.name + `</h3>`
+			html += `<h3>` + v.name + `</h3>`
 		}
 
 		html += `<ul>`
@@ -28,6 +29,8 @@ func desktopNavigation(s *site, doc document) template.HTML {
 
 		html += `</ul>`
 	}
+
+	html += `</nav>`
 
 	return template.HTML(html)
 }

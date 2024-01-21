@@ -106,3 +106,27 @@
 #desktop-navigation ul li.active a{
     @apply border-gray-600;
 }
+
+nav.documents {
+    overflow: scroll
+}
+
+nav.documents a {
+    @apply text-lg mb-2 md:text-base md:mb-1;
+}
+
+nav .quicklinks a {
+    @apply text-lg md:text-base md:mb-1;
+}
+
+nav.documents ul {
+    @apply mb-2 md:mb-0;
+}
+
+nav.documents ul li, nav.documents h3 {
+    @apply px-3 md:px-0;
+}
+
+nav.documents h3 {
+    @apply text-base font-bold md:text-sm md:font-medium md:mb-3 md:tracking-wide;
+}

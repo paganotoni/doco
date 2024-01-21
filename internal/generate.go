@@ -38,10 +38,10 @@ type generatedPage struct {
 	Link        string        `json:"link"`
 	filePath    string        `json:"-"`
 
-	Prev              navlink       `json:"-"`
-	Next              navlink       `json:"-"`
-	Style             template.CSS  `json:"-"`
-	DesktopNavigation template.HTML `json:"-"`
+	Prev       navlink       `json:"-"`
+	Next       navlink       `json:"-"`
+	Style      template.CSS  `json:"-"`
+	Navigation template.HTML `json:"-"`
 }
 
 // Generates the static html files for the site
@@ -95,7 +95,7 @@ func Generate(srcFolder, dstFolder string, site *site) error {
 				Content: doc.html,
 				Style:   template.CSS(style),
 
-				DesktopNavigation: desktopNavigation(site, doc),
+				Navigation: desktopNavigation(site, doc),
 			}
 
 			pages = append(pages, data)

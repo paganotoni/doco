@@ -7,10 +7,11 @@ keywords: "keywords,for,seo"
 
 # Index defines where the pages in the root will be positioned.
 index: -1
-
-## TODO: Logo link!
-logo: "/assets/logo.png"
 favicon: "/assets/favicon.png"
+
+logo: 
+  image: "/assets/logo.png"
+  link: "/"
 
 # Announcement is shown on the top of the site
 # next to the site logo

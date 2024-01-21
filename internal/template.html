@@ -20,16 +20,19 @@
 </head>
 <body class="bg-gray-50 max-w-[1400px] mx-auto flex flex-col min-h-full">
     <header class="sticky top-0 z-40 w-full px-3 border-gray-200 bg-gray-50 border-b flex flex-row gap-8 py-4 items-center">
-        <a href="/" class="font-bold text-xl flex flex-row gap-1 items-center">
-            {{ if not (eq .SiteConfig.Logo "") }}
-                <img src="{{.SiteConfig.Logo}}" class="h-8" />
-            {{ else }}
+       
+        {{ if not (eq .SiteConfig.Logo.Link "") }}
+            <a href="{{.SiteConfig.Logo.Link}}" class="font-bold text-xl flex flex-row gap-1 items-center">
+                <img src="{{.SiteConfig.Logo.Src}}" class="h-8" />
+            </a>
+        {{ else }}
+            <a href="/" class="font-bold text-xl flex flex-row gap-1 items-center">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25" />
                 </svg>  
                 Doco
-            {{end}}
-        </a>
+            </a>
+        {{end}}
         
         <div class="flex items-center gap-8">
             {{ if not (eq .SiteConfig.Announcement.Text "") }}
@@ -58,7 +61,20 @@
             </ul>
         </nav>
 
-        {{ if not (eq .SiteConfig.Announcement.Text "") }}
+        <div class="md:hidden flex flex-row gap-4 items-center">
+            <span class="search-button">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                </svg>
+            </span>
+            <span class="toggle-mobile-nav">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-8 h-8">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+                </svg>
+            </span>
+        </div>
+
+        {{ if not (eq .SiteConfig.Github "") }}
             <div class="flex-row gap-10 hidden md:flex">
                 <div class="flex flex-row items-center justify-items-end">
                     <a href="{{.SiteConfig.Github}}" class="rounded-full hover:bg-gray-200 p-2.5">
@@ -67,16 +83,14 @@
                 </div>
             </div>
         {{ end }}
-
-        <!-- TODO: [Feature] Mobile menu -->
     </header>
 
     <section class="flex-grow flex flex-row px-3">
-        
         <aside class="hidden lg:block lg:fixed min-w-[19rem] pr-5 flex flex-col gap-1 pt-6">
-            
             <button class="search-button border min-w-[17rem] rounded-lg p-2 px-3 mb-6 bg-gray-50 text-left flex flex-row hover:border-gray-400 hover:bg-white items-center">
-                <svg width="24" height="24" fill="none" aria-hidden="true" class="mr-3 flex-none"><path d="m19 19-3.5-3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path><circle cx="11" cy="11" r="6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></circle></svg>
+                <svg width="24" height="24" fill="none" aria-hidden="true" class="mr-3 flex-none">
+                    <path d="m19 19-3.5-3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path><circle cx="11" cy="11" r="6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></circle>
+                </svg>
                 Quick Search
                 <span class="ml-auto pl-3 flex-none text-sm font-semibold">⌘K</span>
             </button>
@@ -96,7 +110,7 @@
                 </ul>
 
                 <nav id="desktop-navigation">
-                    {{.DesktopNavigation}}
+                    {{.Navigation}}
                 </nav>            
             </div>
         </aside>
@@ -161,50 +175,82 @@
     <div id="search-palette" class="hidden fixed inset-0 z-[100] overflow-y-auto p-4 sm:p-6 md:p-20" role="dialog" aria-modal="true">
         <div id="search-overlay" class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
         <div class="z-[100] mx-auto max-w-2xl transform divide-y divide-gray-100 overflow-hidden rounded-xl bg-white shadow-2xl ring-1 ring-black ring-opacity-5 transition-all">
-        <div class="relative">
-            <svg class="pointer-events-none absolute top-3.5 left-4 h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path>
-            </svg>
-            <input id="search-input" type="text" class="h-12 w-full border-0 bg-transparent pl-11 pr-4 text-gray-800 placeholder-gray-400 focus:ring-0 outline-none sm:text-sm" placeholder="">
-            <button id="close-search" class="bg-gray-200 h-8 w-8 text-xs text-gray-600 rounded-md inline-block absolute right-2 top-2">esc</button>
-        </div>
+            <div class="relative">
+                <svg class="pointer-events-none absolute top-3.5 left-4 h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                    <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path>
+                </svg>
+                <input id="search-input" type="text" class="h-12 w-full border-0 bg-transparent pl-11 pr-4 text-gray-800 placeholder-gray-400 focus:ring-0 outline-none sm:text-sm" placeholder="">
+                <button id="close-search" class="bg-gray-200 h-8 w-8 text-xs text-gray-600 rounded-md inline-block absolute right-2 top-2">esc</button>
+            </div>
 
-        <ul id="search-quick-actions" class="max-h-80 scroll-py-2 divide-y divide-gray-100 overflow-y-auto">
-            <li class="p-2">
-                <h2 class="sr-only">Quick actions</h2>
-                <ul class="text-sm text-gray-700">
+            <ul id="search-quick-actions" class="max-h-80 scroll-py-2 divide-y divide-gray-100 overflow-y-auto">
+                <li class="p-2">
+                    <h2 class="sr-only">Quick actions</h2>
+                    <ul class="text-sm text-gray-700">
+                        {{range .SiteConfig.QuickLinks}}
+                            <li class="group cursor-default select-none items-center rounded-md px-3 py-2">
+                                <a href="{{.Link}}" class="flex flex-row items-center group hover:text-blue-500">
+                                    <span class="material-symbols-outlined">{{.Icon}}</span>
+                                    <span class="ml-3 flex-auto truncate">{{.Text}}</span>
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+                                </a>
+                            </li>
+                        {{end}}
+                    </ul>
+                </li>
+            </ul>
+            <ul id="search-results" class="hidden max-h-96 overflow-y-auto p-2 text-sm text-gray-700"></ul>
+            <div id="search-no-results" class="hidden py-14 px-6 text-center sm:px-14">
+                <svg class="mx-auto h-6 w-6 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"></path>
+                </svg>
+                <p class="mt-4 text-sm text-gray-900"></p>
+            </div>
+        </div>
+    </div>
+
+    <nav id="mobile-menu" class="hidden overflow-scroll bg-gray-400/90 z-50 fixed right-0 left-0 top-0 bottom-0 h-screen w-screen">
+        <span class="toggle-mobile-nav fixed top-10 right-10" >
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+            </svg>
+        </span>
+        <div class="bg-white max-w-[calc(100vw-100px)] py-6 px-4">
+            <ul class="quicklinks flex flex-col mb-8">
                 {{range .SiteConfig.QuickLinks}}
-                    <li class="group cursor-default select-none items-center rounded-md px-3 py-2">
-                        <a href="{{.Link}}" class="flex flex-row items-center group hover:text-blue-500">
+                    <li>
+                        <a href="{{.Link}}" class="flex flex-row gap-2 p-1.5 rounded-lg hover:bg-gray-200/80">
                             <span class="material-symbols-outlined">{{.Icon}}</span>
-                            <span class="ml-3 flex-auto truncate">{{.Text}}</span>
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+                            {{.Text}}
                         </a>
                     </li>
-                {{end}}    
-                    
-                </ul>
-            </li>
-        </ul>
-        <ul id="search-results" class="hidden max-h-96 overflow-y-auto p-2 text-sm text-gray-700"></ul>
-        <div id="search-no-results" class="hidden py-14 px-6 text-center sm:px-14">
-            <svg class="mx-auto h-6 w-6 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"></path>
-            </svg>
-            <p class="mt-4 text-sm text-gray-900"></p>
+                {{end}}                
+            </ul>
+            {{.Navigation}}
         </div>
-        <script id="search-result-template" type="text/x-js-template">
-            <li class="text-gray-700 group cursor-default select-none items-center rounded-md px-3 py-2 hover:text-blue-500">
-                <a class="flex items-center" href="${link}">
-                    <svg class="h-6 w-6 flex-none" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
-                    <span class="ml-3 flex-grow flex-auto truncate">${title}</span>
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
-                    <span class="ml-3 hidden flex-none text-indigo-100">Jump to...</span>
-                </a>
-            </li>
-        </script>
-    </div>
+    </nav>
+    
+    
     <script src="https://cdn.jsdelivr.net/npm/fuse.js@7.0.0"></script>
     <script src="/search.js"></script>
+    <script>
+        let toggles = document.querySelectorAll(".toggle-mobile-nav");
+        let mobileMenu = document.getElementById("mobile-menu");
+        toggles.forEach(toggle => {
+            toggle.addEventListener("click", () => {
+                mobileMenu.classList.toggle("hidden");
+            });
+        });
+    </script>
+    <script id="search-result-template" type="text/x-js-template">
+        <li class="text-gray-700 group cursor-default select-none items-center rounded-md px-3 py-2 hover:text-blue-500">
+            <a class="flex items-center" href="${link}">
+                <svg class="h-6 w-6 flex-none" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
+                <span class="ml-3 flex-grow flex-auto truncate">${title}</span>
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+                <span class="ml-3 hidden flex-none text-indigo-100">Jump to...</span>
+            </a>
+        </li>
+    </script>
 </body>
 </html>
