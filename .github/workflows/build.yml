@@ -30,7 +30,6 @@ jobs:
       - name: build doco
         run: go build -o bin/doco ./cmd/doco 
       - run: bin/doco build
-      - run: ls -lR public
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
