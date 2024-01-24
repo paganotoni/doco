@@ -60,12 +60,12 @@ func Generate(srcFolder, dstFolder string, site *site) error {
 		return err
 	}
 
-	siteConfig, err := parseMeta(srcFolder)
+	conf, err := readConfig(srcFolder)
 	if err != nil {
 		return err
 	}
 
-	// Copy all assets
+	// Copy assets folder to the destination folder.
 	err = copyDir(filepath.Join(srcFolder, "assets"), filepath.Join(dstFolder, "assets"))
 	if err != nil {
 		return fmt.Errorf("error copying assets: %w", err)
@@ -87,7 +87,7 @@ func Generate(srcFolder, dstFolder string, site *site) error {
 
 			data := generatedPage{
 				filePath:   filepath.Join(dstFolder, v.path, name),
-				SiteConfig: siteConfig,
+				SiteConfig: conf,
 
 				Title:       doc.title,
 				SectionName: v.name,
@@ -104,8 +104,8 @@ func Generate(srcFolder, dstFolder string, site *site) error {
 		}
 	}
 
-	// Generate all of the files
-
+	// Generate all of the files after parsing the navigation and
+	// having the list to be able to generate the prev and next links.
 	for index, v := range pages {
 		if index < len(pages)-1 {
 			v.Next.Link = pages[index+1].Link
@@ -129,6 +129,7 @@ func Generate(srcFolder, dstFolder string, site *site) error {
 		}
 	}
 
+	// Generating the site index file to be used by the search.
 	f, err := os.Create(filepath.Join(dstFolder, "index.json"))
 	if err != nil {
 		return fmt.Errorf("error generating search index: %w", err)
@@ -140,6 +141,7 @@ func Generate(srcFolder, dstFolder string, site *site) error {
 		return fmt.Errorf("error generating search index: %w", err)
 	}
 
+	// Adding search.js to the destination folder.
 	err = os.WriteFile(filepath.Join(dstFolder, "search.js"), searchJSON, os.ModePerm)
 	if err != nil {
 		return fmt.Errorf("error writing search js: %w", err)

@@ -10,7 +10,7 @@ index: -1
 favicon: "/assets/favicon.png"
 
 logo: 
-  image: "/assets/logo.png"
+  src: "/assets/logo.png"
   link: "/"
 
 # Announcement is shown on the top of the site

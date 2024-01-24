@@ -44,9 +44,9 @@ type config struct {
 	Copy string
 }
 
-// parseMeta parses the _meta.md file and returns the config
+// readConfig parses the _meta.md file and returns the config
 // for the site.
-func parseMeta(folder string) (config, error) {
+func readConfig(folder string) (config, error) {
 	file, err := os.Open(filepath.Join(folder, metafile))
 	if err != nil {
 		return config{}, err
