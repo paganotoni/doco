@@ -7,7 +7,7 @@ Doco is a documentation website generator for your projects written in Go. It ta
 ## Installation
 
 ```sh
-go install github.com/paganotoni/doco@latest
+go install github.com/paganotoni/doco/cmd/doco@latest
 ```
 
-From there you can use the `doco` cli to generate a static website from your markdown files. For more info take a look at [doco's website](https://doco.antoniopagano.com). After all, would it be any point in having Markdown docs if we can generate a website with Doco?
+From there you can use the `doco` cli to generate a static website from your markdown files. For more info take a look at [doco's website](https://doco.sh). After all, would it be any point in having Markdown docs if we can generate a website with Doco?
