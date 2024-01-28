@@ -27,9 +27,12 @@ jobs:
         uses: actions/configure-pages@v4
       - name: Setup Go ${{ matrix.go-version }}
         uses: actions/setup-go@v4
-      - name: build doco
+      - name: Run tests
+        run: go test -v ./...
+      - name: Build doco bin
         run: go build -o bin/doco ./cmd/doco 
-      - run: bin/doco build
+      - name: Build docs
+        run: bin/doco build
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:

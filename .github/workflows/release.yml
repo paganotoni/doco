@@ -5,7 +5,7 @@ on:
       - published
 
 jobs:
-  release:
+  binary:
     name: Release
     runs-on: ubuntu-latest
     steps:
