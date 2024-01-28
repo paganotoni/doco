@@ -8,7 +8,7 @@ Doco is delivered as a self-contained binary, making its usage and integration s
 To install Doco you can do it with the go tool or download the binary from the releases page.
 
 ```go
-go install github.com/paganotoni/doco@latest
+go install github.com/paganotoni/doco/cmd/doco@latest
 ```
 
 ## Initializing the documentation folder
