@@ -33,6 +33,4 @@ Once the folder is initialized you can run the following command to generate the
 doco serve
 ```
 
-This will generate the static website in the `public` folder. and serve it. You can see your docs site at http://localhost:3000. Once you're done you can stop the server with `ctrl+c`. 
-
-
+This will generate the static website in the `public` folder. and serve it. You can see your docs site at [http://localhost:3000/](http://localhost:3000/). Once you're done you can stop the server with `ctrl+c`. 
