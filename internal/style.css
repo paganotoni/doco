@@ -95,6 +95,10 @@
     @apply m-8 border border-gray-200 rounded-xl max-w-[90%];
 }
 
+#htmlcontainer .heading-anchor {
+    @apply text-gray-500 no-underline;
+}
+
 #desktop-navigation ul {
     @apply flex flex-col mb-5 gap-1 border-collapse border-l-[2px];
 }

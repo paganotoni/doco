@@ -7,11 +7,30 @@ import (
 	"github.com/yuin/goldmark"
 	meta "github.com/yuin/goldmark-meta"
 	"github.com/yuin/goldmark/parser"
+	"go.abhg.dev/goldmark/anchor"
 )
 
 var (
 	// mparser is the markdown parser used to parse the content
-	mparser = goldmark.New(goldmark.WithExtensions(meta.Meta))
+	mparser = goldmark.New(
+		goldmark.WithParserOptions(
+			parser.WithAutoHeadingID(), // read note
+		),
+
+		goldmark.WithExtensions(
+			meta.Meta,
+
+			// anchor is used to generate anchor links for headings
+			// in the markdown file.
+			&anchor.Extender{
+				Texter: anchor.Text("#"),
+				Attributer: anchor.Attributes{
+					"class": "heading-anchor",
+					"alt":   "Link to this section",
+				},
+			},
+		),
+	)
 )
 
 // metadataFrom parses the content and returns the metadata
