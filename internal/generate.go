@@ -32,7 +32,10 @@ type navlink struct {
 type generatedPage struct {
 	SiteConfig config `json:"-"`
 
-	Title       string        `json:"title"`
+	Title       string `json:"title"`
+	Description string `json:"description"`
+	Keywords    string `json:"keywords"`
+
 	SectionName string        `json:"section_name"`
 	Content     template.HTML `json:"-"`
 	Link        string        `json:"link"`
@@ -90,6 +93,9 @@ func Generate(srcFolder, dstFolder string, site *site) error {
 				SiteConfig: conf,
 
 				Title:       doc.title,
+				Description: doc.description,
+				Keywords:    doc.keywords,
+
 				SectionName: v.name,
 				Link:        filepath.Join(v.path, name),
 
@@ -98,6 +104,14 @@ func Generate(srcFolder, dstFolder string, site *site) error {
 				Tokens:  doc.Tokens(),
 
 				Navigation: desktopNavigation(site, doc),
+			}
+
+			if data.Keywords == "" {
+				data.Keywords = conf.Keywords
+			}
+
+			if data.Description == "" {
+				data.Description = conf.Description
 			}
 
 			pages = append(pages, data)

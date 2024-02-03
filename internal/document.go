@@ -12,9 +12,11 @@ import (
 // document represents a single markdown document in the site
 // it contains the metadata and the content of the document.
 type document struct {
-	filename string
-	title    string
-	index    int
+	filename    string
+	title       string
+	index       int
+	description string
+	keywords    string
 
 	// content
 	markdown []byte
@@ -77,10 +79,24 @@ func NewDocument(path string, content []byte) (document, error) {
 		index = 10_000_000
 	}
 
+	description, ok := meta["description"].(string)
+	if !ok {
+		// Use filename as title
+		description = ""
+	}
+
+	keywords, ok := meta["keywords"].(string)
+	if !ok {
+		keywords = ""
+	}
+
 	doc := document{
 		title:    title,
 		filename: filepath.Base(path),
 		index:    index,
+
+		description: description,
+		keywords:    keywords,
 
 		html:     html,
 		markdown: content,
