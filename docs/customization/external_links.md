@@ -6,7 +6,7 @@ External links are a good way to connect your business with your documentation. 
 
 The external links are configured through the `_meta.md` file at the root of the documentation folder. you can change it through the following options:
 
-```markdown
+```yml
 external_links:
   - text: "Pricing"
     link: "https://doco.paganotoni.com/pricing"

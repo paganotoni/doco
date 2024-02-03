@@ -7,7 +7,7 @@ The announcement banner is a great way to communicate important information to y
 
 The announcement banner is configured through the `_meta.md` file at the root of the documentation folder. you can change it through the following options:
 
-```markdown
+```yml
 announcement: 
   text: "Check our Github repository"
   link: "https://github.com/paganotoni/doco"

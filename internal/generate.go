@@ -11,11 +11,11 @@ import (
 )
 
 var (
-	//go:embed style.css
+	//go:embed doco.css
 	style []byte
 
-	//go:embed search.js
-	searchJSON []byte
+	//go:embed doco.js
+	docoJS []byte
 
 	//go:embed template.html
 	tmplHTML []byte
@@ -142,7 +142,7 @@ func Generate(srcFolder, dstFolder string, site *site) error {
 	}
 
 	// Adding search.js to the destination folder.
-	err = os.WriteFile(filepath.Join(dstFolder, "search.js"), searchJSON, os.ModePerm)
+	err = os.WriteFile(filepath.Join(dstFolder, "doco.js"), docoJS, os.ModePerm)
 	if err != nil {
 		return fmt.Errorf("error writing search js: %w", err)
 	}

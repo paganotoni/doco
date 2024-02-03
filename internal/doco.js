@@ -37,16 +37,31 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
     }).catch(error => console.error('Error:', error));
+
+    // Add highligthing to the code blocks
+    hljs.highlightAll();
+    
+    // Add zoom to the images
+    mediumZoom('#htmlcontainer img');
+    
+    // Adding the mobile menu toggle
+    let toggles = document.querySelectorAll(".toggle-mobile-nav")
+    toggles.forEach(toggle => {
+        toggle.addEventListener("click", () => {
+            document.getElementById("mobile-menu").classList.toggle("hidden");
+            document.querySelector("body").classList.toggle("overflow-hidden");
+        });
+    });
 });
 
 
 function showSearch() {
-    document.getElementById("search-palette").classList.toggle("hidden");
+    document.getElementById("search-palette").classList.remove("hidden");
     document.getElementById("search-input").focus();
 }
 
 function hideSearch() { 
-    document.getElementById("search-palette").classList.toggle("hidden");
+    document.getElementById("search-palette").classList.add("hidden");
 }
 
 let tm = null

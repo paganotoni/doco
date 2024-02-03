@@ -11,6 +11,8 @@
 
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/medium-zoom/dist/style.css">
     
     <!-- Style for the content of the page -->
     <style type="text/tailwindcss">
@@ -240,18 +242,6 @@
         </div>
     </nav>
     
-    
-    <script src="https://cdn.jsdelivr.net/npm/fuse.js@7.0.0"></script>
-    <script src="/search.js"></script>
-    <script>
-        let toggles = document.querySelectorAll(".toggle-mobile-nav")
-        toggles.forEach(toggle => {
-            toggle.addEventListener("click", () => {
-                document.getElementById("mobile-menu").classList.toggle("hidden");
-                document.querySelector("body").classList.toggle("overflow-hidden");
-            });
-        });
-    </script>
     <script id="search-result-template" type="text/x-js-template">
         <li class="text-gray-700 group cursor-default select-none items-center rounded-md px-3 py-2 hover:text-blue-500">
             <a class="flex items-center" href="/${link}">
@@ -262,5 +252,10 @@
             </a>
         </li>
     </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/fuse.js@7.0.0"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/medium-zoom/dist/medium-zoom.min.js"></script>
+    <script src="/doco.js"></script>
 </body>
 </html>

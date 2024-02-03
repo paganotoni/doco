@@ -4,14 +4,14 @@ title: General Options
 ---
 Probably the starting point for customization are the general options. These options are used to configure the documentation site and make it look like your own. The following options are available:
 
-```markdown
+```yml
 name: Doco
-description: "Doco is a CLI tool to generate static documentation websites from markdown files."
-keywords: "keywords,for,seo"
+description: Doco is a CLI tool to generate static documentation websites from markdown files.
+keywords: keywords,for,seo
 index: -1
-favicon: "/assets/favicon.png"
-copy: "© $YEAR Doco"
-github: "https://github.com/paganotoni/doco"
+favicon: /assets/favicon.png
+copy: © $YEAR Doco
+github: https://github.com/paganotoni/doco
 ```
 
 Below is a description of each of the options:
