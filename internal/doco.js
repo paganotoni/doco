@@ -25,19 +25,6 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById("search-overlay").addEventListener('click', hideSearch);
     document.getElementById("close-search").addEventListener('click', hideSearch);
     document.getElementById("search-input").addEventListener('keyup', (e) => search(e.target.value));
-
-    document.addEventListener('keydown', (e) => {
-        if (e.keyCode === 27) {
-            hideSearch();
-        }
-
-        if (e.keyCode >= 65 && e.keyCode <= 90) {
-            let char = (e.metaKey ? '⌘-' : '') + String.fromCharCode(e.keyCode)
-            if (char == "⌘-K") {
-                showSearch();
-            }
-        }
-    })
     
     // Loading the index when the page it loaded so the search just uses it.
     fetch('/index.json')
@@ -55,19 +42,34 @@ document.addEventListener('DOMContentLoaded', () => {
 
     }).catch(error => console.error('Error:', error));
 
-    let container = document.querySelector("#zoomed-image-overlay")
-    container.addEventListener('click', () => {
-        container.classList.add("hidden");
+    let imageContainer = document.querySelector("#zoomed-image-overlay")
+    imageContainer.addEventListener('click', () => {
+        imageContainer.classList.add("hidden");
     });
 
     let zoomables = document.querySelectorAll("#htmlcontainer img");
     zoomables.forEach(zoomable => {
         zoomable.classList.add("cursor-zoom-in");
         zoomable.addEventListener('click', () => {        
-            container.classList.remove("hidden");
-            container.querySelector("img").src = zoomable.src;
+            imageContainer.classList.remove("hidden");
+            imageContainer.querySelector("img").src = zoomable.src;
         });
     });
+
+    document.addEventListener('keydown', (e) => {
+        if (e.keyCode === 27) {
+            hideSearch();
+            // hide image container
+            imageContainer.classList.add("hidden");
+        }
+
+        if (e.keyCode >= 65 && e.keyCode <= 90) {
+            let char = (e.metaKey ? '⌘-' : '') + String.fromCharCode(e.keyCode)
+            if (char == "⌘-K") {
+                showSearch();
+            }
+        }
+    })
 
 });
 
