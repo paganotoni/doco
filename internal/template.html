@@ -12,7 +12,6 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/medium-zoom/dist/style.css">
     
     <!-- Style for the content of the page -->
     <style type="text/tailwindcss">
@@ -169,10 +168,6 @@
             
             <footer class="px-5 py-8 items-center flex flex-row text-gray-400 border-t">
                 <span class="flex-grow text-sm" id="copy">{{.SiteConfig.Copy}}</span>
-                <script> 
-                    let copy = document.getElementById("copy");
-                    copy.innerHTML = copy.innerHTML.replace("$YEAR", new Date().getFullYear());
-                </script>
                 <a href="https://doco.sh" class="text-sm underline flex flex-row items-center gap-1" target="_blank">
                     Powered by <strong class="font-bold">Doco</strong>
 
@@ -252,10 +247,14 @@
             </a>
         </li>
     </script>
+    
+    <!-- Zoomed image overlay -->
+    <div id="zoomed-image-overlay" class="hidden fixed bg-gray-700/80 top-0 right-0 w-full h-full z-50 text-center px-[15%] py-[5%] cursor-zoom-out">
+        <img src="https://placehold.co/600x400" alt="image" class="w-full max-w-7xl margin-x-auto">
+    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/fuse.js@7.0.0"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/medium-zoom/dist/medium-zoom.min.js"></script>
     <script src="/doco.js"></script>
 </body>
 </html>

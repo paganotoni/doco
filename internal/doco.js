@@ -1,4 +1,21 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // Add highligthing to the code blocks
+    hljs.highlightAll();
+    
+    
+    // Adding the mobile menu toggle
+    let toggles = document.querySelectorAll(".toggle-mobile-nav")
+    toggles.forEach(toggle => {
+        toggle.addEventListener("click", () => {
+            document.getElementById("mobile-menu").classList.toggle("hidden");
+            document.querySelector("body").classList.toggle("overflow-hidden");
+        });
+    });
+    
+    // Replacing the $YEAR element with the current year
+    let copy = document.getElementById("copy");
+    copy.innerHTML = copy.innerHTML.replace("$YEAR", new Date().getFullYear());
+
     // TODO: Keyboard up and down
     // TODO: Keyboard enter to navigate to article
     document.querySelectorAll(".search-button").forEach(element => {
@@ -38,20 +55,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
     }).catch(error => console.error('Error:', error));
 
-    // Add highligthing to the code blocks
-    hljs.highlightAll();
-    
-    // Add zoom to the images
-    mediumZoom('#htmlcontainer img');
-    
-    // Adding the mobile menu toggle
-    let toggles = document.querySelectorAll(".toggle-mobile-nav")
-    toggles.forEach(toggle => {
-        toggle.addEventListener("click", () => {
-            document.getElementById("mobile-menu").classList.toggle("hidden");
-            document.querySelector("body").classList.toggle("overflow-hidden");
+    let container = document.querySelector("#zoomed-image-overlay")
+    container.addEventListener('click', () => {
+        container.classList.add("hidden");
+    });
+
+    let zoomables = document.querySelectorAll("#htmlcontainer img");
+    zoomables.forEach(zoomable => {
+        zoomable.classList.add("cursor-zoom-in");
+        zoomable.addEventListener('click', () => {        
+            container.classList.remove("hidden");
+            container.querySelector("img").src = zoomable.src;
         });
     });
+
 });
 
 
