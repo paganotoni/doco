@@ -28,10 +28,9 @@ func watch(docsFolder, dstFolder string) {
 					return
 				}
 
-				if event.Has(fsnotify.Write) {
-					build(docsFolder, dstFolder)
-					log.Println(">", event.Name, "changed, documentation rebuilt.")
-				}
+				build(docsFolder, dstFolder)
+				log.Println(">", event.Name, "changed, documentation rebuilt.")
+
 			case err, ok := <-watcher.Errors:
 				if !ok {
 					return
