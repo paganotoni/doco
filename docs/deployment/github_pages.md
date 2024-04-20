@@ -8,15 +8,15 @@ One of the easiest ways to deploy your site is to use GitHub Pages. Github pages
 
 ## Enabling GitHub Pages
 
-To enable GitHub Pages, go to your repository settings and scroll down to the GitHub Pages section. Click on the `Sources` dropdown and select `github actions` as the source. 
+To enable GitHub Pages, go to your repository settings and scroll down to the GitHub Pages section. Click on the `Sources` dropdown and select `github actions` as the source.
 
 ![Github Pages](</assets/github-pages-source.png>)
 
-Once you've selected `github actions` as the source we will need to create a workflow file. To do this we will modify the source adding a `.github/workflows/gh-pages.yml` file to your repository. 
+Once you've selected `github actions` as the source we will need to create a workflow file. To do this we will modify the source adding a `.github/workflows/gh-pages.yml` file to your repository.
 
 ```yaml
 name: Pages
-on: 
+on:
   push:
     branches:
       - main
@@ -29,7 +29,7 @@ permissions:
 concurrency:
   group: "pages"
   cancel-in-progress: false
-    
+
 jobs:
   Build:
     name: build docs
@@ -39,13 +39,12 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v2
-      - name: Setup Go ${{ matrix.go-version }}
-        uses: actions/setup-go@v4
+      - name: Setup Doco
+        run: >
+          wget https://github.com/paganotoni/doco/releases/latest/download/doco_Linux_x86_64.tar.gz &&
+          tar -xvf doco_Linux_arm64.tar.gz
 
-      - name: install doco
-        run: go install github.com/paganotoni/doco/cmd/doco@latest
-
-      - run: doco build
+      - run: ./doco build
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
