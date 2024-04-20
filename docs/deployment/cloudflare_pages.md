@@ -2,14 +2,14 @@
 title: Cloudflare Pages
 ---
 
-Cloudflare Pages is a great way to deploy your static website. It's free and it comes with a lot of features like custom domains, automatic SSL certificates, and more. To deploy your site from github to Cloudflare Pages you will need to create a new page in Cloudflare Pages. 
+Cloudflare Pages is a great way to deploy your static website. It's free and it comes with a lot of features like custom domains, automatic SSL certificates, and more. To deploy your site from github to Cloudflare Pages you will need to create a new page in Cloudflare Pages.
 
 Once that's done you can add a new file to your repository called `.github/workflows/cloudflare-pages.yml` with the following content:
 
 
 ```yaml
 name: Cloudflare Pages
-on: 
+on:
   push:
     branches:
       - main
@@ -23,17 +23,16 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v2
-      - name: Setup Go ${{ matrix.go-version }}
-        uses: actions/setup-go@v4
-
-      - name: install doco
-        run: go install github.com/paganotoni/doco/cmd/doco@latest
+      - name: Setup Doco
+        run: >
+          wget https://github.com/paganotoni/doco/releases/latest/download/doco_Linux_x86_64.tar.gz &&
+          tar -xvf doco_Linux_x86_64.tar.gz
 
       - run: doco build
       - name: Publish to Cloudflare Pages
         uses: cloudflare/pages-action@v1
         with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }} 
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           projectName: ${{ secrets.CLOUDFLARE_PROJECT_NAME }}
           directory: ./public
