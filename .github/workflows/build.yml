@@ -1,9 +1,8 @@
 name: Build and Deploy
-on: 
+on:
   push:
     branches:
       - main
-  pull_request:
 
 permissions:
   contents: read
@@ -13,7 +12,7 @@ permissions:
 concurrency:
   group: "pages"
   cancel-in-progress: false
-    
+
 jobs:
   Build:
     name: build docs
@@ -30,18 +29,13 @@ jobs:
       - name: Run tests
         run: go test -v ./...
       - name: Build doco bin
-        run: go build -o bin/doco ./cmd/doco 
+        run: go build -o bin/doco ./cmd/doco
       - name: Build docs
         run: bin/doco build
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: 'public'
+          path: "public"
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
-
-    
-
-          
-      
