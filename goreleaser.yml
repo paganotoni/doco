@@ -9,12 +9,12 @@ builds:
       - windows
     goarch:
       - amd64
-      - 386
+      - "386"
       - arm
       - arm64
     goarm:
-      - 6
-      - 7
+      - "6"
+      - "7"
 archives:
   - name_template: >-
       doco_
@@ -26,10 +26,10 @@ archives:
 checksum:
   name_template: checksums.txt
 snapshot:
-  name_template: '{{ .Tag }}-next'
+  name_template: "{{ .Tag }}-next"
 changelog:
   sort: asc
   filters:
     exclude:
-      - '^docs:'
-      - '^test:'
+      - "^docs:"
+      - "^test:"
