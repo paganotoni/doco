@@ -42,7 +42,7 @@ jobs:
       - name: Setup Doco
         run: >
           wget https://github.com/paganotoni/doco/releases/latest/download/doco_Linux_x86_64.tar.gz &&
-          tar -xvf doco_Linux_arm64.tar.gz
+          tar -xvf doco_Linux_x86_64.tar.gz
 
       - run: ./doco build
       - name: Upload artifact
