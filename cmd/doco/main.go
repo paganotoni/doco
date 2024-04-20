@@ -49,6 +49,7 @@ func main() {
 		}
 
 	case "init":
+		fmt.Println("Folder > ", docsFolder)
 		err := initialize(docsFolder)
 		if err != nil {
 			fmt.Println("ERROR:", err)
