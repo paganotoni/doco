@@ -33,6 +33,7 @@ func initialize(folder string) error {
 		"getting_started.md",
 		"assets/logo.png",
 		"assets/favicon.png",
+		"assets/preview.png",
 		"_meta.md",
 	}
 

@@ -10,6 +10,3 @@ What sets Doco apart is its delivery as a single binary, seamlessly integrating 
 With user-friendly features like sidebar navigation and a search component, Doco makes your documentation accessible and easy to navigate. It's a straightforward, effective tool for quickly generating and deploying organized documentation websites. Opt for Doco for a hassle-free, adaptable documentation solution that aligns with your continuous integration needs.
 
 ![Doco Preview](assets/preview.png "Preview of Doco")
-
-**Next**:
-[Getting Started](/getting_started.html)
