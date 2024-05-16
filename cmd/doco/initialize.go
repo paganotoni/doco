@@ -6,11 +6,13 @@ import (
 	"io"
 	"os"
 	"path/filepath"
+
+	"github.com/paganotoni/doco/docs"
 )
 
 // Generates the initial documentation structure
-func initialize(folder string) error {
-	fmt.Println("> Initializing docs folder")
+func initialize(folder string, stdout io.Writer) error {
+	fmt.Fprintln(stdout, "> Initializing docs folder")
 	_, err := os.Stat(folder)
 	if err == nil {
 		return errors.New("folder exists, aborting init")
@@ -38,7 +40,7 @@ func initialize(folder string) error {
 	}
 
 	for _, v := range files {
-		f, err := base.Open("base/" + v)
+		f, err := docs.InitFiles.Open(v)
 		if err != nil {
 			return fmt.Errorf("error opening file %s: %w", v, err)
 		}

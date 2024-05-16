@@ -32,21 +32,23 @@ func (doc document) Tokens() string {
 
 	domDocTest := html.NewTokenizer(strings.NewReader(string(doc.html)))
 	previousStartTokenTest := domDocTest.Token()
-loopDomTest:
+
+l:
 	for {
 		tt := domDocTest.Next()
 		switch {
 		case tt == html.ErrorToken:
-			break loopDomTest // End of the document,  done
+			break l
 		case tt == html.StartTagToken:
 			previousStartTokenTest = domDocTest.Token()
 		case tt == html.TextToken:
 			if previousStartTokenTest.Data == "script" {
 				continue
 			}
-			TxtContent := strings.TrimSpace(html.UnescapeString(string(domDocTest.Text())))
-			if len(TxtContent) > 0 {
-				s += TxtContent + " "
+
+			content := strings.TrimSpace(html.UnescapeString(string(domDocTest.Text())))
+			if len(content) > 0 {
+				s += content + " "
 			}
 		}
 	}

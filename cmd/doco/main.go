@@ -1,7 +1,6 @@
 package main
 
 import (
-	"embed"
 	"flag"
 	"fmt"
 	"os"
@@ -14,13 +13,7 @@ var (
 
 	// dstFolder is the folder where the resulting files
 	// will be written to
-	dstFolder = "public"
-
-	// the base folder contains the initial files
-	// that are copied to the docs folder when init rans.
-	//
-	//go:embed all:base
-	base embed.FS
+	dstFolder string
 )
 
 func init() {
@@ -49,19 +42,19 @@ func main() {
 		}
 
 	case "init":
-		err := initialize(docsFolder)
+		err := initialize(docsFolder, os.Stdout)
 		if err != nil {
 			fmt.Println("ERROR:", err)
 		}
 
 		fmt.Println("Initialized docs folder")
-	case "help":
-		printHelp(os.Stdout)
 	case "serve":
 		build(docsFolder, dstFolder)
 
 		go watch(docsFolder, dstFolder)
 		serve()
+	case "help":
+		printHelp(os.Stdout)
 	default:
 		fmt.Printf("Unknown command %s\n", args[1])
 		fmt.Println("--------")

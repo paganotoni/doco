@@ -1,6 +1,7 @@
 package internal
 
 import (
+	"cmp"
 	"io"
 	"os"
 	"path/filepath"
@@ -60,31 +61,31 @@ func readConfig(folder string) (c config, err error) {
 		return c, err
 	}
 
-	data, err := metadataFrom(content)
+	meta, err := metadataFrom(content)
 	if err != nil {
 		return c, err
 	}
 
-	c.Name = stringWithDefault(data["name"], "Doco")
-	c.Description = stringWithDefault(data["description"], "Documentation site")
-	c.Keywords = stringWithDefault(data["keywords"], "documentation, site, doco")
-	c.Copy = stringWithDefault(data["copy"], "© $YEAR Doco")
-	c.Github = stringWithDefault(data["github"], "https://github.com/paganotoni/doco")
-	c.Favicon = stringWithDefault(data["favicon"], "")
+	c.Name = cmp.Or(meta["name"].(string), "Doco")
+	c.Description = cmp.Or(meta["description"].(string), "Documentation site")
+	c.Keywords = cmp.Or(meta["keywords"].(string), "documentation, site, doco")
+	c.Copy = cmp.Or(meta["copy"].(string), "© $YEAR Doco")
+	c.Github = cmp.Or(meta["github"].(string), "https://github.com/paganotoni/doco")
+	c.Favicon = cmp.Or(meta["favicon"].(string), "")
 
-	logo, ok := data["logo"].(map[any]any)
+	logo, ok := meta["logo"].(map[any]any)
 	if ok {
-		c.Logo.Src = stringWithDefault(logo["src"], "")
-		c.Logo.Link = stringWithDefault(logo["link"], "")
+		c.Logo.Src = cmp.Or(logo["src"].(string), "")
+		c.Logo.Link = cmp.Or(logo["link"].(string), "")
 	}
 
-	announcement, ok := data["announcement"].(map[any]any)
+	announcement, ok := meta["announcement"].(map[any]any)
 	if ok {
-		c.Announcement.Text = stringWithDefault(announcement["text"], "")
-		c.Announcement.Link = stringWithDefault(announcement["link"], "")
+		c.Announcement.Text = cmp.Or(announcement["text"].(string), "")
+		c.Announcement.Link = cmp.Or(announcement["link"].(string), "")
 	}
 
-	qlinks, ok := data["quick_links"].([]any)
+	qlinks, ok := meta["quick_links"].([]any)
 	if ok {
 		for _, v := range qlinks {
 			link := v.(map[any]any)
@@ -93,14 +94,14 @@ func readConfig(folder string) (c config, err error) {
 				Link string
 				Icon string
 			}{
-				Text: stringWithDefault(link["text"], ""),
-				Link: stringWithDefault(link["link"], ""),
-				Icon: stringWithDefault(link["icon"], ""),
+				Text: cmp.Or(link["text"].(string), ""),
+				Link: cmp.Or(link["link"].(string), ""),
+				Icon: cmp.Or(link["icon"].(string), ""),
 			})
 		}
 	}
 
-	elinks, ok := data["external_links"].([]any)
+	elinks, ok := meta["external_links"].([]any)
 	if ok {
 		for _, v := range elinks {
 			link := v.(map[any]any)
@@ -108,23 +109,11 @@ func readConfig(folder string) (c config, err error) {
 				Text string
 				Link string
 			}{
-				Text: stringWithDefault(link["text"], ""),
-				Link: stringWithDefault(link["link"], ""),
+				Text: cmp.Or(link["text"].(string), ""),
+				Link: cmp.Or(link["link"].(string), ""),
 			})
 		}
 	}
 
 	return c, nil
-}
-
-// stringWithDefault allows to parse the value of a key
-// and return a default value if the key is not present or
-// the value is not a string.
-func stringWithDefault(val any, def string) string {
-	ss, ok := val.(string)
-	if ok {
-		return ss
-	}
-
-	return def
 }

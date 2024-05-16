@@ -7,16 +7,13 @@ import (
 	"testing"
 )
 
-//go:embed help.txt
-var content string
-
-func TestRun(t *testing.T) {
+func TestHelp(t *testing.T) {
 	bb := bytes.NewBuffer([]byte{})
 	if err := printHelp(bb); err != nil {
 		t.Fatal(err)
 	}
 
-	if !strings.Contains(bb.String(), content) {
+	if !strings.Contains(bb.String(), help) {
 		t.Fatal("expected output")
 	}
 
