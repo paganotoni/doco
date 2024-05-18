@@ -7,13 +7,13 @@
     <title>{{.SiteConfig.Name}} - {{.Title}} </title>
     <meta name="description" content="{{.Description}}">
     <meta name="Keywords" content="{{.Keywords}}">
-    
+
     <link rel="icon" type="image/png" href="{{.SiteConfig.Favicon}}" />
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100" rel="stylesheet" />
-    
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
     <script src="https://cdn.tailwindcss.com"></script>
-    
+
     <!-- Style for the content of the page -->
     <style type="text/tailwindcss">
        {{.Style}}
@@ -22,20 +22,20 @@
 </head>
 <body class="bg-gray-50 max-w-[1400px] mx-auto flex flex-col min-h-full">
     <header class="sticky top-0 z-40 w-full px-3 border-gray-200 bg-gray-50 border-b flex flex-row gap-8 py-4 items-center">
-       
+
         {{ if not (eq .SiteConfig.Logo.Link "") }}
             <a href="{{.SiteConfig.Logo.Link}}" class="font-bold text-xl flex flex-row gap-1 items-center">
-                <img src="{{.SiteConfig.Logo.Src}}" class="h-8" />
+                <img src="{{.SiteConfig.Logo.ImageSrc}}" class="h-8" />
             </a>
         {{ else }}
             <a href="/" class="font-bold text-xl flex flex-row gap-1 items-center">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25" />
-                </svg>  
+                </svg>
                 Doco
             </a>
         {{end}}
-        
+
         <div class="flex items-center gap-8">
             {{ if not (eq .SiteConfig.Announcement.Text "") }}
                 <a href="{{ .SiteConfig.Announcement.Link }}" class="hidden md:flex rounded-full p-3 py-1.5 bg-white border text-sm flex flex-row items-center gap-2 hover:border-gray-300">
@@ -48,7 +48,7 @@
                         <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
                     </svg>
                 </a>
-            {{ end }}            
+            {{ end }}
         </div>
         <nav class="flex-grow flex justify-end">
             <ul class="flex flex-row gap-7 font-medium hidden lg:flex border-r ">
@@ -80,7 +80,7 @@
             <div class="flex-row gap-10 hidden md:flex">
                 <div class="flex flex-row items-center justify-items-end">
                     <a href="{{.SiteConfig.Github}}" class="rounded-full hover:bg-gray-200 p-2.5">
-                        <svg viewBox="0 0 24 24" aria-hidden="true" class="h-6 w-6 fill-slate-900"><path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.463 2 11.97c0 4.404 2.865 8.14 6.839 9.458.5.092.682-.216.682-.48 0-.236-.008-.864-.013-1.695-2.782.602-3.369-1.337-3.369-1.337-.454-1.151-1.11-1.458-1.11-1.458-.908-.618.069-.606.069-.606 1.003.07 1.531 1.027 1.531 1.027.892 1.524 2.341 1.084 2.91.828.092-.643.35-1.083.636-1.332-2.22-.251-4.555-1.107-4.555-4.927 0-1.088.39-1.979 1.029-2.675-.103-.252-.446-1.266.098-2.638 0 0 .84-.268 2.75 1.022A9.607 9.607 0 0 1 12 6.82c.85.004 1.705.114 2.504.336 1.909-1.29 2.747-1.022 2.747-1.022.546 1.372.202 2.386.1 2.638.64.696 1.028 1.587 1.028 2.675 0 3.83-2.339 4.673-4.566 4.92.359.307.678.915.678 1.846 0 1.332-.012 2.407-.012 2.734 0 .267.18.577.688.48 3.97-1.32 6.833-5.054 6.833-9.458C22 6.463 17.522 2 12 2Z"></path></svg>                
+                        <svg viewBox="0 0 24 24" aria-hidden="true" class="h-6 w-6 fill-slate-900"><path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.463 2 11.97c0 4.404 2.865 8.14 6.839 9.458.5.092.682-.216.682-.48 0-.236-.008-.864-.013-1.695-2.782.602-3.369-1.337-3.369-1.337-.454-1.151-1.11-1.458-1.11-1.458-.908-.618.069-.606.069-.606 1.003.07 1.531 1.027 1.531 1.027.892 1.524 2.341 1.084 2.91.828.092-.643.35-1.083.636-1.332-2.22-.251-4.555-1.107-4.555-4.927 0-1.088.39-1.979 1.029-2.675-.103-.252-.446-1.266.098-2.638 0 0 .84-.268 2.75 1.022A9.607 9.607 0 0 1 12 6.82c.85.004 1.705.114 2.504.336 1.909-1.29 2.747-1.022 2.747-1.022.546 1.372.202 2.386.1 2.638.64.696 1.028 1.587 1.028 2.675 0 3.83-2.339 4.673-4.566 4.92.359.307.678.915.678 1.846 0 1.332-.012 2.407-.012 2.734 0 .267.18.577.688.48 3.97-1.32 6.833-5.054 6.833-9.458C22 6.463 17.522 2 12 2Z"></path></svg>
                     </a>
                 </div>
             </div>
@@ -98,7 +98,7 @@
             </button>
 
             <div class="max-h-[calc(100vh-180px)] overflow-y-scroll pb-10">
-            
+
                 <ul class="flex flex-col mb-8">
                     {{range .SiteConfig.QuickLinks}}
                         <li>
@@ -107,26 +107,26 @@
                                 {{.Text}}
                             </a>
                         </li>
-                    {{end}}                
-                    
+                    {{end}}
+
                 </ul>
 
                 <nav id="desktop-navigation">
                     {{.Navigation}}
-                </nav>            
+                </nav>
             </div>
         </aside>
 
         <section class="flex-grow flex flex-col lg:ml-[19rem]">
             <main class="flex-grow lg:px-5 px-5 py-5 text-md lg:text-lg pb-10">
                 {{ if not (eq .SectionName "") }}
-                    <span class="text-sm">{{ .SectionName }}</span>    
+                    <span class="text-sm">{{ .SectionName }}</span>
                 {{ end }}
-                
+
                 <h1 id="welcome" class="font-bold text-4xl mb-2">
                     {{ .Title }}
                 </h1>
-                
+
                 <div id="htmlcontainer" class="max-w-5xl">
                     {{ .Content }}
                 </div>
@@ -141,11 +141,11 @@
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                                             <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
                                         </svg>
-                                        {{ .Prev.Title }} 
+                                        {{ .Prev.Title }}
                                     </span>
                                 </span>
                             </a>
-                            
+
                         {{end}}
                     </div>
                     <div>
@@ -154,7 +154,7 @@
                                 <span class="flex flex-col text-right">
                                     <span class="text-base">Next </span>
                                     <span class="text-lg flex flex-row gap-2 font-bold">
-                                        {{ .Next.Title }} 
+                                        {{ .Next.Title }}
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                                             <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
                                         </svg>
@@ -165,8 +165,8 @@
                     </div>
                 </div>
             </main>
-            
-            
+
+
             <footer class="px-5 py-8 items-center flex flex-row text-gray-400 border-t">
                 <span class="flex-grow text-sm" id="copy">{{.SiteConfig.Copy}}</span>
                 <a href="https://doco.sh" class="text-sm underline flex flex-row items-center gap-1" target="_blank">
@@ -174,7 +174,7 @@
 
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
-                    </svg> 
+                    </svg>
                 </a>
             </footer>
         </section>
@@ -232,12 +232,12 @@
                             {{.Text}}
                         </a>
                     </li>
-                {{end}}                
+                {{end}}
             </ul>
             {{.Navigation}}
         </div>
     </nav>
-    
+
     <script id="search-result-template" type="text/x-js-template">
         <li class="text-gray-700 group cursor-default select-none items-center rounded-md px-3 py-2 hover:text-blue-500">
             <a class="flex items-center" href="/${link}">
@@ -248,7 +248,7 @@
             </a>
         </li>
     </script>
-    
+
     <!-- Zoomed image overlay -->
     <div id="zoomed-image-overlay" class="hidden fixed bg-white/90 top-0 right-0 w-full h-full z-50 text-center px-[15%] py-[5%] cursor-zoom-out">
         <div class="w-full">

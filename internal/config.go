@@ -1,7 +1,6 @@
 package internal
 
 import (
-	"cmp"
 	"io"
 	"os"
 	"path/filepath"
@@ -21,28 +20,19 @@ type config struct {
 	Keywords    string
 	Github      string // Github link to display, empty means no link
 
-	Announcement struct {
-		Text string // Text to display, empty means no announcement
-		Link string
-	}
-
-	Logo struct {
-		Link string
-		Src  string
-	}
-
-	QuickLinks []struct {
-		Text string
-		Link string
-		Icon string
-	}
-
-	ExternalLinks []struct {
-		Text string
-		Link string
-	}
+	Logo          link
+	Announcement  link
+	ExternalLinks []link
+	QuickLinks    []link
 
 	Copy string
+}
+
+type link struct {
+	Text     string
+	Link     string
+	Icon     string
+	ImageSrc string
 }
 
 // readConfig parses the _meta.md file and returns the config
@@ -66,37 +56,42 @@ func readConfig(folder string) (c config, err error) {
 		return c, err
 	}
 
-	c.Name = cmp.Or(meta["name"].(string), "Doco")
-	c.Description = cmp.Or(meta["description"].(string), "Documentation site")
-	c.Keywords = cmp.Or(meta["keywords"].(string), "documentation, site, doco")
-	c.Copy = cmp.Or(meta["copy"].(string), "© $YEAR Doco")
-	c.Github = cmp.Or(meta["github"].(string), "https://github.com/paganotoni/doco")
-	c.Favicon = cmp.Or(meta["favicon"].(string), "")
+	def := func(val any, defs string) string {
+		v, ok := val.(string)
+		if !ok || v == "" {
+			return defs
+		}
+
+		return v
+	}
+
+	c.Name = def(meta["name"], "Doco")
+	c.Description = def(meta["description"], "Documentation site")
+	c.Keywords = def(meta["keywords"], "documentation, site, doco")
+	c.Copy = def(meta["copy"], "© $YEAR Doco")
+	c.Github = def(meta["github"], "https://github.com/paganotoni/doco")
+	c.Favicon = def(meta["favicon"], "")
 
 	logo, ok := meta["logo"].(map[any]any)
 	if ok {
-		c.Logo.Src = cmp.Or(logo["src"].(string), "")
-		c.Logo.Link = cmp.Or(logo["link"].(string), "")
+		c.Logo.ImageSrc = def(logo["src"], "")
+		c.Logo.Link = def(logo["link"], "")
 	}
 
 	announcement, ok := meta["announcement"].(map[any]any)
 	if ok {
-		c.Announcement.Text = cmp.Or(announcement["text"].(string), "")
-		c.Announcement.Link = cmp.Or(announcement["link"].(string), "")
+		c.Announcement.Text = def(announcement["text"], "")
+		c.Announcement.Link = def(announcement["link"], "")
 	}
 
 	qlinks, ok := meta["quick_links"].([]any)
 	if ok {
 		for _, v := range qlinks {
-			link := v.(map[any]any)
-			c.QuickLinks = append(c.QuickLinks, struct {
-				Text string
-				Link string
-				Icon string
-			}{
-				Text: cmp.Or(link["text"].(string), ""),
-				Link: cmp.Or(link["link"].(string), ""),
-				Icon: cmp.Or(link["icon"].(string), ""),
+			l := v.(map[any]any)
+			c.QuickLinks = append(c.QuickLinks, link{
+				Text: def(l["text"], ""),
+				Link: def(l["link"], ""),
+				Icon: def(l["icon"], ""),
 			})
 		}
 	}
@@ -104,13 +99,10 @@ func readConfig(folder string) (c config, err error) {
 	elinks, ok := meta["external_links"].([]any)
 	if ok {
 		for _, v := range elinks {
-			link := v.(map[any]any)
-			c.ExternalLinks = append(c.ExternalLinks, struct {
-				Text string
-				Link string
-			}{
-				Text: cmp.Or(link["text"].(string), ""),
-				Link: cmp.Or(link["link"].(string), ""),
+			l := v.(map[any]any)
+			c.ExternalLinks = append(c.ExternalLinks, link{
+				Text: def(l["text"], ""),
+				Link: def(l["link"], ""),
 			})
 		}
 	}
