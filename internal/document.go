@@ -6,6 +6,7 @@ import (
 	"path/filepath"
 	"strings"
 
+	"github.com/paganotoni/doco/internal/markdown"
 	"golang.org/x/net/html"
 )
 
@@ -32,7 +33,6 @@ func (doc document) Tokens() string {
 
 	domDocTest := html.NewTokenizer(strings.NewReader(string(doc.html)))
 	previousStartTokenTest := domDocTest.Token()
-
 l:
 	for {
 		tt := domDocTest.Next()
@@ -60,12 +60,12 @@ l:
 // and returns a parsed document with the metadata applied.
 func NewDocument(path string, content []byte) (document, error) {
 	// Parse the metadata and apply it to the document
-	meta, err := metadataFrom(content)
+	meta, err := markdown.ReadMetadata(content)
 	if err != nil {
 		return document{}, fmt.Errorf("error parsing metadata for %v: %w", path, err)
 	}
 
-	html, err := htmlFrom(content)
+	html, err := markdown.HTMLFrom(content)
 	if err != nil {
 		return document{}, fmt.Errorf("error generating html for %v: %w", path, err)
 	}

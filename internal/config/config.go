@@ -1,9 +1,11 @@
-package internal
+package config
 
 import (
 	"io"
 	"os"
 	"path/filepath"
+
+	"github.com/paganotoni/doco/internal/markdown"
 )
 
 const (
@@ -13,32 +15,32 @@ const (
 )
 
 // config of the general elements of the site.
-type config struct {
+type Site struct {
 	Name        string
 	Favicon     string
 	Description string
 	Keywords    string
 	Github      string // Github link to display, empty means no link
 
-	Logo          link
-	Announcement  link
-	ExternalLinks []link
-	QuickLinks    []link
+	Logo          Link
+	Announcement  Link
+	ExternalLinks []Link
+	QuickLinks    []Link
 
 	Copy string
 }
 
-type link struct {
+type Link struct {
 	Text     string
 	Link     string
 	Icon     string
 	ImageSrc string
 }
 
-// readConfig parses the _meta.md file and returns the config
+// Read parses the _meta.md file and returns the config
 // for the site.
 // TODO: change this to receive the file access (fs package?) instead of the folder.
-func readConfig(folder string) (c config, err error) {
+func Read(folder string) (c Site, err error) {
 	file, err := os.Open(filepath.Join(folder, metafile))
 	if err != nil {
 		return c, err
@@ -51,7 +53,7 @@ func readConfig(folder string) (c config, err error) {
 		return c, err
 	}
 
-	meta, err := metadataFrom(content)
+	meta, err := markdown.ReadMetadata(content)
 	if err != nil {
 		return c, err
 	}
@@ -88,7 +90,7 @@ func readConfig(folder string) (c config, err error) {
 	if ok {
 		for _, v := range qlinks {
 			l := v.(map[any]any)
-			c.QuickLinks = append(c.QuickLinks, link{
+			c.QuickLinks = append(c.QuickLinks, Link{
 				Text: def(l["text"], ""),
 				Link: def(l["link"], ""),
 				Icon: def(l["icon"], ""),
@@ -100,7 +102,7 @@ func readConfig(folder string) (c config, err error) {
 	if ok {
 		for _, v := range elinks {
 			l := v.(map[any]any)
-			c.ExternalLinks = append(c.ExternalLinks, link{
+			c.ExternalLinks = append(c.ExternalLinks, Link{
 				Text: def(l["text"], ""),
 				Link: def(l["link"], ""),
 			})
