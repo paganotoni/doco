@@ -7,7 +7,8 @@ import (
 )
 
 // copyDir copies a directory recursively from src to dst
-// src and dst must be absolute paths
+// src and dst must be absolute paths. This is useful to copy the
+// assets recursively.
 func copyDir(src string, dst string) error {
 	return filepath.Walk(src, func(path string, info os.FileInfo, err error) error {
 		if err != nil {
