@@ -9,6 +9,4 @@ Introducing Doco: a practical and adaptable documentation generator for entrepre
 
 What sets Doco apart is its delivery as a single binary, seamlessly integrating into any continuous integration workflow. This feature ensures that Doco fits effortlessly into your existing development process, enhancing productivity without disrupting your workflow.
 
-![Doco Preview](assets/preview.png "Preview of Doco")
-
 With user-friendly features like sidebar navigation and a search component, Doco makes your documentation accessible and easy to navigate. It's a straightforward, effective tool for quickly generating and deploying organized documentation websites. Opt for Doco for a hassle-free, adaptable documentation solution that aligns with your continuous integration needs.
