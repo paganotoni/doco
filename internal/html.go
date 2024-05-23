@@ -112,15 +112,15 @@ func page(s config.Site, g generatedPage, content ElementRenderer) ElementRender
 		BODY().CLASS("bg-gray-50 max-w-[1400px] mx-auto flex flex-col min-h-full").Children(
 			HEADER().CLASS("sticky top-0 z-40 w-full px-3 border-gray-200 bg-gray-50 border-b flex flex-row gap-8 py-4 items-center").Children(
 				SPAN().IfChildren(
-					s.Announcement.Text == "",
-					IMG().CLASS("h-8").SRC(s.Logo.ImageSrc),
-				).IfChildren(
 					s.Announcement.Text != "",
+					IMG().CLASS("h-7").SRC(s.Logo.ImageSrc),
+				).IfChildren(
+					s.Announcement.Text == "",
 					A().HREF("/").CLASS("font-bold text-xl flex flex-row gap-1 items-center").Children(
 						SPAN().Text(
 							`<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                    	<path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25" />
-                     </svg>`,
+                    			<path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25" />
+                       		</svg>`,
 						),
 						SPAN().Text("Doco"),
 					),
