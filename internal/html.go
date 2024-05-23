@@ -95,7 +95,7 @@ func (g generatedPage) html(s config.Site, w io.Writer) error {
 func page(s config.Site, g generatedPage, content ElementRenderer) ElementRenderer {
 	return HTML().LANG("en").CLASS("h-full").Children(
 		HEAD().Children(
-			TITLE().TITLEF("%s - %s", s.Name, g.Title),
+			TITLE().TextF("%s - %s", s.Name, g.Title),
 
 			META().CHARSET("utf-8"),
 			META().NAME("viewport").CONTENT("width=device-width, initial-scale=1"),
