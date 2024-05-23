@@ -4,49 +4,12 @@ import (
 	_ "embed"
 	"encoding/json"
 	"fmt"
-	"html/template"
 	"os"
 	"path/filepath"
 	"strings"
+
+	"github.com/paganotoni/doco/internal/config"
 )
-
-var (
-	//go:embed doco.css
-	style []byte
-
-	//go:embed doco.js
-	docoJS []byte
-
-	//go:embed template.html
-	tmplHTML []byte
-	tmpl     = template.Must(template.New("doco").Parse(string(tmplHTML)))
-)
-
-type navlink struct {
-	Title string `json:"-"`
-	Link  string `json:"-"`
-}
-
-// generatedPage is the data passed to the template
-// to generate the static html files.
-type generatedPage struct {
-	SiteConfig config `json:"-"`
-
-	Title       string `json:"title"`
-	Description string `json:"description"`
-	Keywords    string `json:"keywords"`
-
-	SectionName string        `json:"section_name"`
-	Content     template.HTML `json:"-"`
-	Link        string        `json:"link"`
-	filePath    string        `json:"-"`
-	Tokens      string        `json:"content"`
-
-	Prev       navlink       `json:"-"`
-	Next       navlink       `json:"-"`
-	Style      template.CSS  `json:"-"`
-	Navigation template.HTML `json:"-"`
-}
 
 // Generates the static html files for the site
 // and writes them to the destination folder.
@@ -63,7 +26,7 @@ func Generate(srcFolder, dstFolder string, site *site) error {
 		return err
 	}
 
-	conf, err := readConfig(srcFolder)
+	conf, err := config.Read(srcFolder)
 	if err != nil {
 		return err
 	}
@@ -89,8 +52,7 @@ func Generate(srcFolder, dstFolder string, site *site) error {
 			name = underscore(name)
 
 			data := generatedPage{
-				filePath:   filepath.Join(dstFolder, v.path, name),
-				SiteConfig: conf,
+				filePath: filepath.Join(dstFolder, v.path, name),
 
 				Title:       doc.title,
 				Description: doc.description,
@@ -100,10 +62,9 @@ func Generate(srcFolder, dstFolder string, site *site) error {
 				Link:        filepath.Join(v.path, name),
 
 				Content: doc.html,
-				Style:   template.CSS(style),
 				Tokens:  doc.Tokens(),
 
-				Navigation: desktopNavigation(site, doc),
+				Navigation: buildNavigation(site, doc),
 			}
 
 			if data.Keywords == "" {
@@ -137,7 +98,7 @@ func Generate(srcFolder, dstFolder string, site *site) error {
 			return err
 		}
 
-		err = tmpl.Execute(file, v)
+		err = v.html(conf, file)
 		if err != nil {
 			return err
 		}
