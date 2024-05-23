@@ -4,6 +4,8 @@
 
 Doco is a documentation website generator for your projects written in Go. It takes a folder with markdown files and generates a deployable static website.
 
+![Doco Banner](docs/assets/banner.png "Doco Banner")
+
 ## Installation
 
 ```sh
