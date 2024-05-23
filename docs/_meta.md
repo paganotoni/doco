@@ -1,28 +1,29 @@
 ----
-# Name of the website, is used on the pages description and 
+# Name of the website, is used on the pages description and
 # In the meta tags.
 name: Doco
 description: "Doco is a CLI tool to generate static documentation websites from markdown files."
 keywords: "keywords,for,seo"
+ogimage: "/assets/ogimage.png"
 
 # Index defines where the pages in the root will be positioned.
 index: -1
 favicon: "/assets/favicon.png"
 
-logo: 
+logo:
   src: "/assets/logo.png"
   link: "/"
 
 
 # Announcement is shown on the top of the site
 # next to the site logo
-announcement: 
+announcement:
   text: "Check our Github repository."
   link: "https://github.com/paganotoni/doco"
 
 # Social links are shown on the top right of the site
 # next to the CTA button.
-github: "https://github.com/paganotoni/doco" 
+github: "https://github.com/paganotoni/doco"
 
 # External links go in the top navigation bar.
 external_links:
@@ -42,7 +43,7 @@ quick_links:
 
 
 # CTA button shows on the top right of the site.
-# cta: 
+# cta:
 #  text: "Star on Github"
 #  link: "https://github.com/paganotoni/doco"
 
