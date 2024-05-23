@@ -213,9 +213,8 @@ func page(s config.Site, g generatedPage, content ElementRenderer) ElementRender
 					FOOTER().CLASS("px-5 py-8 items-center flex flex-row text-gray-400 border-t").Children(
 						SPAN().CLASS("flex-grow text-sm").ID("copy").Text(s.Copy),
 						A().HREF("https://doco.sh").CLASS("text-sm underline flex flex-row items-center gap-1").TARGET("_blank").Children(
-							SPAN().Text("Powered By").Children(
-								STRONG().CLASS("font-bold").Text("Doco"),
-							),
+							SPAN().Text("Powered By"),
+							STRONG().CLASS("font-bold").Text("Doco"),
 
 							SPAN().Text(
 								`<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
