@@ -13,13 +13,14 @@ keywords: "keywords,for,seo"
 index: -1
 favicon: "/assets/favicon.png"
 copy: "© $YEAR Doco"
-github: "https://github.com/paganotoni/doco" 
+github: "https://github.com/paganotoni/doco"
+ogimage: "/assets/ogimage.png"
 
-logo: 
+logo:
   src: "/assets/logo.png"
   link: "https://doco.paganotoni.com"
 
-announcement: 
+announcement:
   text: "Check our Github repository"
   link: "https://github.com/paganotoni/doco"
 
@@ -43,4 +44,3 @@ The following sections will explain each of the options available in the `_meta.
 - Quick Links
 - External Links
 - Announcement
-

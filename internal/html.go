@@ -108,6 +108,18 @@ func page(s config.Site, g generatedPage, content ElementRenderer) ElementRender
 
 			SCRIPT().SRC("https://cdn.tailwindcss.com"),
 			STYLE().TYPE("text/tailwindcss").Text(string(style)),
+		).IfChildren(
+			s.OGImage != "",
+
+			META().Attr("property", "og:title").CONTENTF("%s - %s", s.Name, g.Title),
+			META().Attr("property", "og:description").CONTENT(g.Description),
+			META().Attr("property", "og:image").CONTENT(s.OGImage),
+			META().Attr("property", "og:type").CONTENT("website"),
+			META().Attr("property", "twitter:card").CONTENT("summary_large_image"),
+			META().Attr("property", "twitter:title").CONTENTF("%s - %s", s.Name, g.Title),
+			META().Attr("property", "twitter:description").CONTENT(g.Description),
+			META().Attr("property", "twitter:image").CONTENT(s.OGImage),
+			META().Attr("property", "twitte:type").CONTENT("website"),
 		),
 		BODY().CLASS("bg-gray-50 max-w-[1400px] mx-auto flex flex-col min-h-full").Children(
 			HEADER().CLASS("sticky top-0 z-40 w-full px-3 border-gray-200 bg-gray-50 border-b flex flex-row gap-8 py-4 items-center").Children(

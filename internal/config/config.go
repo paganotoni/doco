@@ -27,7 +27,8 @@ type Site struct {
 	ExternalLinks []Link
 	QuickLinks    []Link
 
-	Copy string
+	Copy    string
+	OGImage string
 }
 
 type Link struct {
@@ -73,6 +74,7 @@ func Read(folder string) (c Site, err error) {
 	c.Copy = def(meta["copy"], "© $YEAR Doco")
 	c.Github = def(meta["github"], "https://github.com/paganotoni/doco")
 	c.Favicon = def(meta["favicon"], "")
+	c.OGImage = def(meta["ogimage"], "")
 
 	logo, ok := meta["logo"].(map[any]any)
 	if ok {
