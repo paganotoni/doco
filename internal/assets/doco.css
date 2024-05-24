@@ -1,24 +1,26 @@
- /* for line numbers */
- #htmlcontainer [class*="language-"] {
+/* for line numbers */
+body {
+    @apply text-[#0f172a];
+}
+#htmlcontainer [class*="language-"] {
     counter-reset: linenumber;
 }
 
 #htmlcontainer pre {
     @apply inline overflow-auto;
-    
-    white-space: pre-wrap;       /* css-3 */
-    white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
-    white-space: -pre-wrap;      /* Opera 4-6 */
-    white-space: -o-pre-wrap;    /* Opera 7 */
-    word-wrap: break-word;       /* Internet Explorer 5.5+ */
-    
+
+    white-space: pre-wrap; /* css-3 */
+    white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
+    white-space: -pre-wrap; /* Opera 4-6 */
+    white-space: -o-pre-wrap; /* Opera 7 */
+    word-wrap: break-word; /* Internet Explorer 5.5+ */
 }
 
-#htmlcontainer h1, 
-#htmlcontainer h2, 
-#htmlcontainer h3, 
-#htmlcontainer h4, 
-#htmlcontainer h5, 
+#htmlcontainer h1,
+#htmlcontainer h2,
+#htmlcontainer h3,
+#htmlcontainer h4,
+#htmlcontainer h5,
 #htmlcontainer h6 {
     @apply font-bold mb-2;
 }
@@ -27,27 +29,27 @@
     @apply text-lg;
 }
 
-#htmlcontainer h1{
+#htmlcontainer h1 {
     @apply text-4xl font-bold;
 }
 
-#htmlcontainer h2{
+#htmlcontainer h2 {
     @apply text-2xl;
 }
 
-#htmlcontainer h3{
+#htmlcontainer h3 {
     @apply text-xl;
 }
 
-#htmlcontainer h4{
+#htmlcontainer h4 {
     @apply text-lg;
 }
 
-#htmlcontainer p{
+#htmlcontainer p {
     @apply text-lg mb-4;
 }
 
-#htmlcontainer a{
+#htmlcontainer a {
     @apply text-base underline text-blue-500;
 }
 
@@ -55,7 +57,7 @@
     @apply list-disc list-inside ml-5 mb-4;
 }
 
-#htmlcontainer ul li{
+#htmlcontainer ul li {
     @apply list-disc list-inside;
 }
 
@@ -63,7 +65,7 @@
     @apply list-decimal list-inside ml-5 mb-4;
 }
 
-#htmlcontainer ol li{
+#htmlcontainer ol li {
     @apply list-decimal list-inside;
 }
 
@@ -91,7 +93,7 @@
     @apply mb-0 text-lg;
 }
 
-#htmlcontainer  p img {
+#htmlcontainer p img {
     @apply m-8 border border-gray-200 rounded-xl max-w-[90%];
 }
 
@@ -100,23 +102,23 @@
 }
 
 #desktop-navigation ul {
-    @apply flex flex-col mb-5 gap-1 border-collapse border-l-[2px];
+    @apply flex flex-col mb-5 border-collapse border-l-[2px];
 }
 
-#desktop-navigation ul li a{
-    @apply -ml-px flex flex-row hover:underline py-1 px-4 border-l-[2px];
+#desktop-navigation ul li a {
+    @apply -ml-px flex flex-row hover:underline py-1 px-4 border-l-[2px] text-[#2D31A6];
 }
 
-#desktop-navigation ul li.active a{
-    @apply border-gray-600;
+#desktop-navigation ul li.active a {
+    @apply border-l-[2px] border-[#6172F3];
 }
 
 nav.documents {
-    overflow: scroll
+    overflow: scroll;
 }
 
 nav.documents a {
-    @apply text-lg mb-2 md:text-base md:mb-1;
+    @apply text-lg md:text-base;
 }
 
 nav .quicklinks a {
@@ -127,14 +129,19 @@ nav.documents ul {
     @apply mb-2 md:mb-0;
 }
 
-nav.documents ul li, nav.documents h3 {
+nav.documents ul li,
+nav.documents h3 {
     @apply px-3 md:px-0;
+}
+nav.documents ul li a {
+    @apply border-l-0;
 }
 
 nav.documents h3 {
     @apply text-base font-bold md:text-sm md:font-medium md:mb-3 md:tracking-wide;
 }
 
-.medium-zoom-overlay, .medium-zoom-image--opened {
+.medium-zoom-overlay,
+.medium-zoom-image--opened {
     z-index: 999;
 }
