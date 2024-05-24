@@ -167,15 +167,15 @@ func page(s config.Site, g generatedPage, content ElementRenderer) ElementRender
 
 				// Search button
 				DIV().CLASS("md:hidden flex flex-row gap-4 items-center").Children(
-					SPAN().CLASS("search-button").Children(
-						SVG_SVG().CLASS("w-6 h-6").VIEW_BOX("0 0 24 24").Attr("stroke-width", "1.5").Attr("stroke", "currentColor").Children(
-							SVG_PATH().Attr("stroke-linecap", "round").Attr("stroke-linejoin", "round").D("m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"),
-						),
+					SPAN().CLASS("search-button").Text(
+						`<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+							<path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+						</svg>`,
+					),
 
-						SPAN().CLASS("toggle-mobile-nav").Children(
-							SVG_SVG().CLASS("w-8 h-8").VIEW_BOX("0 0 24 24").Attr("stroke-width", "2").Attr("stroke", "currentColor").Children(
-								SVG_PATH().Attr("stroke-linecap", "round").Attr("stroke-linejoin", "round").D("M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"),
-							),
+					SPAN().CLASS("toggle-mobile-nav").Children(
+						SVG_SVG().CLASS("w-8 h-8").VIEW_BOX("0 0 24 24").Attr("stroke-width", "2").Attr("stroke", "currentColor").Children(
+							SVG_PATH().Attr("stroke-linecap", "round").Attr("stroke-linejoin", "round").D("M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"),
 						),
 					),
 				),
@@ -189,9 +189,6 @@ func page(s config.Site, g generatedPage, content ElementRenderer) ElementRender
 								<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32px" height="32px"><path fill-rule="evenodd" d="M 16 4 C 9.371094 4 4 9.371094 4 16 C 4 21.300781 7.4375 25.800781 12.207031 27.386719 C 12.808594 27.496094 13.027344 27.128906 13.027344 26.808594 C 13.027344 26.523438 13.015625 25.769531 13.011719 24.769531 C 9.671875 25.492188 8.96875 23.160156 8.96875 23.160156 C 8.421875 21.773438 7.636719 21.402344 7.636719 21.402344 C 6.546875 20.660156 7.71875 20.675781 7.71875 20.675781 C 8.921875 20.761719 9.554688 21.910156 9.554688 21.910156 C 10.625 23.746094 12.363281 23.214844 13.046875 22.910156 C 13.15625 22.132813 13.46875 21.605469 13.808594 21.304688 C 11.144531 21.003906 8.34375 19.972656 8.34375 15.375 C 8.34375 14.0625 8.8125 12.992188 9.578125 12.152344 C 9.457031 11.851563 9.042969 10.628906 9.695313 8.976563 C 9.695313 8.976563 10.703125 8.65625 12.996094 10.207031 C 13.953125 9.941406 14.980469 9.808594 16 9.804688 C 17.019531 9.808594 18.046875 9.941406 19.003906 10.207031 C 21.296875 8.65625 22.300781 8.976563 22.300781 8.976563 C 22.957031 10.628906 22.546875 11.851563 22.421875 12.152344 C 23.191406 12.992188 23.652344 14.0625 23.652344 15.375 C 23.652344 19.984375 20.847656 20.996094 18.175781 21.296875 C 18.605469 21.664063 18.988281 22.398438 18.988281 23.515625 C 18.988281 25.121094 18.976563 26.414063 18.976563 26.808594 C 18.976563 27.128906 19.191406 27.503906 19.800781 27.386719 C 24.566406 25.796875 28 21.300781 28 16 C 28 9.371094 22.628906 4 16 4 Z"/></svg>
 							</svg>`,
 						),
-						// SVG_SVG().CLASS("w-5 h-5").VIEW_BOX("0 0 24 24").Attr("stroke-width", "1.2").Attr("stroke", "currentColor").Children(
-						// 	SVG_PATH().Attr("stroke-linecap", "round").Attr("stroke-linejoin", "round").D("M10.34 15.84c-.688-.06-1.386-.09-2.09-.09H7.5a4.5 4.5 0 1 1 0-9h.75c.704 0 1.402-.03 2.09-.09m0 9.18c.253.962.584 1.892.985 2.783.247.55.06 1.21-.463 1.511l-.657.38c-.551.318-1.26.117-1.527-.461a20.845 20.845 0 0 1-1.44-4.282m3.102.069a18.03 18.03 0 0 1-.59-4.59c0-1.586.205-3.124.59-4.59m0 9.18a23.848 23.848 0 0 1 8.835 2.535M10.34 6.66a23.847 23.847 0 0 0 8.835-2.535m0 0A23.74 23.74 0 0 0 18.795 3m.38 1.125a23.91 23.91 0 0 1 1.014 5.395m-1.014 8.855c-.118.38-.245.754-.38 1.125m.38-1.125a23.91 23.91 0 0 0 1.014-5.395m0-3.46c.495.413.811 1.035.811 1.73 0 .695-.316 1.317-.811 1.73m0-3.46a24.347 24.347 0 0 1 0 3.46"),
-						// ),
 					),
 				),
 			),
@@ -299,21 +296,41 @@ func page(s config.Site, g generatedPage, content ElementRenderer) ElementRender
 
 			// Mobile menu
 			NAV().ID("mobile-menu").CLASS("hidden overflow-scroll bg-gray-400/90 z-50 fixed right-0 left-0 top-0 bottom-0 h-screen w-screen").Children(
-				SPAN().CLASS("toggle-mobile-nav fixed top-10 right-10").Children(
+
+				SPAN().CLASS("toggle-mobile-nav fixed top-6 right-10").Children(
 					SVG_SVG().CLASS("w-6 h-6").Attr("xmlns", "http://www.w3.org/2000/svg").Attr("fill", "none").VIEW_BOX("0 0 24 24").Attr("stroke-width", "2").Attr("stroke", "currentColor").Children(
 						SVG_PATH().Attr("stroke-linecap", "round").Attr("stroke-linejoin", "round").D("M6 18 18 6M6 6l12 12"),
 					),
 				),
-				DIV().CLASS("bg-white max-w-[calc(100vw-100px)] py-6 px-4").Children(
+				DIV().CLASS("bg-white py-5 px-5 h-full").Children(
+					SPAN().IfChildren(
+						s.Announcement.Text != "",
+						IMG().CLASS("h-7 mb-8").SRC(s.Logo.ImageSrc),
+					).IfChildren(
+						s.Announcement.Text == "",
+						A().HREF("/").CLASS("font-bold text-xl flex flex-row gap-1 items-center").Children(
+							SPAN().Text(
+								`<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                    			<path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25" />
+                       		</svg>`,
+							),
+							SPAN().Text("Doco"),
+						),
+					),
+
 					UL().CLASS("quicklinks flex flex-col mb-8").Children(
 						Range(s.QuickLinks, func(i config.Link) ElementRenderer {
 							return LI().Children(
-								A().HREF(i.Link).CLASS("flex flex-row gap-2 p-1.5 rounded-lg hover:bg-gray-200/80").Children(
+								A().HREF(i.Link).CLASS("flex flex-row items-center gap-2 p-1.5 rounded-lg hover:bg-gray-200/80").Children(
 									SPAN().CLASS("material-symbols-outlined").Text(i.Icon),
 								).Text(i.Text),
 							)
 						}),
 					),
+
+					// NAV().ID("mobile-navigation").Children(
+					// 	g.Navigation,
+					// ),
 				),
 			),
 
