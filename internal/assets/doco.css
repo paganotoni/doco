@@ -22,7 +22,7 @@ body {
 #htmlcontainer h4,
 #htmlcontainer h5,
 #htmlcontainer h6 {
-    @apply font-bold mb-2;
+    @apply font-bold mb-2 mt-6;
 }
 
 #htmlcontainer {
