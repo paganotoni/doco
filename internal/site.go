@@ -15,7 +15,7 @@ import (
 // this site will be used to generate the static html files.
 func NewSite(folder string) (*site, error) {
 	site := &site{
-		sections: sections{},
+		Sections: sections{},
 	}
 
 	err := filepath.Walk(folder, func(path string, d os.FileInfo, err error) error {
@@ -49,7 +49,7 @@ func NewSite(folder string) (*site, error) {
 	})
 
 	// Adding indexes to the sections
-	for i, v := range site.sections {
+	for i, v := range site.Sections {
 		metaFile := filepath.Join(folder, v.path, "_meta.md")
 
 		f, err := os.Open(metaFile)
@@ -62,7 +62,7 @@ func NewSite(folder string) (*site, error) {
 			meta, err := markdown.ReadMetadata(bb)
 			if err == nil {
 				var ok bool
-				site.sections[i].index, ok = meta["index"].(int)
+				site.Sections[i].index, ok = meta["index"].(int)
 				if !ok {
 					// 10 million to make sure it is the last one by default
 					v.index = 10_000_000
@@ -72,11 +72,11 @@ func NewSite(folder string) (*site, error) {
 	}
 
 	// Sort site secitons by index
-	sort.Sort(site.sections)
+	sort.Sort(site.Sections)
 
 	// Sort documents
-	for i := range site.sections {
-		sort.Sort(site.sections[i].documents)
+	for i := range site.Sections {
+		sort.Sort(site.Sections[i].Documents)
 	}
 
 	return site, err
@@ -88,12 +88,12 @@ func NewSite(folder string) (*site, error) {
 type site struct {
 	Name string
 
-	sections sections
+	Sections sections
 }
 
 func (s *site) String() string {
 	pp := "Site: \n"
-	for _, sec := range s.sections {
+	for _, sec := range s.Sections {
 		pp += "   Section: " + sec.String()
 	}
 
@@ -108,41 +108,41 @@ func (s *site) Add(path string, doc document) error {
 		secName = ""
 	}
 
-	for i, v := range s.sections {
-		if v.name == secName {
+	for i, v := range s.Sections {
+		if v.Name == secName {
 			doc.section = &v
-			v.documents = append(v.documents, doc)
-			s.sections[i] = v
+			v.Documents = append(v.Documents, doc)
+			s.Sections[i] = v
 
 			return nil
 		}
 	}
 
 	sec := section{
-		name: secName,
+		Name: secName,
 		path: filepath.Dir(path),
 	}
 
 	doc.section = &sec
-	sec.documents = append(sec.documents, doc)
+	sec.Documents = append(sec.Documents, doc)
 
-	s.sections = append(s.sections, sec)
+	s.Sections = append(s.Sections, sec)
 	return nil
 }
 
 // A section is a group of documents that are in the same folder.
 // The section name is the folder name.
 type section struct {
-	name  string
+	Name  string
 	path  string
 	index int
 
-	documents documents
+	Documents documents
 }
 
 func (s *section) String() string {
-	pp := s.name + "\n"
-	for _, doc := range s.documents {
+	pp := s.Name + "\n"
+	for _, doc := range s.Documents {
 		pp += "      " + doc.String() + "\n"
 	}
 

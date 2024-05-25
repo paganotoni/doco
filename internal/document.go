@@ -2,6 +2,7 @@ package internal
 
 import (
 	"fmt"
+	"path"
 	"path/filepath"
 	"strings"
 
@@ -43,7 +44,7 @@ func NewDocument(path string, content []byte) (document, error) {
 		filename: filepath.Base(path),
 
 		index:       index,
-		title:       title,
+		Title:       title,
 		description: description,
 		keywords:    keywords,
 		markdown:    content,
@@ -56,7 +57,7 @@ func NewDocument(path string, content []byte) (document, error) {
 // it contains the metadata and the content of the document.
 type document struct {
 	filename    string
-	title       string
+	Title       string
 	index       int
 	description string
 	keywords    string
@@ -69,16 +70,19 @@ type document struct {
 func (doc document) String() string {
 	return fmt.Sprintf(
 		"Document: %s",
-		strings.Join([]string{strings.TrimSpace(doc.section.name), doc.title}, " - "),
+		strings.Join([]string{strings.TrimSpace(doc.section.Name), doc.Title}, " - "),
 	)
 }
 
 func (doc document) Link() string {
-	return "/" + strings.TrimSuffix(doc.filename, ".md") + ".html"
+	return path.Join(
+		doc.section.path,
+		strings.TrimSuffix(doc.filename, ".md")+".html",
+	)
 }
 
 func (doc document) FileName() string {
-	return filepath.Join(
+	return path.Join(
 		doc.section.path,
 		strings.TrimSuffix(doc.filename, ".md")+".html",
 	)

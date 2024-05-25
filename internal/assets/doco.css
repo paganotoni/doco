@@ -101,7 +101,7 @@ body {
     @apply text-gray-500 no-underline;
 }
 
-#desktop-navigation ul {
+#desktop-navigation ul ul {
     @apply flex flex-col mb-5 border-collapse border-l-[2px];
 }
 

@@ -36,7 +36,7 @@ var (
 
 // Generates the static html files for the site
 // and writes them to the destination folder.
-func Generate(srcFolder, destination string, site *site) error {
+func Generate(srcFolder, destination string, s *site) error {
 	// Cleanup the folder
 	err := os.RemoveAll(destination)
 	if err != nil {
@@ -50,40 +50,43 @@ func Generate(srcFolder, destination string, site *site) error {
 
 	// Generate pages for each of the sections and documents inside them
 	// and write them to the destination folder.
-	for _, v := range site.sections {
+	for _, v := range s.Sections {
 		err := os.MkdirAll(filepath.Join(destination, v.path), os.ModePerm)
 		if err != nil {
 			return err
 		}
 
-		for _, doc := range v.documents {
+		for _, doc := range v.Documents {
 			bb := bytes.NewBuffer([]byte{})
 			err = pageTmpl.Execute(bb, struct {
-				Site config.Site
+				Config config.Site
+				Site   *site
 
 				Title       string
-				Name        string
 				SectionName string
 				Description string
 				Keywords    string
+				Link        string
+
+				Markdown []byte
+				Style    template.CSS
+				JS       template.JS
 
 				NextLink  string
 				NextTitle string
 				PrevLink  string
 				PrevTitle string
-
-				Markdown []byte
-				Style    template.CSS
-				JS       template.JS
 			}{
-				Site: conf,
+				Config: conf,
+				Site:   s,
 
-				Name:        "", //doc.Name(),
-				Title:       doc.title,
-				SectionName: doc.section.name,
+				Title:       doc.Title,
+				SectionName: doc.section.Name,
 				Markdown:    doc.markdown,
-				Style:       style,
-				JS:          docoJS,
+				Link:        doc.Link(),
+
+				Style: style,
+				JS:    docoJS,
 			})
 
 			if err != nil {
