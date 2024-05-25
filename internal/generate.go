@@ -5,6 +5,7 @@ import (
 	_ "embed"
 	"fmt"
 	"html/template"
+	"io"
 	"os"
 	"path/filepath"
 
@@ -122,41 +123,36 @@ func Generate(srcFolder, destination string, s *site) error {
 	return nil
 }
 
-// generatedPage is the data passed to the template
-// to generate the static html files.
-// type generatedPage struct {
-// 	filePath string `json:"-"`
-// 	Prev     struct {
-// 		Title string
-// 		Link  string
-// 	} `json:"-"`
+// copyDir copies a directory recursively from src to dst
+// src and dst must be absolute paths. This is useful to copy the
+// assets recursively.
+func copyDir(src string, dst string) error {
+	return filepath.Walk(src, func(path string, info os.FileInfo, err error) error {
+		if err != nil {
+			return err
+		}
+		dstPath := filepath.Join(dst, path[len(src):])
+		if info.IsDir() {
+			return os.MkdirAll(dstPath, info.Mode())
+		}
 
-// 	Next struct {
-// 		Title string
-// 		Link  string
-// 	} `json:"-"`
+		srcFile, err := os.Open(path)
+		if err != nil {
+			return err
+		}
+		defer srcFile.Close()
 
-// 	Title       string `json:"title"`
-// 	Description string `json:"description"`
-// 	Keywords    string `json:"keywords"`
-// 	SectionName string `json:"section_name"`
-// 	Link        string `json:"link"`
-// 	Tokens      string `json:"content"`
+		dstFile, err := os.Create(dstPath)
+		if err != nil {
+			return err
+		}
+		defer dstFile.Close()
 
-// 	Content template.HTML `json:"-"`
-// }
+		_, err = io.Copy(dstFile, srcFile)
+		if err != nil {
+			return err
+		}
 
-// NAV().CLASS("documents").Children(
-// 		Range(s.sections, func(s section) ElementRenderer {
-// 			return SECTION().IfChildren(s.name != "", H3().Text(s.name)).Children(
-// 				UL().Children(
-// 					Range(s.documents, func(d document) ElementRenderer {
-// 						link := "/" + filepath.Join(s.path, strings.TrimSuffix(d.filename, ".md")+".html")
-// 						return LI().IfCLASS(doc.filename == d.filename, "active").Children(
-// 							A().HREF(link).Text(d.title),
-// 						)
-// 					}),
-// 				),
-// 			)
-// 		}),
-// 	)
+		return os.Chmod(dstPath, info.Mode())
+	})
+}

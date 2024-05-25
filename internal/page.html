@@ -70,9 +70,7 @@
                     <span class="material-symbols-outlined">search</span>
                 </span>
                 <span class="toggle-mobile-nav">
-                    <svg class="w-8 h-8" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"></path>
-                    </svg>
+                    <span class="material-symbols-outlined">menu</span>
                 </span>
             </div>
 
@@ -89,9 +87,7 @@
         <section class="flex-grow flex flex-row px-3">
             <aside class="hidden lg:block lg:fixed min-w-[19rem] pr-5 flex flex-col gap-1 pt-6">
                 <button class="search-button border min-w-[17rem] rounded-lg p-2 px-3 mb-6 bg-gray-50 text-left flex flex-row hover:border-gray-400 hover:bg-white items-center">
-                    <svg width="24" height="24" fill="none" aria-hidden="true" class="mr-3 flex-none">
-                        <path d="m19 19-3.5-3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path><circle cx="11" cy="11" r="6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></circle>
-                    </svg>
+                    <span class="material-symbols-outlined">search</span>
                     <span>Quick Search</span>
                     <span class="ml-auto pl-3 flex-none text-sm font-semibold">⌘K</span>
                 </button>
@@ -209,7 +205,7 @@
                         {{- range .Config.QuickLinks }}
                             <li class="group cursor-default select-none items-center rounded-md px-3 py-2">
                                 <a href="{{.Link}}" class="flex flex-row items-center group hover:text-blue-500">
-                                    <span class="material-icons-outlined">{{.Icon}}</span>
+                                    <span class="material-symbols-outlined">{{.Icon}}</span>
                                     <span class="ml-3 flex-auto truncate">{{.Text}}</span>
                                     <span>{{.Text}}</span>
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6">
@@ -245,34 +241,35 @@
 
 
         <!-- Mobile menu -->
-        <nav class="hidden overflow-scroll bg-gray-400/90 z-50 fixed right-0 left-0 top-0 bottom-0 h-screen w-screen">
-            {{if ne .Config.Logo.ImageSrc ""}}
-                <a href="/" class="font-bold text-xl flex flex-row gap-1 items-center">
-                    <img src="{{.Config.Logo.ImageSrc}}" class="h-7 mb-8" />
-                </a>
-            {{else}}
-                <a href="/" class="font-bold text-xl flex flex-row gap-1 items-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25" />
-                    </svg>
-                    <span>Doco</span>
-                </a>
-            {{end}}
-
-            <ul class="quicklinks flex flex-col mb-8">
-                {{range .Config.QuickLinks}}
-                    <li>
-                        <a href="{{.Link}}" class="flex flex-row items-center gap-2 p-1.5 rounded-lg hover:bg-gray-200/80">
-                            <span class="material-icons-outlined">{{.Icon}}</span>
-                            <span class="ml-3 flex-auto truncate">{{.Text}}</span>
-                            <span>{{.Text}}</span>
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
-                            </svg>
-                        </a>
-                    </li>
+        <nav id="mobile-menu" class="hidden overflow-scroll bg-gray-400/90 z-50 fixed right-0 left-0 top-0 bottom-0 h-screen w-screen">
+            <div class="bg-white h-full p-4">
+                {{if ne .Config.Logo.ImageSrc ""}}
+                    <a href="/" class="font-bold text-xl flex flex-row gap-1 items-center">
+                        <img src="{{.Config.Logo.ImageSrc}}" class="h-7 mb-8" />
+                    </a>
+                {{else}}
+                    <a href="/" class="font-bold text-xl flex flex-row gap-1 items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25" />
+                        </svg>
+                        <span>Doco</span>
+                    </a>
                 {{end}}
-            </ul>
+
+                <ul class="quicklinks flex flex-col mb-8">
+                    {{range .Config.QuickLinks}}
+                        <li>
+                            <a href="{{.Link}}" class="flex flex-row items-center gap-2 p-1.5 rounded-lg hover:bg-gray-200/80">
+                                <span class="material-symbols-outlined">{{.Icon}}</span>
+                                <span class="ml-3 flex-auto truncate">{{.Text}}</span>
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+                                </svg>
+                            </a>
+                        </li>
+                    {{end}}
+                </ul>
+            </div>
         </nav>
 
         <!-- Zoomed image overlay -->
