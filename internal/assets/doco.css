@@ -101,12 +101,16 @@ body {
     @apply text-gray-500 no-underline;
 }
 
+#desktop-navigation h3 {
+    @apply text-[#2D31A6];
+}
+
 #desktop-navigation ul ul {
     @apply flex flex-col mb-5 border-collapse border-l-[2px];
 }
 
 #desktop-navigation ul li a {
-    @apply -ml-px flex flex-row hover:underline py-1 px-4 border-l-[2px] text-[#2D31A6];
+    @apply -ml-px flex flex-row hover:underline py-1 px-4 border-l-[2px];
 }
 
 #desktop-navigation ul li.active a {

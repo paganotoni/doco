@@ -23,10 +23,10 @@ func NewDocument(path string, content []byte) (document, error) {
 	title, ok := meta["title"].(string)
 	if !ok {
 		// Humanizing the filename into a title
-		title := strings.ReplaceAll(path, filepath.Ext(path), "") // Use filename as title
-		title = filepath.Base(title)                              // remove the path
-		title = strings.ReplaceAll(title, "-", " ")               // remove dashes
-		title = strings.ReplaceAll(title, "_", " ")               // remove underscores
+		title = strings.ReplaceAll(path, filepath.Ext(path), "") // Use filename as title
+		title = filepath.Base(title)                             // remove the path
+		title = strings.ReplaceAll(title, "-", " ")              // remove dashes
+		title = strings.ReplaceAll(title, "_", " ")              // remove underscores
 		title = cases.Title(language.English).String(title)
 	}
 
