@@ -110,6 +110,7 @@ func (s *site) Add(path string, doc document) error {
 
 	for i, v := range s.sections {
 		if v.name == secName {
+			doc.section = &v
 			v.documents = append(v.documents, doc)
 			s.sections[i] = v
 
@@ -118,10 +119,12 @@ func (s *site) Add(path string, doc document) error {
 	}
 
 	sec := section{
-		name:      secName,
-		path:      filepath.Dir(path),
-		documents: []document{doc},
+		name: secName,
+		path: filepath.Dir(path),
 	}
+
+	doc.section = &sec
+	sec.documents = append(sec.documents, doc)
 
 	s.sections = append(s.sections, sec)
 	return nil

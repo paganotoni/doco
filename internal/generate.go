@@ -1,27 +1,44 @@
 package internal
 
 import (
+	"bytes"
 	_ "embed"
-	"encoding/json"
 	"fmt"
+	"html/template"
 	"os"
 	"path/filepath"
-	"strings"
 
 	"github.com/paganotoni/doco/internal/config"
+	"github.com/paganotoni/doco/internal/markdown"
+)
+
+var (
+	//go:embed assets/doco.css
+	style template.CSS
+
+	//go:embed assets/doco.js
+	docoJS template.JS
+
+	//go:embed page.html
+	pageHTML string
+	pageTmpl = template.Must(
+		template.New("page").Funcs(template.FuncMap{
+			"htmlFrom": func(m []byte) template.HTML {
+				c, err := markdown.HTMLFrom(m)
+				if err != nil {
+					return ""
+				}
+				return template.HTML(c)
+			},
+		}).Parse(pageHTML),
+	)
 )
 
 // Generates the static html files for the site
 // and writes them to the destination folder.
-func Generate(srcFolder, dstFolder string, site *site) error {
+func Generate(srcFolder, destination string, site *site) error {
 	// Cleanup the folder
-	err := os.RemoveAll(dstFolder)
-	if err != nil {
-		return err
-	}
-
-	// Create the folder
-	err = os.MkdirAll(dstFolder, os.ModePerm)
+	err := os.RemoveAll(destination)
 	if err != nil {
 		return err
 	}
@@ -31,96 +48,112 @@ func Generate(srcFolder, dstFolder string, site *site) error {
 		return err
 	}
 
-	// Copy assets folder to the destination folder.
-	err = copyDir(filepath.Join(srcFolder, "assets"), filepath.Join(dstFolder, "assets"))
-	if err != nil {
-		return fmt.Errorf("error copying assets: %w", err)
-	}
-
-	var pages []generatedPage
 	// Generate pages for each of the sections and documents inside them
 	// and write them to the destination folder.
 	for _, v := range site.sections {
-		err := os.MkdirAll(filepath.Join(dstFolder, v.path), os.ModePerm)
+		err := os.MkdirAll(filepath.Join(destination, v.path), os.ModePerm)
 		if err != nil {
 			return err
 		}
 
 		for _, doc := range v.documents {
-			// normalize the filename
-			name := strings.Replace(doc.filename, filepath.Ext(doc.filename), ".html", 1)
-			name = underscore(name)
+			bb := bytes.NewBuffer([]byte{})
+			err = pageTmpl.Execute(bb, struct {
+				Site config.Site
 
-			data := generatedPage{
-				filePath: filepath.Join(dstFolder, v.path, name),
+				Title       string
+				Name        string
+				SectionName string
+				Description string
+				Keywords    string
 
+				NextLink  string
+				NextTitle string
+				PrevLink  string
+				PrevTitle string
+
+				Markdown []byte
+				Style    template.CSS
+				JS       template.JS
+			}{
+				Site: conf,
+
+				Name:        "", //doc.Name(),
 				Title:       doc.title,
-				Description: doc.description,
-				Keywords:    doc.keywords,
+				SectionName: doc.section.name,
+				Markdown:    doc.markdown,
+				Style:       style,
+				JS:          docoJS,
+			})
 
-				SectionName: v.name,
-				Link:        filepath.Join(v.path, name),
-
-				Content: doc.html,
-				Tokens:  doc.Tokens(),
-
-				Navigation: buildNavigation(site, doc),
+			if err != nil {
+				return err
 			}
 
-			if data.Keywords == "" {
-				data.Keywords = conf.Keywords
+			f := filepath.Join(destination, doc.FileName())
+			err = os.WriteFile(f, bb.Bytes(), 0644)
+			if err != nil {
+				return err
 			}
-
-			if data.Description == "" {
-				data.Description = conf.Description
-			}
-
-			pages = append(pages, data)
 		}
 	}
 
-	// Generate all of the files after parsing the navigation and
-	// having the list to be able to generate the prev and next links.
-	for index, v := range pages {
-		if index < len(pages)-1 {
-			v.Next.Link = pages[index+1].Link
-			v.Next.Title = pages[index+1].Title
-		}
-
-		if index > 0 {
-			v.Prev.Link = pages[index-1].Link
-			v.Prev.Title = pages[index-1].Title
-		}
-
-		// write the file
-		file, err := os.Create(v.filePath)
-		if err != nil {
-			return err
-		}
-
-		err = v.html(conf, file)
-		if err != nil {
-			return err
-		}
-	}
-
-	// Generating the site index file to be used by the search.
-	f, err := os.Create(filepath.Join(dstFolder, "index.json"))
+	// Copy assets folder to the destination folder.
+	err = copyDir(filepath.Join(srcFolder, "assets"), filepath.Join(destination, "assets"))
 	if err != nil {
-		return fmt.Errorf("error generating search index: %w", err)
+		return fmt.Errorf("error copying assets: %w", err)
 	}
 
-	encoder := json.NewEncoder(f)
-	err = encoder.Encode(pages)
-	if err != nil {
-		return fmt.Errorf("error generating search index: %w", err)
-	}
+	// // Generating the site index file to be used by the search.
+	// f, err := os.Create(filepath.Join(destination, "index.json"))
+	// if err != nil {
+	// 	return fmt.Errorf("error generating search index: %w", err)
+	// }
 
-	// Adding search.js to the destination folder.
-	err = os.WriteFile(filepath.Join(dstFolder, "doco.js"), docoJS, os.ModePerm)
-	if err != nil {
-		return fmt.Errorf("error writing search js: %w", err)
-	}
+	// encoder := json.NewEncoder(f)
+	// err = encoder.Encode(pages)
+	// if err != nil {
+	// 	return fmt.Errorf("error generating search index: %w", err)
+	// }
 
 	return nil
 }
+
+// generatedPage is the data passed to the template
+// to generate the static html files.
+// type generatedPage struct {
+// 	filePath string `json:"-"`
+// 	Prev     struct {
+// 		Title string
+// 		Link  string
+// 	} `json:"-"`
+
+// 	Next struct {
+// 		Title string
+// 		Link  string
+// 	} `json:"-"`
+
+// 	Title       string `json:"title"`
+// 	Description string `json:"description"`
+// 	Keywords    string `json:"keywords"`
+// 	SectionName string `json:"section_name"`
+// 	Link        string `json:"link"`
+// 	Tokens      string `json:"content"`
+
+// 	Content template.HTML `json:"-"`
+// }
+
+// NAV().CLASS("documents").Children(
+// 		Range(s.sections, func(s section) ElementRenderer {
+// 			return SECTION().IfChildren(s.name != "", H3().Text(s.name)).Children(
+// 				UL().Children(
+// 					Range(s.documents, func(d document) ElementRenderer {
+// 						link := "/" + filepath.Join(s.path, strings.TrimSuffix(d.filename, ".md")+".html")
+// 						return LI().IfCLASS(doc.filename == d.filename, "active").Children(
+// 							A().HREF(link).Text(d.title),
+// 						)
+// 					}),
+// 				),
+// 			)
+// 		}),
+// 	)
