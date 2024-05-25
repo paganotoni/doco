@@ -25,6 +25,9 @@ var (
 	pageHTML string
 	pageTmpl = template.Must(
 		template.New("page").Funcs(template.FuncMap{
+			// htmlFrom generates html from markdown
+			// this is useful for the content of the page
+			// to be generated.
 			"htmlFrom": func(m []byte) template.HTML {
 				c, err := markdown.HTMLFrom(m)
 				if err != nil {
@@ -82,14 +85,13 @@ func Generate(srcFolder, destination string, s *site) error {
 			d := docData{
 				Config: conf,
 				Site:   s,
+				Style:  style,
+				JS:     docoJS,
 
 				Title:       doc.Title,
 				SectionName: doc.section.Name,
 				Markdown:    doc.markdown,
 				Link:        doc.Link(),
-
-				Style: style,
-				JS:    docoJS,
 			}
 
 			if doc.next != nil {
