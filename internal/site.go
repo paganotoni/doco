@@ -9,6 +9,8 @@ import (
 	"strings"
 
 	"github.com/paganotoni/doco/internal/markdown"
+	"golang.org/x/text/cases"
+	"golang.org/x/text/language"
 )
 
 // Reads the folder and returns the parsed site with all the documents
@@ -139,7 +141,12 @@ func (s *site) SearchData() []map[string]any {
 }
 
 func (s *site) Add(path string, doc document) error {
-	secName := humanize(filepath.Base(filepath.Dir(path)))
+	// humanizing section name
+	secName := filepath.Base(filepath.Dir(path))
+	secName = strings.ReplaceAll(secName, "-", " ")
+	secName = strings.ReplaceAll(secName, "_", " ")
+	secName = cases.Title(language.English).String(secName)
+
 	// Cover the root case by setting the section name to
 	// an empty string
 	if secName == "." {
