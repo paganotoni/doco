@@ -100,6 +100,22 @@ func (s *site) String() string {
 	return pp
 }
 
+func (s *site) SearchData() []map[string]any {
+	result := []map[string]any{}
+	for _, sec := range s.Sections {
+		for _, doc := range sec.Documents {
+			result = append(result, map[string]any{
+				"title":   doc.Title,
+				"section": sec.Name,
+				"link":    doc.Link(),
+				"content": doc.Tokens(),
+			})
+		}
+	}
+
+	return result
+}
+
 func (s *site) Add(path string, doc document) error {
 	secName := humanize(filepath.Base(filepath.Dir(path)))
 	// Cover the root case by setting the section name to

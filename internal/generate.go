@@ -3,6 +3,7 @@ package internal
 import (
 	"bytes"
 	_ "embed"
+	"encoding/json"
 	"fmt"
 	"html/template"
 	"io"
@@ -108,17 +109,17 @@ func Generate(srcFolder, destination string, s *site) error {
 		return fmt.Errorf("error copying assets: %w", err)
 	}
 
-	// // Generating the site index file to be used by the search.
-	// f, err := os.Create(filepath.Join(destination, "index.json"))
-	// if err != nil {
-	// 	return fmt.Errorf("error generating search index: %w", err)
-	// }
+	// Generating the site index file to be used by the search.
+	f, err := os.Create(filepath.Join(destination, "index.json"))
+	if err != nil {
+		return fmt.Errorf("error generating search index: %w", err)
+	}
 
-	// encoder := json.NewEncoder(f)
-	// err = encoder.Encode(pages)
-	// if err != nil {
-	// 	return fmt.Errorf("error generating search index: %w", err)
-	// }
+	encoder := json.NewEncoder(f)
+	err = encoder.Encode(s.SearchData())
+	if err != nil {
+		return fmt.Errorf("error generating search index: %w", err)
+	}
 
 	return nil
 }

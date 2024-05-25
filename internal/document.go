@@ -74,6 +74,21 @@ func (doc document) String() string {
 	)
 }
 
+func (doc document) Tokens() (tokens []string) {
+	r := map[string]bool{}
+
+	for _, v := range strings.Fields(string(doc.markdown)) {
+		if r[v] == true {
+			continue
+		}
+
+		r[v] = true
+		tokens = append(tokens, v)
+	}
+
+	return tokens
+}
+
 func (doc document) Link() string {
 	return path.Join(
 		doc.section.path,

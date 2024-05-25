@@ -20,7 +20,7 @@
         {{ end }}
 
         <link rel="icon" type="image/png" href="{{.Config.Favicon}}">
-        <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@300" rel="stylesheet">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
         <script src="https://cdn.tailwindcss.com"></script>
         <style type="text/tailwindcss">{{.Style}}</style>
@@ -66,10 +66,10 @@
             </nav>
 
             <div class="md:hidden flex flex-row gap-4 items-center">
-                <span class="search-button">
+                <span class="search-button cursor-pointer">
                     <span class="material-symbols-outlined">search</span>
                 </span>
-                <span class="toggle-mobile-nav">
+                <span class="toggle-mobile-nav cursor-pointer">
                     <span class="material-symbols-outlined">menu</span>
                 </span>
             </div>
@@ -191,39 +191,33 @@
             <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" id="search-overlay" aria-hidden="true"></div>
             <div class="z-[100] mx-auto max-w-2xl transform divide-y divide-gray-100 overflow-hidden rounded-xl bg-white shadow-2xl ring-1 ring-black ring-opacity-5 transition-all">
                 <div class="relative">
-                    <svg class="pointer-events-none absolute top-3.5 left-4 h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                        <path fill-rule="evenodd" d="M12.293 13.707a1 1 0 001.414-1.414l-2-2a1 1 0 00-1.414 1.414l2 2zM10 18a8 8 0 100-16 8 8 0 000 16z" clip-rule="evenodd"></path>
-                    </svg>
+                    <span class="material-symbols-outlined pointer-events-none absolute top-3.5 left-4 h-5 w-5 text-gray-400 ">search</span>
                     <input id="search-input" type="text" class="block w-full py-3 pl-12 pr-4 text-lg text-gray-900 placeholder-gray-500 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent rounded-xl" placeholder="Search..." aria-label="Search" />
                     <button id="close-search" class="bg-gray-200 h-8 w-8 text-xs text-gray-600 rounded-md inline-block absolute right-2 top-2">esc</button>
                 </div>
-            </div>
-            <ul id="search-quick-actions" class="max-h-80 scroll-py-2 divide-y divide-gray-100 overflow-y-auto">
-                <li class="p-2">
-                    <h2 class="sr-only">Quick Actions</h2>
-                    <ul class="text-sm text-gray-700">
-                        {{- range .Config.QuickLinks }}
-                            <li class="group cursor-default select-none items-center rounded-md px-3 py-2">
-                                <a href="{{.Link}}" class="flex flex-row items-center group hover:text-blue-500">
-                                    <span class="material-symbols-outlined">{{.Icon}}</span>
-                                    <span class="ml-3 flex-auto truncate">{{.Text}}</span>
-                                    <span>{{.Text}}</span>
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
-                                    </svg>
-                                </a>
-                            </li>
-                        {{ end }}
-                    </ul>
-                </li>
-            </ul>
 
-            <ul id="search-results" class="hidden max-h-96 overflow-y-auto p-2 text-sm text-gray-700"></ul>
-            <div id="search-no-results" class="hidden py-14 px-6 text-center sm:px-14">
-                <svg class="mx-auto h-6 w-6 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"></path>
-                </svg>
-                <p class="mt-4 text-sm text-gray-900">No results found. Try another search term.</p>
+                <ul id="search-quick-actions" class="max-h-80 scroll-py-2 divide-y divide-gray-100 overflow-y-auto">
+                    <li class="p-2">
+                        <h2 class="sr-only">Quick Actions</h2>
+                        <ul class="text-sm text-gray-700">
+                            {{- range .Config.QuickLinks }}
+                                <li class="group cursor-default select-none items-center rounded-md px-3 py-2">
+                                    <a href="{{.Link}}" class="flex flex-row items-center group hover:text-blue-500">
+                                        <span class="material-symbols-outlined">{{.Icon}}</span>
+                                        <span class="ml-3 flex-auto truncate">{{.Text}}</span>
+                                        <span class="material-symbols-outlined">arrow_forward</span>
+                                    </a>
+                                </li>
+                            {{ end }}
+                        </ul>
+                    </li>
+                </ul>
+
+                <ul id="search-results" class="hidden max-h-96 overflow-y-auto p-2 text-sm text-gray-700"></ul>
+                <div id="search-no-results" class="hidden py-14 px-6 text-center sm:px-14">
+                    <span class="material-symbols-outlined">folder</span>
+                    <p class="mt-4 text-sm text-gray-900">No results found. Try another search term.</p>
+                </div>
             </div>
         </div>
 
@@ -243,6 +237,7 @@
         <!-- Mobile menu -->
         <nav id="mobile-menu" class="hidden overflow-scroll bg-gray-400/90 z-50 fixed right-0 left-0 top-0 bottom-0 h-screen w-screen">
             <div class="bg-white h-full p-4">
+                <span class="material-symbols-outlined absolute right-[10px] top-[10px] toggle-mobile-nav cusor-pointer">close</span>
                 {{if ne .Config.Logo.ImageSrc ""}}
                     <a href="/" class="font-bold text-xl flex flex-row gap-1 items-center">
                         <img src="{{.Config.Logo.ImageSrc}}" class="h-7 mb-8" />
