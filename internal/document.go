@@ -65,6 +65,9 @@ type document struct {
 	// content
 	markdown []byte
 	section  *section
+
+	prev *document
+	next *document
 }
 
 func (doc document) String() string {

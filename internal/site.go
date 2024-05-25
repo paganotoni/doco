@@ -79,6 +79,18 @@ func NewSite(folder string) (*site, error) {
 		sort.Sort(site.Sections[i].Documents)
 	}
 
+	// Adding next and previous to documents
+	docs := site.Documents()
+	for i := range docs {
+		if i != 0 {
+			docs[i].prev = docs[i-1]
+		}
+
+		if i < len(docs)-1 {
+			docs[i].next = docs[i+1]
+		}
+	}
+
 	return site, err
 }
 
@@ -89,6 +101,16 @@ type site struct {
 	Name string
 
 	Sections sections
+}
+
+func (s *site) Documents() (docs []*document) {
+	for j := range s.Sections {
+		for i := range s.Sections[j].Documents {
+			docs = append(docs, &s.Sections[j].Documents[i])
+		}
+	}
+
+	return docs
 }
 
 func (s *site) String() string {
@@ -125,13 +147,15 @@ func (s *site) Add(path string, doc document) error {
 	}
 
 	for i, v := range s.Sections {
-		if v.Name == secName {
-			doc.section = &v
-			v.Documents = append(v.Documents, doc)
-			s.Sections[i] = v
-
-			return nil
+		if v.Name != secName {
+			continue
 		}
+
+		doc.section = &v
+		v.Documents = append(v.Documents, doc)
+		s.Sections[i] = v
+
+		return nil
 	}
 
 	sec := section{

@@ -58,27 +58,28 @@ func Generate(srcFolder, destination string, s *site) error {
 			return err
 		}
 
+		type docData struct {
+			Config config.Site
+			Site   *site
+
+			Title       string
+			SectionName string
+			Description string
+			Keywords    string
+			Link        string
+
+			Markdown []byte
+			Style    template.CSS
+			JS       template.JS
+
+			NextLink  string
+			NextTitle string
+			PrevLink  string
+			PrevTitle string
+		}
+
 		for _, doc := range v.Documents {
-			bb := bytes.NewBuffer([]byte{})
-			err = pageTmpl.Execute(bb, struct {
-				Config config.Site
-				Site   *site
-
-				Title       string
-				SectionName string
-				Description string
-				Keywords    string
-				Link        string
-
-				Markdown []byte
-				Style    template.CSS
-				JS       template.JS
-
-				NextLink  string
-				NextTitle string
-				PrevLink  string
-				PrevTitle string
-			}{
+			d := docData{
 				Config: conf,
 				Site:   s,
 
@@ -89,8 +90,20 @@ func Generate(srcFolder, destination string, s *site) error {
 
 				Style: style,
 				JS:    docoJS,
-			})
+			}
 
+			if doc.next != nil {
+				d.NextLink = doc.next.Link()
+				d.NextTitle = doc.next.Title
+			}
+
+			if doc.prev != nil {
+				d.PrevLink = doc.prev.Link()
+				d.PrevTitle = doc.prev.Title
+			}
+
+			bb := bytes.NewBuffer([]byte{})
+			err = pageTmpl.Execute(bb, d)
 			if err != nil {
 				return err
 			}
