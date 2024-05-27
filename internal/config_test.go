@@ -1,4 +1,4 @@
-package config
+package internal
 
 import (
 	_ "embed"
@@ -41,7 +41,7 @@ func TestReadConfig(t *testing.T) {
 			t.Fatal(err)
 		}
 
-		_, err = Read(tmpdir)
+		_, err = readConfig(tmpdir)
 		if err != nil {
 			t.Fatal(err)
 		}
@@ -70,7 +70,7 @@ func TestReadConfig(t *testing.T) {
 			t.Fatal(err)
 		}
 
-		_, err = Read(tmpdir)
+		_, err = readConfig(tmpdir)
 		if err != nil {
 			t.Fatal(err)
 		}

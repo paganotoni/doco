@@ -1,11 +1,13 @@
-package config
+package internal
 
 import (
+	"bytes"
 	"io"
 	"os"
 	"path/filepath"
 
-	"github.com/paganotoni/doco/internal/markdown"
+	meta "github.com/yuin/goldmark-meta"
+	"github.com/yuin/goldmark/parser"
 )
 
 const (
@@ -15,7 +17,7 @@ const (
 )
 
 // config of the general elements of the site.
-type Site struct {
+type siteConfig struct {
 	Name        string
 	Favicon     string
 	Description string
@@ -41,7 +43,7 @@ type Link struct {
 // Read parses the _meta.md file and returns the config
 // for the site.
 // TODO: change this to receive the file access (fs package?) instead of the folder.
-func Read(folder string) (c Site, err error) {
+func readConfig(folder string) (c siteConfig, err error) {
 	file, err := os.Open(filepath.Join(folder, metafile))
 	if err != nil {
 		return c, err
@@ -54,11 +56,14 @@ func Read(folder string) (c Site, err error) {
 		return c, err
 	}
 
-	meta, err := markdown.ReadMetadata(content)
-	if err != nil {
+	// Parse the metadata and apply it to the document
+	var buf bytes.Buffer
+	context := parser.NewContext()
+	if err := mparser.Convert(content, &buf, parser.WithContext(context)); err != nil {
 		return c, err
 	}
 
+	meta := meta.Get(context)
 	def := func(val any, defs string) string {
 		v, ok := val.(string)
 		if !ok || v == "" {

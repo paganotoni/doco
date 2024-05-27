@@ -10,8 +10,11 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/paganotoni/doco/internal/config"
-	"github.com/paganotoni/doco/internal/markdown"
+	"github.com/yuin/goldmark"
+
+	meta "github.com/yuin/goldmark-meta"
+	"github.com/yuin/goldmark/parser"
+	"go.abhg.dev/goldmark/anchor"
 )
 
 var (
@@ -25,17 +28,29 @@ var (
 	pageHTML string
 	pageTmpl = template.Must(
 		template.New("page").Funcs(template.FuncMap{
-			// htmlFrom generates html from markdown
-			// this is useful for the content of the page
-			// to be generated.
-			"htmlFrom": func(m []byte) template.HTML {
-				c, err := markdown.HTMLFrom(m)
-				if err != nil {
-					return ""
-				}
-				return template.HTML(c)
-			},
+			"htmlFrom": htmlFromMarkdown,
 		}).Parse(pageHTML),
+	)
+
+	// mparser is the markdown parser used to parse the content
+	mparser = goldmark.New(
+		goldmark.WithParserOptions(
+			parser.WithAutoHeadingID(), // read note
+		),
+
+		goldmark.WithExtensions(
+			meta.Meta,
+
+			// anchor is used to generate anchor links for headings
+			// in the markdown file.
+			&anchor.Extender{
+				Texter: anchor.Text("#"),
+				Attributer: anchor.Attributes{
+					"class": "heading-anchor",
+					"alt":   "Link to this section",
+				},
+			},
+		),
 	)
 )
 
@@ -48,7 +63,7 @@ func Generate(srcFolder, destination string, s *site) error {
 		return err
 	}
 
-	conf, err := config.Read(srcFolder)
+	conf, err := readConfig(srcFolder)
 	if err != nil {
 		return err
 	}
@@ -62,7 +77,7 @@ func Generate(srcFolder, destination string, s *site) error {
 		}
 
 		type docData struct {
-			Config config.Site
+			Config siteConfig
 			Site   *site
 
 			Title       string
@@ -171,4 +186,16 @@ func copyDir(src string, dst string) error {
 
 		return os.Chmod(dstPath, info.Mode())
 	})
+}
+
+// htmlFromMarkdown generates html from markdown
+// this is useful for the content of the page
+// to be generated.
+func htmlFromMarkdown(m []byte) template.HTML {
+	var buf bytes.Buffer
+	if err := mparser.Convert(m, &buf); err != nil {
+		return template.HTML("")
+	}
+
+	return template.HTML(buf.String())
 }

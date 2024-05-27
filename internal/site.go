@@ -1,6 +1,7 @@
 package internal
 
 import (
+	"bytes"
 	"fmt"
 	"io"
 	"os"
@@ -8,7 +9,8 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/paganotoni/doco/internal/markdown"
+	meta "github.com/yuin/goldmark-meta"
+	"github.com/yuin/goldmark/parser"
 	"golang.org/x/text/cases"
 	"golang.org/x/text/language"
 )
@@ -61,14 +63,19 @@ func NewSite(folder string) (*site, error) {
 				continue
 			}
 
-			meta, err := markdown.ReadMetadata(bb)
-			if err == nil {
-				var ok bool
-				site.Sections[i].index, ok = meta["index"].(int)
-				if !ok {
-					// 10 million to make sure it is the last one by default
-					v.index = 10_000_000
-				}
+			// Parse the metadata and apply it to the document
+			var buf bytes.Buffer
+			context := parser.NewContext()
+			if err := mparser.Convert(bb, &buf, parser.WithContext(context)); err != nil {
+				continue
+			}
+
+			meta := meta.Get(context)
+			var ok bool
+			site.Sections[i].index, ok = meta["index"].(int)
+			if !ok {
+				// 10 million to make sure it is the last one by default
+				v.index = 10_000_000
 			}
 		}
 	}

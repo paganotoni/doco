@@ -1,12 +1,14 @@
 package internal
 
 import (
+	"bytes"
 	"fmt"
 	"path"
 	"path/filepath"
 	"strings"
 
-	"github.com/paganotoni/doco/internal/markdown"
+	meta "github.com/yuin/goldmark-meta"
+	"github.com/yuin/goldmark/parser"
 	"golang.org/x/text/cases"
 	"golang.org/x/text/language"
 )
@@ -15,11 +17,13 @@ import (
 // and returns a parsed document with the metadata applied.
 func NewDocument(path string, content []byte) (document, error) {
 	// Parse the metadata and apply it to the document
-	meta, err := markdown.ReadMetadata(content)
-	if err != nil {
-		return document{}, fmt.Errorf("error parsing metadata for %v: %w", path, err)
+	var buf bytes.Buffer
+	context := parser.NewContext()
+	if err := mparser.Convert(content, &buf, parser.WithContext(context)); err != nil {
+		return document{}, err
 	}
 
+	meta := meta.Get(context)
 	title, ok := meta["title"].(string)
 	if !ok {
 		// Humanizing the filename into a title
