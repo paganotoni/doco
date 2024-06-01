@@ -83,7 +83,7 @@ func readConfig(folder string) (c siteConfig, err error) {
 	c.Favicon = def(meta["favicon"], "")
 	c.OGImage = def(meta["ogimage"], "")
 
-	logo, ok := meta["logo"].(map[any]any)
+	logo, ok := meta["logo"].(map[string]any)
 	if ok {
 		c.Logo.ImageSrc = def(logo["src"], "")
 		c.Logo.Link = def(logo["link"], "")
@@ -98,7 +98,7 @@ func readConfig(folder string) (c siteConfig, err error) {
 	qlinks, ok := meta["quick_links"].([]any)
 	if ok {
 		for _, v := range qlinks {
-			l := v.(map[any]any)
+			l := v.(map[string]any)
 			c.QuickLinks = append(c.QuickLinks, Link{
 				Text: def(l["text"], ""),
 				Link: def(l["link"], ""),
@@ -110,7 +110,7 @@ func readConfig(folder string) (c siteConfig, err error) {
 	elinks, ok := meta["external_links"].([]any)
 	if ok {
 		for _, v := range elinks {
-			l := v.(map[any]any)
+			l := v.(map[string]any)
 			c.ExternalLinks = append(c.ExternalLinks, Link{
 				Text: def(l["text"], ""),
 				Link: def(l["link"], ""),

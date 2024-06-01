@@ -1,4 +1,4 @@
-----
+---
 # Name of the website, is used on the pages description and
 # In the meta tags.
 name: Doco
@@ -50,4 +50,4 @@ quick_links:
 # Shows on each of the documentation pages
 # $YEAR is replaced with the current year.
 copy: "© $YEAR Doco"
-----
+---
