@@ -9,7 +9,7 @@ import (
 	"io"
 	"os"
 	"path/filepath"
-	"regexp"
+	"strings"
 
 	"github.com/yuin/goldmark"
 
@@ -191,8 +191,12 @@ func copyDir(src string, dst string) error {
 // to be generated.
 func htmlFromMarkdown(m []byte) template.HTML {
 	// Remove the front matter meta from the markdown
-	re := regexp.MustCompile(`(?s)---.*---`)
-	content := re.ReplaceAllString(string(m), "")
+	content := string(m)
+	content = strings.Replace(content, "---", "", 1)
+	c := strings.Index(string(content), "---")
+	if c != -1 {
+		content = content[c+3:]
+	}
 
 	// Convert the markdown to html
 	var buf bytes.Buffer
