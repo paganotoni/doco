@@ -12,7 +12,6 @@ import (
 
 	"github.com/yuin/goldmark"
 
-	meta "github.com/yuin/goldmark-meta"
 	"github.com/yuin/goldmark/parser"
 	"go.abhg.dev/goldmark/anchor"
 )
@@ -39,8 +38,6 @@ var (
 		),
 
 		goldmark.WithExtensions(
-			meta.Meta,
-
 			// anchor is used to generate anchor links for headings
 			// in the markdown file.
 			&anchor.Extender{

@@ -7,7 +7,6 @@ import (
 	"path/filepath"
 	"strings"
 
-	meta "github.com/yuin/goldmark-meta"
 	"github.com/yuin/goldmark/parser"
 	"golang.org/x/text/cases"
 	"golang.org/x/text/language"
@@ -23,7 +22,11 @@ func NewDocument(path string, content []byte) (document, error) {
 		return document{}, err
 	}
 
-	meta := meta.Get(context)
+	meta, err := parseMeta(content)
+	if err != nil {
+		return document{}, err
+	}
+
 	title, ok := meta["title"].(string)
 	if !ok {
 		// Humanizing the filename into a title

@@ -9,7 +9,6 @@ import (
 	"sort"
 	"strings"
 
-	meta "github.com/yuin/goldmark-meta"
 	"github.com/yuin/goldmark/parser"
 	"golang.org/x/text/cases"
 	"golang.org/x/text/language"
@@ -70,7 +69,11 @@ func NewSite(folder string) (*site, error) {
 				continue
 			}
 
-			meta := meta.Get(context)
+			meta, err := parseMeta(bb)
+			if err != nil {
+				continue
+			}
+
 			var ok bool
 			site.Sections[i].index, ok = meta["index"].(int)
 			if !ok {

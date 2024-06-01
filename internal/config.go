@@ -6,7 +6,6 @@ import (
 	"os"
 	"path/filepath"
 
-	meta "github.com/yuin/goldmark-meta"
 	"github.com/yuin/goldmark/parser"
 )
 
@@ -62,7 +61,11 @@ func readConfig(folder string) (c siteConfig, err error) {
 		return c, err
 	}
 
-	meta := meta.Get(context)
+	meta, err := parseMeta(content)
+	if err != nil {
+		return c, err
+	}
+
 	def := func(val any, defs string) string {
 		v, ok := val.(string)
 		if !ok || v == "" {
