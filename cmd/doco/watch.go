@@ -2,6 +2,7 @@ package main
 
 import (
 	"log"
+	"net/http"
 	"os"
 	"path/filepath"
 
@@ -61,4 +62,18 @@ func watch(docsFolder, dstFolder string) {
 
 	// Block main goroutine forever.
 	<-make(chan struct{})
+}
+
+// Serve the public folder
+func serve(dstFolder string) error {
+	fs := http.FileServer(http.Dir(dstFolder))
+	http.Handle("/", fs)
+
+	log.Println("> Serving documentation on http://localhost:3000/")
+	err := http.ListenAndServe(":3000", nil)
+	if err != nil {
+		return err
+	}
+
+	return nil
 }

@@ -30,7 +30,6 @@ func main() {
 		fmt.Println("--------")
 		printHelp(os.Stdout)
 
-		// TODO: Run build by default ?
 		return
 	}
 
@@ -52,7 +51,7 @@ func main() {
 		build(docsFolder, dstFolder)
 
 		go watch(docsFolder, dstFolder)
-		serve()
+		serve(dstFolder)
 	case "help":
 		printHelp(os.Stdout)
 	default:
