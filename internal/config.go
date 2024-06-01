@@ -42,7 +42,6 @@ type Link struct {
 
 // Read parses the _meta.md file and returns the config
 // for the site.
-// TODO: change this to receive the file access (fs package?) instead of the folder.
 func readConfig(folder string) (c siteConfig, err error) {
 	file, err := os.Open(filepath.Join(folder, metafile))
 	if err != nil {
