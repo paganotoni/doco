@@ -55,7 +55,7 @@ func main() {
 	case "help":
 		printHelp(os.Stdout)
 	default:
-		fmt.Printf("Unknown command %s\n", args[1])
+		fmt.Printf("Unknown command %s\n", args[0])
 		fmt.Println("--------")
 		printHelp(os.Stdout)
 	}
