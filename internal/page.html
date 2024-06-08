@@ -176,19 +176,19 @@
             <div class="z-[100] mx-auto max-w-2xl transform divide-y divide-gray-100 overflow-hidden rounded-xl bg-white shadow-2xl ring-1 ring-black ring-opacity-5 transition-all">
                 <div class="relative">
                     <span class="material-symbols-outlined pointer-events-none absolute top-3.5 left-4 h-5 w-5 text-gray-400 ">search</span>
-                    <input id="search-input" type="text" class="block w-full py-3 pl-12 pr-4 text-lg text-gray-900 placeholder-gray-500 bg-gray-50 focus:outline-0 focus:border-transparent rounded-xl" placeholder="Search..." aria-label="Search" />
+                    <input id="search-input" type="text" class="block w-full py-3 pl-12 pr-4 text-lg text-gray-900 placeholder-gray-500 bg-gray-50 focus-visible:outline-none focus-visible:ring-offset-0 focus-visible:ring-0 focus:border-transparent rounded-xl" placeholder="Search..." aria-label="Search" />
                     <button id="close-search" class="bg-gray-200 h-8 w-8 text-xs text-gray-600 rounded-md inline-block absolute right-2 top-2">esc</button>
                 </div>
 
                 <ul id="search-quick-actions" class="max-h-80 scroll-py-2 divide-y divide-gray-100 overflow-y-auto">
                     <li class="p-2">
                         <h2 class="sr-only">Quick Actions</h2>
-                        <ul class="text-sm text-gray-700">
-                            {{- range .Config.QuickLinks }}
-                                <li class="group cursor-default select-none items-center rounded-md px-3 py-2">
-                                    <a href="{{.Link}}" class="flex flex-row items-center group hover:text-blue-500">
-                                        <span class="material-symbols-outlined">{{.Icon}}</span>
-                                        <span class="ml-3 flex-auto truncate">{{.Text}}</span>
+                        <ul sclass="text-sm text-gray-700">
+                            {{- range $index, $el := .Config.QuickLinks }}
+                                <li class="{{- if eq $index 0 }} selected {{end}} group cursor-default select-none items-center rounded-md px-3 py-2">
+                                    <a href="{{$el.Link}}" class="flex flex-row items-center group hover:text-blue-500">
+                                        <span class="material-symbols-outlined">{{$el.Icon}}</span>
+                                        <span class="ml-3 flex-auto truncate">{{$el.Text}}</span>
                                         <span class="material-symbols-outlined">arrow_forward</span>
                                     </a>
                                 </li>
@@ -207,7 +207,7 @@
 
 		<!-- Search Result Template -->
         <template id="search-result-template" >
-            <li class="text-gray-700 group cursor-default select-none items-center rounded-md px-3 py-2 hover:text-blue-500">
+            <li class="${selected} text-gray-700 group cursor-default select-none items-center rounded-md px-3 py-2 hover:text-blue-500">
               <a class="flex items-center" href="/${link}">
                   <svg class="h-6 w-6 flex-none" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
                   <span class="ml-3 flex-grow flex-auto truncate">${title}</span>

@@ -1,3 +1,9 @@
+String.prototype.interpolate = function (params) {
+  const names = Object.keys(params);
+  const vals = Object.values(params);
+  return new Function(...names, `return \`${this}\`;`)(...vals);
+};
+
 document.addEventListener("DOMContentLoaded", () => {
   // Add highligthing to the code blocks
   hljs.highlightAll();
@@ -28,6 +34,65 @@ document.addEventListener("DOMContentLoaded", () => {
   document
     .getElementById("search-input")
     .addEventListener("keyup", (e) => search(e.target.value));
+
+  document.addEventListener("keydown", () => {
+    let paletteVisible = document
+      .getElementById("search-palette")
+      .classList.contains("hidden");
+
+    if (paletteVisible) {
+      return;
+    }
+
+    let selector = "#search-results li.selected";
+    let quickLinksVisisble = document
+      .querySelector("#search-quick-actions")
+      .classList.contains("hidden");
+
+    if (!quickLinksVisisble) {
+      selector = "#search-quick-actions li.selected";
+    }
+
+    // get the current selected element
+    let selected = document.querySelector(selector);
+    if (selected == null) {
+      return;
+    }
+
+    // on arrow down move the selected element down
+    if (event.keyCode == 40) {
+      let next = selected.nextElementSibling;
+      if (next == null) {
+        return;
+      }
+
+      selected.classList.remove("selected");
+      next.classList.add("selected");
+      next.scrollIntoView(false);
+    }
+
+    // on arrow up move the selected element up
+    if (event.keyCode == 38) {
+      let prev = selected.previousElementSibling;
+      if (prev == null) {
+        return;
+      }
+
+      selected.classList.remove("selected");
+      prev.classList.add("selected");
+      prev.scrollIntoView(false);
+    }
+
+    // on enter navigate to the selected element
+    if (event.keyCode == 13) {
+      let selected = document.querySelector("#search-results li.selected a");
+      if (selected == null) {
+        return;
+      }
+
+      window.location = selected.href;
+    }
+  });
 
   // Loading the index when the page it loaded so the search just uses it.
   fetch("/index.json")
@@ -85,6 +150,7 @@ function hideSearch() {
 }
 
 let tm = null;
+let lastQuery = "";
 function search(searchQuery) {
   if (searchQuery.length == 0) {
     document.getElementById("search-no-results").classList.add("hidden");
@@ -93,6 +159,12 @@ function search(searchQuery) {
 
     return;
   }
+
+  if (searchQuery == lastQuery) {
+    return;
+  }
+
+  lastQuery = searchQuery;
 
   if (tm != null) {
     clearTimeout(tm);
@@ -118,7 +190,7 @@ function search(searchQuery) {
 }
 
 function populateResults(result) {
-  let template = document.getElementById("search-result-template").innerHTML;
+  var template = document.getElementById("search-result-template").innerHTML;
   document.getElementById("search-results").innerHTML = "";
 
   result.forEach((value, index) => {
@@ -126,40 +198,14 @@ function populateResults(result) {
       return;
     }
 
-    var output = render(template, {
+    const output = template.interpolate({
       key: index,
       title: value.item.title,
       link: value.item.link,
+      // selecting the first one
+      selected: index == 0 ? "selected" : "",
     });
 
     document.getElementById("search-results").innerHTML += output;
   });
-}
-
-function render(templateString, data) {
-  var conditionalMatches, conditionalPattern, copy;
-  conditionalPattern = /\$\{\s*isset ([a-zA-Z]*) \s*\}(.*)\$\{\s*end\s*}/g;
-  //since loop below depends on re.lastIndex, we use a copy to capture any manipulations whilst inside the loop
-  copy = templateString;
-  while (
-    (conditionalMatches = conditionalPattern.exec(templateString)) !== null
-  ) {
-    if (data[conditionalMatches[1]]) {
-      //valid key, remove conditionals, leave contents.
-      copy = copy.replace(conditionalMatches[0], conditionalMatches[2]);
-    } else {
-      //not valid, remove entire section
-      copy = copy.replace(conditionalMatches[0], "");
-    }
-  }
-
-  templateString = copy;
-  //now any conditionals removed we can do simple substitution
-  var key, find, re;
-  for (key in data) {
-    find = "\\$\\{\\s*" + key + "\\s*\\}";
-    re = new RegExp(find, "g");
-    templateString = templateString.replace(re, data[key]);
-  }
-  return templateString;
 }
