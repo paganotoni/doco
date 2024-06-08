@@ -46,9 +46,11 @@ jobs:
         id: deployment
         uses: actions/deploy-pages@v4
 
+      # Push our generated site to vercel
       - name: Install Vercel CLI
         run: npm install --global vercel@latest
-      # Push our generated site to vercel
+      - name: Copy output
+        run: mkdir -a .vercel/output && cp -r public/* .vercel/output
       - name: Pull Vercel Environment Information
         run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
       - name: Deploy Project Artifacts to Vercel
