@@ -52,4 +52,4 @@ jobs:
       - name: Pull Vercel Environment Information
         run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
       - name: Deploy Project Artifacts to Vercel
-        run: vercel deploy --cwd plublic --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}
+        run: vercel deploy --cwd public --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}
