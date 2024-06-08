@@ -13,6 +13,10 @@ concurrency:
   group: "pages"
   cancel-in-progress: false
 
+env:
+  VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+  VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+
 jobs:
   Build:
     name: build docs
@@ -42,13 +46,10 @@ jobs:
         id: deployment
         uses: actions/deploy-pages@v4
 
+      - name: Install Vercel CLI
+        run: npm install --global vercel@latest
       # Push our generated site to vercel
-      - name: Deploy to Vercel
-        uses: amondnet/vercel-action@v25
-        id: vercel-action
-        with:
-          vercel-token: ${{ secrets.VERCEL_TOKEN }} # Required
-          vercel-org-id: ${{ secrets.VERCEL_ORG_ID}} #Required
-          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID}} #Required
-          github-comment: false
-          working-directory: public
+      - name: Pull Vercel Environment Information
+        run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
+      - name: Deploy Project Artifacts to Vercel
+        run: vercel deploy --cwd plublic --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}
