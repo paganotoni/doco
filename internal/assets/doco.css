@@ -149,3 +149,8 @@ nav.documents h3 {
 .medium-zoom-image--opened {
     z-index: 999;
 }
+
+#search-results li.selected,
+#search-quick-actions li.selected {
+    @apply bg-blue-100;
+}
