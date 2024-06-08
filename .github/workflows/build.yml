@@ -50,7 +50,7 @@ jobs:
       - name: Install Vercel CLI
         run: npm install --global vercel@latest
       - name: Copy output
-        run: mkdir -a .vercel/output && cp -r public/* .vercel/output
+        run: mkdir -p .vercel/output && cp -r public/* .vercel/output
       - name: Pull Vercel Environment Information
         run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
       - name: Deploy Project Artifacts to Vercel
