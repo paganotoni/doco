@@ -8,6 +8,28 @@ document.addEventListener("DOMContentLoaded", () => {
   // Add highligthing to the code blocks
   hljs.highlightAll();
 
+  document.querySelectorAll("pre").forEach((el) => {
+    let bt = document.createElement("button");
+    bt.appendChild(document.createTextNode("content_copy"));
+    bt.classList.add(
+      "material-symbols-outlined",
+      "absolute",
+      "top-4",
+      "right-2",
+      "p-1.5",
+      "bg-gray-50",
+      "hover:bg-gray-100",
+      "rounded",
+    );
+
+    bt.addEventListener("click", () => {
+      navigator.clipboard.writeText(el.textContent);
+    });
+
+    el.appendChild(bt);
+    el.classList.add("relative");
+  });
+
   // Adding the mobile menu toggle
   let toggles = document.querySelectorAll(".toggle-mobile-nav");
   toggles.forEach((toggle) => {
