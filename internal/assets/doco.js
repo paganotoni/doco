@@ -61,9 +61,7 @@ let doco = {
         console.error("Error:", error)
       });
 
-      console.log(doco.search.index)
-
-
+      // Search button toggles the search
       document.querySelectorAll(".search-button").forEach((element) => {
         element.addEventListener("click", doco.search.show);
       });
