@@ -27,19 +27,13 @@ let doco = {
       bt.addEventListener("click", () => {
         navigator.clipboard.writeText(el.textContent);
 
+        // Add a notice that the code was copied
         let notice = document.createElement("div");
         notice.appendChild(document.createTextNode("Copied!"));
-        notice.classList.add(
-          "absolute",
-          "top-3",
-          "right-2",
-          "p-2",
-          "bg-gray-50",
-          "rounded",
-          "text-sm",
-        )
-
+        notice.classList.add("absolute","top-3","right-2","p-2","bg-gray-50","rounded","text-sm");
         el.appendChild(notice);
+
+        // Remove the notice after 1.5 seconds
         setTimeout(() => {
           notice.remove()
         }, 1500);
