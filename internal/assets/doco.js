@@ -16,7 +16,7 @@ let doco = {
       bt.classList.add(
         "material-symbols-outlined",
         "absolute",
-        "top-4",
+        "top-3",
         "right-2",
         "p-1.5",
         "bg-gray-50",
@@ -26,9 +26,28 @@ let doco = {
 
       bt.addEventListener("click", () => {
         navigator.clipboard.writeText(el.textContent);
+
+        let notice = document.createElement("div");
+        notice.appendChild(document.createTextNode("Copied!"));
+        notice.classList.add(
+          "absolute",
+          "top-3",
+          "right-2",
+          "p-2",
+          "bg-gray-50",
+          "rounded",
+          "text-sm",
+        )
+
+        el.appendChild(notice);
+        setTimeout(() => {
+          notice.remove()
+        }, 1500);
       });
 
       el.appendChild(bt);
+
+
       el.classList.add("relative");
     });
   },
