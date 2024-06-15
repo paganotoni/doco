@@ -197,7 +197,6 @@ let doco = {
       }
 
       doco.search.tm = setTimeout(() => {
-        console.log(doco.search.index)
         var result = doco.search.index.search(searchQuery);
 
         // hide the quick actions
