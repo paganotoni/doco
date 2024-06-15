@@ -74,6 +74,7 @@ let doco = {
       document.getElementById("search-input").addEventListener("keyup", (e) => {
         doco.search.do(e.target.value)
       });
+
       // Up and down navigation.
       document.addEventListener("keydown", () => {
         let paletteVisible = document
@@ -85,10 +86,7 @@ let doco = {
         }
 
         let selector = "#search-results li.selected";
-        let quickLinksVisisble = document
-          .querySelector("#search-quick-actions")
-          .classList.contains("hidden");
-
+        let quickLinksVisisble = document.querySelector("#search-quick-actions").classList.contains("hidden");
         if (!quickLinksVisisble) {
           selector = "#search-quick-actions li.selected";
         }
@@ -136,17 +134,16 @@ let doco = {
 
       //Esc and CMD+k toggle
       document.addEventListener("keydown", (e) => {
-        if (e.keyCode === 27) {
+        // Close search on ESC
+        if (e.code === 'Escape') {
           doco.search.hide();
           // hide image container
           imageContainer.classList.add("hidden");
         }
 
-        if (e.keyCode >= 65 && e.keyCode <= 90) {
-          let char = (e.metaKey ? "⌘-" : "") + String.fromCharCode(e.keyCode);
-          if (char == "⌘-K") {
+        // CMD+k or CTRL+k
+        if ((e.key === 'K' || e.key === 'k') && (e.metaKey || e.ctrlKey)) {
             doco.search.show();
-          }
         }
       });
 
