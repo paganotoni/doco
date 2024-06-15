@@ -12,18 +12,8 @@ let doco = {
 
     document.querySelectorAll("pre").forEach((el) => {
       let bt = document.createElement("button");
+      bt.classList.add("material-symbols-outlined", "absolute", "top-3", "right-2", "p-1.5", "bg-gray-50", "hover:bg-gray-100", "rounded");
       bt.appendChild(document.createTextNode("content_copy"));
-      bt.classList.add(
-        "material-symbols-outlined",
-        "absolute",
-        "top-3",
-        "right-2",
-        "p-1.5",
-        "bg-gray-50",
-        "hover:bg-gray-100",
-        "rounded",
-      );
-
       bt.addEventListener("click", () => {
         navigator.clipboard.writeText(el.textContent);
 
