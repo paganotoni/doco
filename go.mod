@@ -1,6 +1,6 @@
 module github.com/paganotoni/doco
 
-go 1.22.1
+go 1.23
 
 require (
 	github.com/fsnotify/fsnotify v1.7.0
