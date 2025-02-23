@@ -13,9 +13,10 @@ let doco = {
     document.querySelectorAll("pre").forEach((el) => {
       let bt = document.createElement("button");
       bt.classList.add("material-symbols-outlined", "absolute", "top-3", "right-2", "p-1.5", "bg-gray-50", "hover:bg-gray-100", "rounded");
+      const elementTextContent = el.textContent
       bt.appendChild(document.createTextNode("content_copy"));
       bt.addEventListener("click", () => {
-        navigator.clipboard.writeText(el.textContent);
+        navigator.clipboard.writeText(elementTextContent);
 
         // Add a notice that the code was copied
         let notice = document.createElement("div");
