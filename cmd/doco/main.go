@@ -59,6 +59,4 @@ func main() {
 		fmt.Println("--------")
 		printHelp(os.Stdout)
 	}
-
-	return
 }

@@ -5,9 +5,15 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
+	"strings"
 
 	"github.com/fsnotify/fsnotify"
 )
+
+var ignoreFolders = []string{
+	"node_modules",
+	".git",
+}
 
 // watch a folder for changes and rebuild the documentation
 // when a change is detected.
@@ -26,6 +32,11 @@ func watch(docsFolder, dstFolder string) {
 			select {
 			case event, ok := <-watcher.Events:
 				if !ok {
+					return
+				}
+
+				// Ignoring changes in destination folder.
+				if isFileInDirectory(event.Name, dstFolder) {
 					return
 				}
 
@@ -48,6 +59,14 @@ func watch(docsFolder, dstFolder string) {
 			return err
 		}
 
+		if isInFolder(".git", path) {
+			return nil
+		}
+
+		if isInFolder("node_modules", path) {
+			return nil
+		}
+
 		err = watcher.Add(path)
 		if err != nil {
 			return err
@@ -55,7 +74,6 @@ func watch(docsFolder, dstFolder string) {
 
 		return nil
 	})
-
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -76,4 +94,34 @@ func serve(dstFolder string) error {
 	}
 
 	return nil
+}
+
+// check if a file path is within a directory
+func isFileInDirectory(filePath, directory string) bool {
+	// Convert both paths to absolute paths
+	absFile, err := filepath.Abs(filePath)
+	if err != nil {
+		return false
+	}
+	absDir, err := filepath.Abs(directory)
+	if err != nil {
+		return false
+	}
+
+	// Use filepath.HasPrefix to check if the file is in the directory
+	return strings.HasPrefix(absFile, absDir)
+}
+
+// Check if a file path contains .git in its path components
+func isInFolder(folder, path string) bool {
+	// Split path into components
+	components := strings.Split(filepath.Clean(path), string(filepath.Separator))
+
+	// Check if any component is .git
+	for _, comp := range components {
+		if comp == folder {
+			return true
+		}
+	}
+	return false
 }

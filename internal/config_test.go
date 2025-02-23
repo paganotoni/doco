@@ -2,7 +2,6 @@ package internal
 
 import (
 	_ "embed"
-
 	"os"
 	"testing"
 )
@@ -41,11 +40,10 @@ func TestReadConfig(t *testing.T) {
 			t.Fatal(err)
 		}
 
-		_, err = readConfig(tmpdir)
+		_, err = ReadConfig(tmpdir)
 		if err != nil {
 			t.Fatal(err)
 		}
-
 	})
 
 	t.Run("read incomplete meta", func(t *testing.T) {
@@ -70,7 +68,7 @@ func TestReadConfig(t *testing.T) {
 			t.Fatal(err)
 		}
 
-		_, err = readConfig(tmpdir)
+		_, err = ReadConfig(tmpdir)
 		if err != nil {
 			t.Fatal(err)
 		}

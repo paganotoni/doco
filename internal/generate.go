@@ -54,14 +54,9 @@ var (
 
 // Generates the static html files for the site
 // and writes them to the destination folder.
-func Generate(srcFolder, destination string, s *site) error {
+func Generate(srcFolder, destination string, s *site, conf siteConfig) error {
 	// Cleanup the folder
 	err := os.RemoveAll(destination)
-	if err != nil {
-		return err
-	}
-
-	conf, err := readConfig(srcFolder)
 	if err != nil {
 		return err
 	}
@@ -124,7 +119,7 @@ func Generate(srcFolder, destination string, s *site) error {
 			}
 
 			f := filepath.Join(destination, doc.FileName())
-			err = os.WriteFile(f, bb.Bytes(), 0644)
+			err = os.WriteFile(f, bb.Bytes(), 0o644)
 			if err != nil {
 				return err
 			}

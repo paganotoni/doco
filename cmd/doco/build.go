@@ -15,10 +15,16 @@ func build(src, dst string) error {
 		return errors.New("docs folder does not exist, aborting build")
 	}
 
-	site, err := internal.NewSite(src)
+	// reading config from _meta.md
+	conf, err := internal.ReadConfig(src)
 	if err != nil {
 		return err
 	}
 
-	return internal.Generate(src, dst, site)
+	site, err := internal.NewSite(src, conf)
+	if err != nil {
+		return err
+	}
+
+	return internal.Generate(src, dst, site, conf)
 }

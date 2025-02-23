@@ -94,7 +94,7 @@ func (doc document) Tokens() (tokens []string) {
 	r := map[string]bool{}
 
 	for _, v := range strings.Fields(string(doc.markdown)) {
-		if r[v] == true {
+		if r[v] {
 			continue
 		}
 

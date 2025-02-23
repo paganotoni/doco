@@ -30,6 +30,8 @@ type siteConfig struct {
 
 	Copy    string
 	OGImage string
+	// Files and folders to be ignored
+	Ignore []string
 }
 
 type Link struct {
@@ -41,7 +43,7 @@ type Link struct {
 
 // Read parses the _meta.md file and returns the config
 // for the site.
-func readConfig(folder string) (c siteConfig, err error) {
+func ReadConfig(folder string) (c siteConfig, err error) {
 	file, err := os.Open(filepath.Join(folder, metafile))
 	if err != nil {
 		return c, err
@@ -116,6 +118,10 @@ func readConfig(folder string) (c siteConfig, err error) {
 				Link: def(l["link"], ""),
 			})
 		}
+	}
+
+	if len(c.Ignore) == 0 {
+		c.Ignore = []string{"README.md", "README"}
 	}
 
 	return c, nil

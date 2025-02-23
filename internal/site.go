@@ -6,6 +6,7 @@ import (
 	"io"
 	"os"
 	"path/filepath"
+	"slices"
 	"sort"
 	"strings"
 
@@ -16,7 +17,7 @@ import (
 
 // Reads the folder and returns the parsed site with all the documents
 // this site will be used to generate the static html files.
-func NewSite(folder string) (*site, error) {
+func NewSite(folder string, conf siteConfig) (*site, error) {
 	site := &site{
 		Sections: sections{},
 	}
@@ -29,6 +30,10 @@ func NewSite(folder string) (*site, error) {
 		// Ignore directories, files that don't have the .md extension
 		// and files that start with an underscore.
 		if d.IsDir() || filepath.Ext(path) != ".md" || strings.HasPrefix(filepath.Base(path), "_") {
+			return nil
+		}
+
+		if slices.Contains(conf.Ignore, path) {
 			return nil
 		}
 
@@ -78,7 +83,7 @@ func NewSite(folder string) (*site, error) {
 			site.Sections[i].index, ok = meta["index"].(int)
 			if !ok {
 				// 10 million to make sure it is the last one by default
-				v.index = 10_000_000
+				site.Sections[i].index = 10_000_000
 			}
 		}
 	}

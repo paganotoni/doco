@@ -4,7 +4,6 @@ import (
 	_ "embed"
 	"flag"
 	"fmt"
-
 	"io"
 )
 
@@ -22,7 +21,7 @@ Commands
 
 // Run the help command
 func printHelp(w io.Writer) error {
-	fmt.Fprintf(w, help)
+	fmt.Fprint(w, help)
 	fmt.Fprintf(w, "\nOptions:\n")
 	flag.VisitAll(func(f *flag.Flag) {
 		fmt.Fprintf(w, "  --"+f.Name+"\t"+f.Usage+"\n")
