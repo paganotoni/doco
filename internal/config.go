@@ -2,6 +2,7 @@ package internal
 
 import (
 	"bytes"
+	"fmt"
 	"io"
 	"os"
 	"path/filepath"
@@ -13,9 +14,16 @@ const (
 	// metafile is the name of the file that contains the
 	// configuration of the site.
 	metafile = "_meta.md"
+
+	// Default values for configuration
+	defaultName        = "Doco"
+	defaultDescription = "Documentation site"
+	defaultKeywords    = "documentation, site, doco"
+	defaultCopy        = "© $YEAR Doco"
+	defaultGithub      = "https://github.com/paganotoni/doco"
 )
 
-// config of the general elements of the site.
+// siteConfig represents the configuration of the site
 type siteConfig struct {
 	Name        string
 	Favicon     string
@@ -41,31 +49,36 @@ type Link struct {
 	ImageSrc string
 }
 
-// Read parses the _meta.md file and returns the config
-// for the site.
-func ReadConfig(folder string) (c siteConfig, err error) {
+// loadConfigFile reads the configuration file from the given folder
+func loadConfigFile(folder string) ([]byte, error) {
 	file, err := os.Open(filepath.Join(folder, metafile))
 	if err != nil {
-		return c, err
+		return nil, fmt.Errorf("failed to open config file: %w", err)
 	}
-
 	defer file.Close()
 
 	content, err := io.ReadAll(file)
 	if err != nil {
-		return c, err
+		return nil, fmt.Errorf("failed to read config file: %w", err)
 	}
+
+	return content, nil
+}
+
+// parseConfig parses the configuration from the given content
+func parseConfig(content []byte) (siteConfig, error) {
+	var c siteConfig
 
 	// Parse the metadata and apply it to the document
 	var buf bytes.Buffer
 	context := parser.NewContext()
 	if err := mparser.Convert(content, &buf, parser.WithContext(context)); err != nil {
-		return c, err
+		return c, fmt.Errorf("failed to convert markdown: %w", err)
 	}
 
 	meta, err := parseMeta(content)
 	if err != nil {
-		return c, err
+		return c, fmt.Errorf("failed to parse meta: %w", err)
 	}
 
 	def := func(val any, defs string) string {
@@ -73,56 +86,69 @@ func ReadConfig(folder string) (c siteConfig, err error) {
 		if !ok || v == "" {
 			return defs
 		}
-
 		return v
 	}
 
-	c.Name = def(meta["name"], "Doco")
-	c.Description = def(meta["description"], "Documentation site")
-	c.Keywords = def(meta["keywords"], "documentation, site, doco")
-	c.Copy = def(meta["copy"], "© $YEAR Doco")
-	c.Github = def(meta["github"], "https://github.com/paganotoni/doco")
+	// Parse basic configuration
+	c.Name = def(meta["name"], defaultName)
+	c.Description = def(meta["description"], defaultDescription)
+	c.Keywords = def(meta["keywords"], defaultKeywords)
+	c.Copy = def(meta["copy"], defaultCopy)
+	c.Github = def(meta["github"], defaultGithub)
 	c.Favicon = def(meta["favicon"], "")
 	c.OGImage = def(meta["ogimage"], "")
 
-	logo, ok := meta["logo"].(map[string]any)
-	if ok {
+	// Parse logo configuration
+	if logo, ok := meta["logo"].(map[string]any); ok {
 		c.Logo.ImageSrc = def(logo["src"], "")
 		c.Logo.Link = def(logo["link"], "")
 	}
 
-	announcement, ok := meta["announcement"].(map[any]any)
-	if ok {
+	// Parse announcement configuration
+	if announcement, ok := meta["announcement"].(map[string]any); ok {
 		c.Announcement.Text = def(announcement["text"], "")
 		c.Announcement.Link = def(announcement["link"], "")
 	}
 
-	qlinks, ok := meta["quick_links"].([]any)
-	if ok {
+	// Parse quick links
+	if qlinks, ok := meta["quick_links"].([]any); ok {
 		for _, v := range qlinks {
-			l := v.(map[string]any)
-			c.QuickLinks = append(c.QuickLinks, Link{
-				Text: def(l["text"], ""),
-				Link: def(l["link"], ""),
-				Icon: def(l["icon"], ""),
-			})
+			if l, ok := v.(map[string]any); ok {
+				c.QuickLinks = append(c.QuickLinks, Link{
+					Text: def(l["text"], ""),
+					Link: def(l["link"], ""),
+					Icon: def(l["icon"], ""),
+				})
+			}
 		}
 	}
 
-	elinks, ok := meta["external_links"].([]any)
-	if ok {
+	// Parse external links
+	if elinks, ok := meta["external_links"].([]any); ok {
 		for _, v := range elinks {
-			l := v.(map[string]any)
-			c.ExternalLinks = append(c.ExternalLinks, Link{
-				Text: def(l["text"], ""),
-				Link: def(l["link"], ""),
-			})
+			if l, ok := v.(map[string]any); ok {
+				c.ExternalLinks = append(c.ExternalLinks, Link{
+					Text: def(l["text"], ""),
+					Link: def(l["link"], ""),
+				})
+			}
 		}
 	}
 
+	// Set default ignore patterns
 	if len(c.Ignore) == 0 {
 		c.Ignore = []string{"README.md", "README"}
 	}
 
 	return c, nil
+}
+
+// ReadConfig parses the _meta.md file and returns the config for the site.
+func ReadConfig(folder string) (siteConfig, error) {
+	content, err := loadConfigFile(folder)
+	if err != nil {
+		return siteConfig{}, err
+	}
+
+	return parseConfig(content)
 }

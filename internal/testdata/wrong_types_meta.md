@@ -1,28 +1,28 @@
 ---
-name:
-  - A
-  - B
-description: "Doco is a CLI tool to generate static documentation websites from markdown files."
+name: 123
+description: 456
+keywords: 789
+favicon: 101
+ogimage: 102
 
 logo:
-  src: "/assets/logo.png"
-  link:
-    - "A"
-    - "B"
+  src: 103
+  link: 104
+
 announcement:
-  text: "Check our Github repository."
-  link:
-    - "A"
-    - "B"
+  text: 105
+  link: 106
+
+github: 107
+
+external_links:
+  - text: 108
+    link: 109
 
 quick_links:
-  - text: "Documentation"
-    link:
-        - "A"
-        - "B"
-external_links:
-  - text: "Documentation"
-    link:
-        - "A"
-        - "B"
+  - text: 110
+    link: 111
+    icon: 112
+
+copy: 113
 ---

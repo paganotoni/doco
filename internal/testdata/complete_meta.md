@@ -8,6 +8,7 @@ keywords: "keywords,for,seo"
 # Index defines where the pages in the root will be positioned.
 index: -1
 favicon: "/assets/favicon.png"
+ogimage: "/assets/og.png"
 
 logo:
   src: "/assets/logo.png"
