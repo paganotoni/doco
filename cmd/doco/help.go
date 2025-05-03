@@ -24,7 +24,7 @@ func printHelp(w io.Writer) error {
 	fmt.Fprint(w, help)
 	fmt.Fprintf(w, "\nOptions:\n")
 	flag.VisitAll(func(f *flag.Flag) {
-		fmt.Fprintf(w, "  --"+f.Name+"\t"+f.Usage+"\n")
+		fmt.Fprintf(w, "  --%s\t%s\n", f.Name, f.Usage)
 	})
 
 	return nil
